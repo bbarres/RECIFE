@@ -10,8 +10,8 @@ library(plotrix)
 library(gdata)
 
 #loading the data
-datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
-
+#datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
+datamyc<-read.table("data/cerco_juillet19.txt",header=TRUE,sep=";")
 
 ###############################################################################
 #Regression analysis of mycelial growth experiment
@@ -24,7 +24,7 @@ CompRez<-data.frame(Subs_Act=factor(),sample_ID=factor(),
 #we make a subselection of the data according to the SA
 for (j in 1:length(SAlist)) {
   data_subSA<-datamyc[datamyc$pest_sa_id==SAlist[j],]
-  
+  data_subSA$ech_id<-drop.levels(data_subSA$ech_id)
   #some individual never reach an inhibition of 50%, event for the highest 
   #tested concentration. 
   SA_rez<-as.character(data_subSA[data_subSA$dose==max(data_subSA$dose) 
