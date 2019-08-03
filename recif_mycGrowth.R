@@ -64,7 +64,7 @@ write.table(CompRez, file="output/results_cerco.txt",
 CompRez$ED50<-as.numeric(as.character(CompRez$ED50))
 CompRez[is.na(CompRez$ED50),"ED50"]<-10000
 barplot(as.numeric(as.character(CompRez$ED50)),
-        ylim=c(0,50),col=CompRez$Subs_Act)
+        ylim=c(0,200),col=CompRez$Subs_Act)
 
 
 ###############################################################################
