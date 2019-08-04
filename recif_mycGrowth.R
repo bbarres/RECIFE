@@ -13,6 +13,7 @@ library(gdata)
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
 datamyc<-read.table("data/cerco_juillet19.txt",header=TRUE,sep=";")
 
+
 ###############################################################################
 #Regression analysis of mycelial growth experiment
 ###############################################################################
@@ -36,22 +37,23 @@ for (j in 1:length(SAlist)) {
          REZSA<-data.frame("Subs_Act"=SAlist[j],"sample_ID"=SA_rez,
                            "ED50"=paste(">",max(data_subSA$dose),sep="")))
   #we limit the dataset to the sample that reach somehow a IC of 50%
-  SA.dat<-data_subSA[!(data_subSA$ech_id %in% SA_rez),]
-  SA.dat<-drop.levels(SA.dat)
-  for (i in 1:dim(table(SA.dat$ech_id))[1]) {
-    temp.m1<-drm(rslt_03~dose,
-                 data=SA.dat[SA.dat$ech_id==names(table(SA.dat$ech_id))[i],],
-                 fct=LL.4())
-    plot(temp.m1,main=names(table(SA.dat$ech_id))[i],
-         ylim=c(0,110),xlim=c(0,50))
-    temp<-ED(temp.m1,50,type="absolute")
-    tempx<-data.frame("Subs_Act"=SAlist[j],
-                      "sample_ID"=names(table(SA.dat$ech_id))[i],
-                      "ED50"=as.character(temp[1]))
-    REZSA<-rbind(REZSA,tempx)
-  }
+  if(dim(data_subSA[!(data_subSA$ech_id %in% SA_rez),])[1]!=0) {
+         SA.dat<-data_subSA[!(data_subSA$ech_id %in% SA_rez),]
+         SA.dat<-drop.levels(SA.dat)
+         for (i in 1:dim(table(SA.dat$ech_id))[1]) {
+           temp.m1<-drm(rslt_03~dose,
+                        data=SA.dat[SA.dat$ech_id==names(table(SA.dat$ech_id))[i],],
+                        fct=LL.4())
+           plot(temp.m1,main=names(table(SA.dat$ech_id))[i],
+                ylim=c(0,110),xlim=c(0,50))
+           temp<-ED(temp.m1,50,type="absolute")
+           tempx<-data.frame("Subs_Act"=SAlist[j],
+                             "sample_ID"=names(table(SA.dat$ech_id))[i],
+                             "ED50"=as.character(temp[1]))
+           REZSA<-rbind(REZSA,tempx)}} else {
+             REZSA<-REZSA
+           }
   CompRez<-rbind(CompRez,REZSA)
-
 }
 
 #exporting the result as a text file
