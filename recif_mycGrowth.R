@@ -60,6 +60,11 @@ for (j in 1:length(SAlist)) {
 write.table(CompRez, file="output/results_cerco.txt",
             sep="\t",quote=FALSE,row.names=FALSE)
 
+
+###############################################################################
+#Some plots
+###############################################################################
+
 #just a small graphic to gain insight on the first round of results
 #first, we replace the ED50 that were too high to be evaluated with the dose 
 #range used with an absurdly high value
