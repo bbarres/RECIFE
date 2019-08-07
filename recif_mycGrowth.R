@@ -21,7 +21,7 @@ datamyc<-read.table("data/cerco_juillet19.txt",header=TRUE,sep=";")
 #first we extract the list of the different SA listed in the file
 SAlist<-levels(datamyc$pest_sa_id)
 CompRez<-data.frame(Subs_Act=factor(),sample_ID=factor(),
-                    ED50=character())
+                    ED50=character(),ED95=character(),ED99=character())
 #we make a subselection of the data according to the SA
 for (j in 1:length(SAlist)) {
   data_subSA<-datamyc[datamyc$pest_sa_id==SAlist[j],]
@@ -33,9 +33,12 @@ for (j in 1:length(SAlist)) {
                                   "ech_id"])
   ifelse(length(SA_rez)==0,
          REZSA<-data.frame(Subs_Act=factor(),sample_ID=factor(),
-                           ED50=character()),
+                           ED50=character(),ED95=character(),ED99=character()),
          REZSA<-data.frame("Subs_Act"=SAlist[j],"sample_ID"=SA_rez,
-                           "ED50"=paste(">",max(data_subSA$dose),sep="")))
+                           "ED50"=paste(">",max(data_subSA$dose),sep=""),
+                           "ED95"=paste(">",max(data_subSA$dose),sep=""),
+                           "ED99"=paste(">",max(data_subSA$dose),sep=""))
+         )
   #we limit the dataset to the sample that reach somehow a IC of 50%
   if(dim(data_subSA[!(data_subSA$ech_id %in% SA_rez),])[1]!=0) {
          SA.dat<-data_subSA[!(data_subSA$ech_id %in% SA_rez),]
@@ -46,10 +49,12 @@ for (j in 1:length(SAlist)) {
                         fct=LL.4())
            plot(temp.m1,main=names(table(SA.dat$ech_id))[i],
                 ylim=c(0,110),xlim=c(0,50))
-           temp<-ED(temp.m1,50,type="absolute")
+           temp<-ED(temp.m1,c(50,5,1),type="absolute")
            tempx<-data.frame("Subs_Act"=SAlist[j],
                              "sample_ID"=names(table(SA.dat$ech_id))[i],
-                             "ED50"=as.character(temp[1]))
+                             "ED50"=as.character(temp[1]),
+                             "ED95"=as.character(temp[2]),
+                             "ED99"=as.character(temp[3]))
            REZSA<-rbind(REZSA,tempx)}} else {
              REZSA<-REZSA
            }
