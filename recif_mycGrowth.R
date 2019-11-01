@@ -1,8 +1,8 @@
-###############################################################################
-###############################################################################
+##############################################################################/
+##############################################################################/
 #R code for analyzing the ouput of mycelial growth bioassay of C. beticola
-###############################################################################
-###############################################################################
+##############################################################################/
+##############################################################################/
 
 #loading the packages necessary for the analysis
 library(drc)
@@ -14,9 +14,9 @@ library(gdata)
 datamyc<-read.table("data/cerco_juillet19.txt",header=TRUE,sep=";")
 
 
-###############################################################################
-#Regression analysis of mycelial growth experiment
-###############################################################################
+##############################################################################/
+#Regression analysis of mycelial growth experiment####
+##############################################################################/
 
 #first we extract the list of the different SA listed in the file
 SAlist<-levels(datamyc$pest_sa_id)
@@ -44,8 +44,9 @@ for (j in 1:length(SAlist)) {
          SA.dat<-data_subSA[!(data_subSA$ech_id %in% SA_rez),]
          SA.dat<-drop.levels(SA.dat)
          for (i in 1:dim(table(SA.dat$ech_id))[1]) {
+           tempdat<-SA.dat[SA.dat$ech_id==names(table(SA.dat$ech_id))[i],]
            temp.m1<-drm(rslt_03~dose,
-                        data=SA.dat[SA.dat$ech_id==names(table(SA.dat$ech_id))[i],],
+                        data=tempdat,
                         fct=LL.4())
            plot(temp.m1,main=names(table(SA.dat$ech_id))[i],
                 ylim=c(0,110),xlim=c(0,50))
@@ -66,9 +67,9 @@ write.table(CompRez, file="output/results_cerco.txt",
             sep="\t",quote=FALSE,row.names=FALSE)
 
 
-###############################################################################
-#Some plots
-###############################################################################
+##############################################################################/
+#Some plots####
+##############################################################################/
 
 #just a small graphic to gain insight on the first round of results
 #first, we replace the ED50 that were too high to be evaluated with the dose 
@@ -79,6 +80,6 @@ barplot(as.numeric(as.character(CompRez$ED50)),
         ylim=c(0,200),col=CompRez$Subs_Act)
 
 
-###############################################################################
+##############################################################################/
 #END
-###############################################################################
+##############################################################################/
