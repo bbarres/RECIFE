@@ -8,6 +8,7 @@
 library(drc)
 library(plotrix)
 library(gdata)
+library(tidyr)
 
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
@@ -133,25 +134,52 @@ write.table(CompRez, file="output/results_cerco.txt",
 
 
 ##############################################################################/
-#Some plots####
+#barplot to compare the ED50 of the####
 ##############################################################################/
 
 #just a small graphic to gain insight on the first round of results
 #first, we replace the ED50 that were too high to be evaluated with the dose 
 #range used with an absurdly high value
 CompRez$ED50<-as.numeric(as.character(CompRez$ED50))
-CompRez[is.na(CompRez$ED50),"ED50"]<-30
+CompRez[is.na(CompRez$ED50),"ED50"]<-12
 op<-par(mfrow=c(2,1))
 par(mar=c(2,3,7,1))
 barplot(as.numeric(as.character(CompRez[CompRez$read_time=="14",]$ED50)),
-        ylim=c(0,30),col=CompRez[CompRez$read_time=="14",]$Subs_Act,
-        main="reading at 14h")
+        ylim=c(0,12),col=CompRez[CompRez$read_time=="14",]$Subs_Act,
+        main="reading at 14h",las=2)
 par(mar=c(7,3,2,1))
 barplot(as.numeric(as.character(CompRez[CompRez$read_time=="20",]$ED50)),
-        ylim=c(0,30),col=CompRez[CompRez$read_time=="20",]$Subs_Act,
+        ylim=c(0,12),col=CompRez[CompRez$read_time=="20",]$Subs_Act,
         names.arg=CompRez[CompRez$read_time=="20",]$sample_ID,las=2,
         main="reading at 20h")
 par(op)
+
+#export to pdf 11 x 8 inches
+
+
+##############################################################################/
+#correlation between ED50 estimated for different active substances####
+##############################################################################/
+
+temp<-CompRez[,c(1:4)]
+temp<-spread(temp,Subs_Act,ED50)
+
+#a function to compute the absolute correlation between pairs of variables
+panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
+{
+  usr <- par("usr"); on.exit(par(usr))
+  par(usr = c(0, 1, 0, 1))
+  r <- abs(cor(x, y))
+  txt <- format(c(r, 0.123456789), digits=digits)[1]
+  txt <- paste(prefix, txt, sep="")
+  if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+  text(0.5, 0.5, txt, cex = cex.cor * r)
+}
+
+pairs(temp[temp$read_time=="14",c(3:7)],las=2,
+      lower.panel=panel.smooth, upper.panel=panel.cor)
+
+#export to pdf 6 x 6 inches
 
 
 ##############################################################################/
