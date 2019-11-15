@@ -12,7 +12,7 @@ library(tidyr)
 
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
-datamyc2<-read.table("data/panel1_2lectures.txt",header=TRUE,sep=";")
+datamyc2<-read.table("data/results_ec50_panels_1_2.txt",header=TRUE,sep=";")
 
 
 ##############################################################################/
@@ -146,15 +146,28 @@ op<-par(mfrow=c(2,1))
 par(mar=c(2,3,7,1))
 barplot(as.numeric(as.character(CompRez[CompRez$read_time=="14",]$ED50)),
         ylim=c(0,12),col=CompRez[CompRez$read_time=="14",]$Subs_Act,
-        main="reading at 14h",las=2)
+        main="reading at 14 Days",las=2)
 par(mar=c(7,3,2,1))
 barplot(as.numeric(as.character(CompRez[CompRez$read_time=="20",]$ED50)),
         ylim=c(0,12),col=CompRez[CompRez$read_time=="20",]$Subs_Act,
         names.arg=CompRez[CompRez$read_time=="20",]$sample_ID,las=2,
-        main="reading at 20h")
+        main="reading at 20 Days")
 par(op)
 
 #export to pdf 11 x 8 inches
+
+cor(CompRez[CompRez$read_time=="14","ED50"],
+    CompRez[CompRez$read_time=="20","ED50"])
+
+plot(CompRez[CompRez$read_time=="14","ED50"],
+     CompRez[CompRez$read_time=="20","ED50"],
+     col=CompRez[CompRez$read_time=="14","Subs_Act"],
+     pch=19,cex=1)
+legend(4,3,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
+       pch=19,bty="n")
+
+#export to pdf 7 x 7
+
 
 
 ##############################################################################/
