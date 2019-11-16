@@ -231,6 +231,11 @@ pairs(temp[temp$read_time=="14",c(3:7)],las=2,
 
 #export to pdf 6 x 6 inches
 
+library(ade4)
+
+truc<-dudi.pca(temp[,-c(1,2)],scannf=FALSE,nf=3)
+scatter(truc)
+
 
 ##############################################################################/
 #END
