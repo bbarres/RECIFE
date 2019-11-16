@@ -27,7 +27,7 @@ CompRez<-data.frame(Subs_Act=factor(),sample_ID=factor(),read_time=factor(),
                     ED50=character(),ED95=character(),ED99=character())
 
 #we make a subselection of the data according to the SA
-pdf(file="output/plot_14h.pdf",width=7)
+pdf(file="output/plot_14D.pdf",width=7)
 for (j in 1:length(SAlist)) {
   data_subSA<-datamyc[datamyc$pest_sa_id==SAlist[j],]
   data_subSA$ech_id<-drop.levels(data_subSA$ech_id)
@@ -83,7 +83,7 @@ SAlist<-levels(datamyc$pest_sa_id)
 CompRez<-CompRez
 
 #we make a subselection of the data according to the SA
-pdf(file="output/plot_20h.pdf",width=7)
+pdf(file="output/plot_20D.pdf",width=7)
 for (j in 1:length(SAlist)) {
   data_subSA<-datamyc[datamyc$pest_sa_id==SAlist[j],]
   data_subSA$ech_id<-drop.levels(data_subSA$ech_id)
@@ -134,7 +134,7 @@ write.table(CompRez, file="output/results_cerco.txt",
 
 
 ##############################################################################/
-#barplot to compare the ED50 of the####
+#barplot to compare the ED50 of the different samples####
 ##############################################################################/
 
 #just a small graphic to gain insight on the first round of results
@@ -154,20 +154,57 @@ barplot(as.numeric(as.character(CompRez[CompRez$read_time=="20",]$ED50)),
         main="reading at 20 Days")
 par(op)
 
-#export to pdf 11 x 8 inches
+#export to pdf 22 x 8 inches
 
-cor(CompRez[CompRez$read_time=="14","ED50"],
-    CompRez[CompRez$read_time=="20","ED50"])
+#histogramme by samples: reading at 14 days
+samplelist<-as.character(names(table(CompRez$sample_ID)))
+temp14<-CompRez[CompRez$read_time=="14",]
 
-plot(CompRez[CompRez$read_time=="14","ED50"],
-     CompRez[CompRez$read_time=="20","ED50"],
-     col=CompRez[CompRez$read_time=="14","Subs_Act"],
-     pch=19,cex=1)
-legend(4,3,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
+op<-par(mfrow=c(4,5))
+for (i in (1:length(samplelist))) {
+  barplot(temp14[temp14$sample_ID==samplelist[i],]$ED50,
+          col=c(1,2,3,4,5),las=1,main=samplelist[i],
+          ylim=c(0,12))
+}
+par(op)
+
+#export to pdf 10 x 10
+
+
+#histogramme by samples: reading at 20 days
+samplelist<-as.character(names(table(CompRez$sample_ID)))
+temp20<-CompRez[CompRez$read_time=="20",]
+
+op<-par(mfrow=c(4,5))
+for (i in (1:length(samplelist))) {
+  barplot(temp20[temp20$sample_ID==samplelist[i],]$ED50,
+          col=c(1,2,3,4,5),las=1,main=samplelist[i],
+          ylim=c(0,12))
+}
+par(op)
+
+#export to pdf 10 x 10
+
+
+##############################################################################/
+#correlation between reading after 14 and 20 days####
+##############################################################################/
+
+#preparing the dataset
+outlie<-spread(CompRez[,c(1:4)],read_time,ED50)
+#correlation between the 14 days and 20 days measures
+cor(outlie$`14`,outlie$`20`)
+
+plot(outlie$`14`,outlie$`20`,col=outlie$Subs_Act,pch=19,cex=1,las=1,
+     xlab="IC50 after 14 days",ylab="IC50 after 20 days",
+     main="Correlation between reading after 14 or 20 days")
+text(outlie[outlie$`14`>8,3],outlie[outlie$`14`>8,4],
+     labels=outlie[outlie$`14`>8,"sample_ID"],pos=1,xpd=NA)
+abline(0,1,lty=2,lwd=3)
+legend(5.5,3,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
        pch=19,bty="n")
 
 #export to pdf 7 x 7
-
 
 
 ##############################################################################/
