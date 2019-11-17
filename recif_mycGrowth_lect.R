@@ -226,15 +226,29 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
 
-pairs(temp[temp$read_time=="14",c(3:7)],las=2,
+pairs(temp[temp$read_time=="14",c(3:7)],las=1,main="14 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
-
 #export to pdf 6 x 6 inches
+
+pairs(temp[temp$read_time=="20",c(3:7)],las=1,main="20 Days",
+      lower.panel=panel.smooth, upper.panel=panel.cor)
+#export to pdf 6 x 6 inches
+
+
+
+##############################################################################/
+#correlation between ED50 estimated for different active substances####
+##############################################################################/
 
 library(ade4)
 
-truc<-dudi.pca(temp[,-c(1,2)],scannf=FALSE,nf=3)
-scatter(truc)
+truc14<-dudi.pca(temp[temp$read_time=="14",-c(1,2)],
+                 scannf=FALSE,nf=3)
+scatter(truc14)
+
+truc20<-dudi.pca(temp[temp$read_time=="20",-c(1,2)],
+                 scannf=FALSE,nf=3)
+scatter(truc20)
 
 
 ##############################################################################/
