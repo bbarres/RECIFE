@@ -9,6 +9,9 @@ library(drc)
 library(plotrix)
 library(gdata)
 library(tidyr)
+library(ade4)
+library(factoextra)
+library(RColorBrewer)
 
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
@@ -228,27 +231,62 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
 
 pairs(temp[temp$read_time=="14",c(3:7)],las=1,main="14 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
+
 #export to pdf 6 x 6 inches
 
 pairs(temp[temp$read_time=="20",c(3:7)],las=1,main="20 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
+
 #export to pdf 6 x 6 inches
 
 
-
 ##############################################################################/
-#correlation between ED50 estimated for different active substances####
+#Analyzing the multisensitivity profil of the strains####
 ##############################################################################/
 
-library(ade4)
+#Clusterization based on 14 days reading
+temp14<-CompRez[CompRez$read_time=="14",c(1:4)]
+temp14<-spread(temp14,Subs_Act,ED50)
+row.names(temp14)<-temp14$sample_ID
 
-truc14<-dudi.pca(temp[temp$read_time=="14",-c(1,2)],
+#PCA for the reading after 14 days
+truc14<-dudi.pca(temp14[,-c(1,2)],
                  scannf=FALSE,nf=3)
 scatter(truc14)
+#determining the optimal number of clusters
+fviz_nbclust(temp14[,c(3:7)],kmeans,method="gap_stat")
+clust14<-kmeans(temp14[,c(3:7)],5)
+fviz_cluster(clust14,data=temp14[,c(3:7)])
+plot(truc14$li[,c(1,2)],col=brewer.pal(5,"Dark2")[clust14$cluster],
+     pch=19,cex=2)
+hclu14<-hclust(dist(scale(temp14[,c(3:7)]),
+                    method="euclidean"),
+               method="ward.D2")
+plot(hclu14)
+fviz_dend(hclu14,k=5,cex=0.5,rect=TRUE,
+          k_colors=brewer.pal(5,"Dark2"))
 
-truc20<-dudi.pca(temp[temp$read_time=="20",-c(1,2)],
+#Clusterization based on 20 days reading
+temp20<-CompRez[CompRez$read_time=="20",c(1:4)]
+temp20<-spread(temp20,Subs_Act,ED50)
+row.names(temp20)<-temp20$sample_ID
+
+#PCA for the reading after 20 days
+truc20<-dudi.pca(temp20[,-c(1,2)],
                  scannf=FALSE,nf=3)
 scatter(truc20)
+#determining the optimal number of clusters
+fviz_nbclust(temp20[,c(3:7)],kmeans,method="gap_stat")
+clust20<-kmeans(temp[temp$read_time=="20",c(3:7)],5)
+fviz_cluster(clust20,data=temp20[,c(3:7)])
+plot(truc20$li[,c(1,2)],col=brewer.pal(5,"Dark2")[clust20$cluster],
+     pch=19,cex=2)
+hclu20<-hclust(dist(scale(temp20[,c(3:7)]),
+                    method="euclidean"),
+               method="ward.D2")
+plot(hclu20)
+fviz_dend(hclu20,k=5,cex=0.5,rect=TRUE,
+          k_colors=brewer.pal(5,"Dark2"))
 
 
 ##############################################################################/
