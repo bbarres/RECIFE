@@ -209,6 +209,20 @@ legend(5.5,3,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
 
 #export to pdf 7 x 7
 
+#same figure with log transformation
+cor(log(outlie$`14`),log(outlie$`20`))
+
+plot(log(outlie$`14`),log(outlie$`20`),col=outlie$Subs_Act,pch=19,cex=1,las=1,
+     xlab="IC50 after 14 days",ylab="IC50 after 20 days",
+     main="Correlation between reading after 14 or 20 days")
+text(outlie[outlie$`14`>8,3],outlie[outlie$`14`>8,4],
+     labels=outlie[outlie$`14`>8,"sample_ID"],pos=1,xpd=NA)
+abline(0,1,lty=2,lwd=3)
+legend(5.5,3,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
+       pch=19,bty="n")
+
+#export to pdf 7 x 7
+
 
 ##############################################################################/
 #correlation between ED50 estimated for different active substances####
@@ -229,12 +243,19 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
 
+
 pairs(temp[temp$read_time=="14",c(3:7)],las=1,main="14 Days",
+      lower.panel=panel.smooth, upper.panel=panel.cor)
+
+pairs(log(temp[temp$read_time=="14",c(3:7)]),las=1,main="Log 14 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 
 #export to pdf 6 x 6 inches
 
 pairs(temp[temp$read_time=="20",c(3:7)],las=1,main="20 Days",
+      lower.panel=panel.smooth, upper.panel=panel.cor)
+
+pairs(log(temp[temp$read_time=="20",c(3:7)]),las=1,main="Log 20 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 
 #export to pdf 6 x 6 inches
