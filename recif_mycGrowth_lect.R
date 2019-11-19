@@ -209,16 +209,14 @@ legend(5.5,3,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
 
 #export to pdf 7 x 7
 
-#same figure with log transformation
+#same figure with log transformation of IC50
 cor(log(outlie$`14`),log(outlie$`20`))
 
 plot(log(outlie$`14`),log(outlie$`20`),col=outlie$Subs_Act,pch=19,cex=1,las=1,
      xlab="IC50 after 14 days",ylab="IC50 after 20 days",
      main="Correlation between reading after 14 or 20 days")
-text(outlie[outlie$`14`>8,3],outlie[outlie$`14`>8,4],
-     labels=outlie[outlie$`14`>8,"sample_ID"],pos=1,xpd=NA)
 abline(0,1,lty=2,lwd=3)
-legend(5.5,3,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
+legend(-1,-2,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
        pch=19,bty="n")
 
 #export to pdf 7 x 7
@@ -242,7 +240,6 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
-
 
 pairs(temp[temp$read_time=="14",c(3:7)],las=1,main="14 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
@@ -308,6 +305,47 @@ hclu20<-hclust(dist(scale(temp20[,c(3:7)]),
 plot(hclu20)
 fviz_dend(hclu20,k=5,cex=0.5,rect=TRUE,
           k_colors=brewer.pal(5,"Dark2"))
+
+
+##############################################################################/
+#plot of the distribution of IC50 for each active substance####
+##############################################################################/
+
+#readings after 14 days
+op<-par(mfrow=c(2,3))
+plot(temp14[order(c(temp14$DIFENOCONAZOLE)),"DIFENOCONAZOLE"],
+     main="14D DIFENOCONAZOLE IC50",col=1,pch=19,cex=2,las=1)
+plot(temp14[order(c(temp14$FLUTRIAFOL)),"FLUTRIAFOL"],
+     main="14D FLUTRIAFOL IC50",col=2,pch=19,cex=2,las=1)
+plot(temp14[order(c(temp14$`PROTHIOCONAZOLE-DESTHIO`)),
+            "PROTHIOCONAZOLE-DESTHIO"],
+     main="14D PROTHIOCONAZOLE-DESTHIO IC50",col=3,pch=19,
+     cex=2,las=1,ylim=c(0,12))
+plot(temp14[order(c(temp14$TEBUCONAZOLE)),"TEBUCONAZOLE"],
+     main="14D TEBUCONAZOLE IC50",col=4,pch=19,cex=2,las=1)
+plot(temp14[order(c(temp14$TETRACONAZOLE)),"TETRACONAZOLE"],
+     main="14D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1)
+par(op)
+
+#export to pdf 10 x 8 inches
+
+#readings after 14 days
+op<-par(mfrow=c(2,3))
+plot(temp20[order(c(temp20$DIFENOCONAZOLE)),"DIFENOCONAZOLE"],
+     main="20D DIFENOCONAZOLE IC50",col=1,pch=19,cex=2,las=1)
+plot(temp20[order(c(temp20$FLUTRIAFOL)),"FLUTRIAFOL"],
+     main="20D FLUTRIAFOL IC50",col=2,pch=19,cex=2,las=1)
+plot(temp20[order(c(temp20$`PROTHIOCONAZOLE-DESTHIO`)),
+            "PROTHIOCONAZOLE-DESTHIO"],
+     main="20D PROTHIOCONAZOLE-DESTHIO IC50",col=3,pch=19,
+     cex=2,las=1,ylim=c(0,12))
+plot(temp20[order(c(temp20$TEBUCONAZOLE)),"TEBUCONAZOLE"],
+     main="20D TEBUCONAZOLE IC50",col=4,pch=19,cex=2,las=1)
+plot(temp20[order(c(temp20$TETRACONAZOLE)),"TETRACONAZOLE"],
+     main="20D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1)
+par(op)
+
+#export to pdf 10 x 8 inches
 
 
 ##############################################################################/
