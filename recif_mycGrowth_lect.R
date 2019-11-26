@@ -314,38 +314,46 @@ fviz_dend(hclu20,k=5,cex=0.5,rect=TRUE,
 #readings after 14 days
 op<-par(mfrow=c(2,3))
 plot(temp14[order(c(temp14$DIFENOCONAZOLE)),"DIFENOCONAZOLE"],
-     main="14D DIFENOCONAZOLE IC50",col=1,pch=19,cex=2,las=1)
+     main="14D DIFENOCONAZOLE IC50",col=1,pch=19,cex=2,las=1,
+     ylab="IC50")
 plot(temp14[order(c(temp14$FLUTRIAFOL)),"FLUTRIAFOL"],
-     main="14D FLUTRIAFOL IC50",col=2,pch=19,cex=2,las=1)
+     main="14D FLUTRIAFOL IC50",col=2,pch=19,cex=2,las=1,
+     ylab="IC50")
 plot(temp14[order(c(temp14$`PROTHIOCONAZOLE-DESTHIO`)),
             "PROTHIOCONAZOLE-DESTHIO"],
      main="14D PROTHIOCONAZOLE-DESTHIO IC50",col=3,pch=19,
-     cex=2,las=1,ylim=c(0,12))
+     cex=2,las=1,ylim=c(0,12),ylab="IC50")
 plot(temp14[order(c(temp14$TEBUCONAZOLE)),"TEBUCONAZOLE"],
-     main="14D TEBUCONAZOLE IC50",col=4,pch=19,cex=2,las=1)
+     main="14D TEBUCONAZOLE IC50",col=4,pch=19,cex=2,las=1,
+     ylab="IC50")
 plot(temp14[order(c(temp14$TETRACONAZOLE)),"TETRACONAZOLE"],
-     main="14D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1)
+     main="14D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1,
+     ylab="IC50")
 par(op)
 
-#export to pdf 10 x 8 inches
+#export to pdf 9 x 7 inches
 
-#readings after 14 days
+#readings after 20 days
 op<-par(mfrow=c(2,3))
 plot(temp20[order(c(temp20$DIFENOCONAZOLE)),"DIFENOCONAZOLE"],
-     main="20D DIFENOCONAZOLE IC50",col=1,pch=19,cex=2,las=1)
+     main="20D DIFENOCONAZOLE IC50",col=1,pch=19,cex=2,las=1,
+     ylab="IC50")
 plot(temp20[order(c(temp20$FLUTRIAFOL)),"FLUTRIAFOL"],
-     main="20D FLUTRIAFOL IC50",col=2,pch=19,cex=2,las=1)
+     main="20D FLUTRIAFOL IC50",col=2,pch=19,cex=2,las=1,
+     ylab="IC50")
 plot(temp20[order(c(temp20$`PROTHIOCONAZOLE-DESTHIO`)),
             "PROTHIOCONAZOLE-DESTHIO"],
      main="20D PROTHIOCONAZOLE-DESTHIO IC50",col=3,pch=19,
-     cex=2,las=1,ylim=c(0,12))
+     cex=2,las=1,ylim=c(0,12),ylab="IC50")
 plot(temp20[order(c(temp20$TEBUCONAZOLE)),"TEBUCONAZOLE"],
-     main="20D TEBUCONAZOLE IC50",col=4,pch=19,cex=2,las=1)
+     main="20D TEBUCONAZOLE IC50",col=4,pch=19,cex=2,las=1,
+     ylab="IC50")
 plot(temp20[order(c(temp20$TETRACONAZOLE)),"TETRACONAZOLE"],
-     main="20D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1)
+     main="20D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1,
+     ylab="IC50")
 par(op)
 
-#export to pdf 10 x 8 inches
+#export to pdf 9 x 7 inches
 
 
 ##############################################################################/
