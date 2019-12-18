@@ -53,10 +53,10 @@ for (j in 1:length(SAlist)) {
                    data=tempdat,
                    fct=LN.3())
       plot(temp.m1,ylim=c(0,110),xlim=c(0,100),
-           main=paste(SAlist[j],names(table(SA.dat$ech_id))[i]))
+           main=paste(SAlist[j],as.character(tempdat$ech_id[1])))
       temp<-ED(temp.m1,c(50,5,1),type="absolute")
       tempx<-data.frame("Subs_Act"=SAlist[j],
-                        "sample_ID"=names(table(SA.dat$ech_id))[i],
+                        "sample_ID"=as.character(tempdat$ech_id[1]),
                         "read_time"=data_subSA$tps_expo[1],
                         "ED50"=as.character(temp[1]),
                         "ED95"=as.character(temp[2]),
@@ -103,10 +103,10 @@ for (j in 1:length(SAlist)) {
                    data=tempdat,
                    fct=LN.3())
       plot(temp.m1,ylim=c(0,110),xlim=c(0,100),
-           main=paste(SAlist[j],names(table(SA.dat$ech_id))[i]))
+           main=paste(SAlist[j],as.character(tempdat$ech_id[1])))
       temp<-ED(temp.m1,c(50,5,1),type="absolute")
       tempx<-data.frame("Subs_Act"=SAlist[j],
-                        "sample_ID"=names(table(SA.dat$ech_id))[i],
+                        "sample_ID"=as.character(tempdat$ech_id[1]),
                         "read_time"=data_subSA$tps_expo[1],
                         "ED50"=as.character(temp[1]),
                         "ED95"=as.character(temp[2]),
@@ -118,7 +118,6 @@ for (j in 1:length(SAlist)) {
   CompRez<-rbind(CompRez,REZSA)
 }
 dev.off()
-
 
 #exporting the result as a text file
 CompRez<-CompRez[order(CompRez$Subs_Act,CompRez$sample_ID),]
@@ -149,7 +148,6 @@ barplot(as.numeric(as.character(CompRez[CompRez$read_time=="20",]$ED50)),
         names.arg=CompRez[CompRez$read_time=="20",]$sample_ID,las=2,
         main="reading at 20 Days")
 par(op)
-
 #export to pdf 32 x 8 inches
 
 #histogramme by samples: reading at 14 days
@@ -163,9 +161,7 @@ for (i in (1:length(samplelist))) {
           ylim=c(0,52))
 }
 par(op)
-
 #export to pdf 15 x 15
-
 
 #histogramme by samples: reading at 20 days
 samplelist<-as.character(names(table(CompRez$sample_ID)))
@@ -178,7 +174,6 @@ for (i in (1:length(samplelist))) {
           ylim=c(0,52))
 }
 par(op)
-
 #export to pdf 10 x 10
 
 
@@ -194,8 +189,8 @@ cor(outlie$`14`,outlie$`20`)
 plot(outlie$`14`,outlie$`20`,col=outlie$Subs_Act,pch=19,cex=1,las=1,
      xlab="IC50 after 14 days",ylab="IC50 after 20 days",
      main="Correlation between reading after 14 or 20 days")
-text(outlie[outlie$`14`>8,3],outlie[outlie$`14`>8,4],
-     labels=outlie[outlie$`14`>8,"sample_ID"],pos=1,xpd=NA)
+text(outlie[outlie$`14`>20,3],outlie[outlie$`14`>20,4],
+     labels=outlie[outlie$`14`>20,"sample_ID"],pos=1,xpd=NA)
 abline(0,1,lty=2,lwd=3)
 legend(2,45,names(table(CompRez$Subs_Act)),col=c(1,2,3,4,5),
        pch=19,bty="n")
@@ -239,16 +234,14 @@ pairs(temp[temp$read_time=="14",c(3:7)],las=1,main="14 Days",
 
 pairs(log(temp[temp$read_time=="14",c(3:7)]),las=1,main="Log 14 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
-
-#export to pdf 6 x 6 inches
+#export to pdf 8 x 8 inches
 
 pairs(temp[temp$read_time=="20",c(3:7)],las=1,main="20 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 
 pairs(log(temp[temp$read_time=="20",c(3:7)]),las=1,main="Log 20 Days",
       lower.panel=panel.smooth, upper.panel=panel.cor)
-
-#export to pdf 6 x 6 inches
+#export to pdf 8 x 8 inches
 
 
 ##############################################################################/
@@ -323,7 +316,6 @@ plot(temp14[order(c(temp14$TETRACONAZOLE)),"TETRACONAZOLE"],
      main="14D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1,
      ylab="IC50")
 par(op)
-
 #export to pdf 9 x 7 inches
 
 #readings after 20 days
@@ -345,7 +337,6 @@ plot(temp20[order(c(temp20$TETRACONAZOLE)),"TETRACONAZOLE"],
      main="20D TETRACONAZOLE IC50",col=5,pch=19,cex=2,las=1,
      ylab="IC50")
 par(op)
-
 #export to pdf 9 x 7 inches
 
 
