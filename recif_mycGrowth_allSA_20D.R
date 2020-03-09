@@ -15,7 +15,7 @@ library(RColorBrewer)
 
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
-datamyc2<-read.table("data/20200228_data_temp.txt",header=TRUE,sep=";")
+datamyc2<-read.table("data/20200309_data_temp.txt",header=TRUE,sep=";")
 
 
 ##############################################################################/
@@ -81,24 +81,31 @@ write.table(CompRez, file="output/ASA_results_cerco.txt",
 #just a small graphic to gain insight on the first round of results
 #first, we replace the ED50 that were too high to be evaluated with an 
 #arbitrary value
-cooloor<- brewer.pal(10,"Set3")
+cooloor<- brewer.pal(11,"Set3")
 CompRez$ED50<-as.character(CompRez$ED50)
 CompRez[CompRez$ED50==">10","ED50"]<-12
 CompRez[CompRez$ED50==">20","ED50"]<-22
 CompRez[CompRez$ED50==">50","ED50"]<-52
 CompRez$ED50<-as.numeric(as.character(CompRez$ED50))
+
+pdf(file="output/histo_AllInd_ASA.pdf",width=55,height=8)
 op<-par(mfrow=c(1,1))
 par(mar=c(8,3,3,0.5))
 barplot(as.numeric(as.character(CompRez$ED50)),
         ylim=c(0,52),col=cooloor[as.numeric(CompRez$Subs_Act)],
         names.arg=CompRez$sample_ID,las=2,
         main="Comparison of the different samples by SA")
-legend(150,47,levels(CompRez$Subs_Act),fill=cooloor,bty="n")
+abline(h=12,lty=2)
+abline(h=22,lty=2)
+abline(h=52,lty=2)
+legend(300,47,levels(CompRez$Subs_Act),fill=cooloor,bty="n")
 par(op)
+dev.off()
 #export to pdf 45 x 8 inches
 
 #histogramme by samples
 samplelist<-as.character(names(table(CompRez$sample_ID)))
+pdf(file="output/histo_byInd_ASA.pdf",width=12,height=16)
 op<-par(mfrow=c(5,8))
 for (i in (1:length(samplelist))) {
   temp<-merge(as.data.frame(levels(CompRez$Subs_Act)),
@@ -109,6 +116,7 @@ for (i in (1:length(samplelist))) {
             ylim=c(0,52))
 }
 par(op)
+dev.off()
 #export to pdf 12 x 16
 
 
@@ -131,10 +139,10 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
 
-pairs(temp[,c(2:11)],las=1,main="Correlation between ActSubst",
+pairs(temp[,c(2:12)],las=1,main="Correlation between ActSubst",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 
-pairs(log(temp[,c(2:11)]),las=1,main="Correlation between log(ActSubst)",
+pairs(log(temp[,c(2:12)]),las=1,main="Correlation between log(ActSubst)",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 #export to pdf 11 x 11 inches
 
@@ -151,13 +159,15 @@ truc<-dudi.pca(temp[,-c(1)],
                scannf=FALSE,nf=3)
 scatter(truc)
 #determining the optimal number of clusters
-fviz_nbclust(temp[,c(2:11)],kmeans,method="gap_stat")
-clust<-kmeans(temp[,c(2:11)],5)
-fviz_cluster(clust,data=temp[,c(2:11)])
+fviz_nbclust(temp[,c(2:12)],kmeans,method="gap_stat")
+clust<-kmeans(temp[,c(2:12)],5)
+fviz_cluster(clust,data=temp[,c(2:12)])
 plot(truc$li[,c(1,2)],col=brewer.pal(5,"Dark2")[clust$cluster],
      pch=19,cex=2)
 
-hclu<-hclust(dist(scale(temp[,c(2:11)]),
+#we remove FENTINE HYDROXYDE because it is of no interest here as well 
+#individual number 39 that have too many missing values
+hclu<-hclust(dist(scale(temp[-c(39),c(2:4,6:12)]),
                   method="euclidean"),
                method="ward.D2")
 plot(hclu)
@@ -190,6 +200,9 @@ plot(temp[order(c(temp$`FENTINE HYDROXYDE`)),"FENTINE HYDROXYDE"],
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$FLUTRIAFOL)),"FLUTRIAFOL"],
      main="FLUTRIAFOL IC50",bg=cooloor[5],pch=21,cex=2,las=1,
+     ylab="IC50",ylim=c(0,52))
+plot(temp[order(c(temp$MEFENTRIFLUCONAZOLE)),"MEFENTRIFLUCONAZOLE"],
+     main="MEFENTRIFLUCONAZOLE IC50",bg=cooloor[6],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$METCONAZOLE)),"METCONAZOLE"],
      main="METCONAZOLE IC50",bg=cooloor[6],pch=21,cex=2,las=1,
