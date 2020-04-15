@@ -15,7 +15,8 @@ library(RColorBrewer)
 
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
-datamyc2<-read.table("data/20200309_data_temp.txt",header=TRUE,sep=";")
+#datamyc2<-read.table("data/20200309_data_temp.txt",header=TRUE,sep=";")
+datamyc2<-read.table("data/20200415_data_12SA.txt",header=TRUE,sep=";")
 
 
 ##############################################################################/
@@ -41,7 +42,7 @@ for (j in 1:length(SAlist)) {
   
   for (i in 1:dim(table(data_subSA$ech_id))[1]) {
     tempdat<-data_subSA[data_subSA$ech_id==names(table(data_subSA$ech_id))[i],]
-    if(tempdat[tempdat$dose==max(tempdat$dose),"rslt_03"]>50) {
+    if(tempdat[tempdat$dose==max(tempdat$dose),"rslt_03"]>30) {
       tempx<-data.frame("Subs_Act"=SAlist[j],"sample_ID"=tempdat$ech_id[1],
                         "read_time"=data_subSA$tps_expo[1],
                         "ED50"=paste(">",max(tempdat$dose),sep=""),
