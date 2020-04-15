@@ -82,14 +82,14 @@ write.table(CompRez, file="output/ASA_results_cerco.txt",
 #just a small graphic to gain insight on the first round of results
 #first, we replace the ED50 that were too high to be evaluated with an 
 #arbitrary value
-cooloor<- brewer.pal(11,"Set3")
+cooloor<- brewer.pal(12,"Set3")
 CompRez$ED50<-as.character(CompRez$ED50)
 CompRez[CompRez$ED50==">10","ED50"]<-12
 CompRez[CompRez$ED50==">20","ED50"]<-22
 CompRez[CompRez$ED50==">50","ED50"]<-52
 CompRez$ED50<-as.numeric(as.character(CompRez$ED50))
 
-pdf(file="output/histo_AllInd_ASA.pdf",width=55,height=8)
+pdf(file="output/histo_AllInd_ASA.pdf",width=60,height=8)
 op<-par(mfrow=c(1,1))
 par(mar=c(8,3,3,0.5))
 barplot(as.numeric(as.character(CompRez$ED50)),
@@ -102,12 +102,11 @@ abline(h=52,lty=2)
 legend(300,47,levels(CompRez$Subs_Act),fill=cooloor,bty="n")
 par(op)
 dev.off()
-#export to pdf 45 x 8 inches
 
 #histogramme by samples
 samplelist<-as.character(names(table(CompRez$sample_ID)))
-pdf(file="output/histo_byInd_ASA.pdf",width=12,height=16)
-op<-par(mfrow=c(5,8))
+pdf(file="output/histo_byInd_ASA.pdf",width=9,height=20)
+op<-par(mfrow=c(9,5))
 for (i in (1:length(samplelist))) {
   temp<-merge(as.data.frame(levels(CompRez$Subs_Act)),
               CompRez[CompRez$sample_ID==samplelist[i],],
@@ -140,10 +139,10 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
 
-pairs(temp[,c(2:12)],las=1,main="Correlation between ActSubst",
+pairs(temp[,c(2:13)],las=1,main="Correlation between ActSubst",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 
-pairs(log(temp[,c(2:12)]),las=1,main="Correlation between log(ActSubst)",
+pairs(log(temp[,c(2:13)]),las=1,main="Correlation between log(ActSubst)",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 #export to pdf 11 x 11 inches
 
@@ -160,15 +159,16 @@ truc<-dudi.pca(temp[,-c(1)],
                scannf=FALSE,nf=3)
 scatter(truc)
 #determining the optimal number of clusters
-fviz_nbclust(temp[,c(2:12)],kmeans,method="gap_stat")
-clust<-kmeans(temp[,c(2:12)],5)
-fviz_cluster(clust,data=temp[,c(2:12)])
+fviz_nbclust(temp[,c(2:13)],kmeans,method="gap_stat")
+clust<-kmeans(temp[,c(2:13)],5)
+fviz_cluster(clust,data=temp[,c(2:13)])
 plot(truc$li[,c(1,2)],col=brewer.pal(5,"Dark2")[clust$cluster],
      pch=19,cex=2)
 
-#we remove FENTINE HYDROXYDE because it is of no interest here as well 
-#individual number 39 that have too many missing values
-hclu<-hclust(dist(scale(temp[-c(39),c(2:4,6:12)]),
+#we remove FENTINE HYDROXYDE and TOLNAFTATE because it is of no 
+#interest here as well as individuals 39 to 44 that have too many 
+#missing values
+hclu<-hclust(dist(scale(temp[-c(39:44),c(2:4,6:12)]),
                   method="euclidean"),
                method="ward.D2")
 plot(hclu)
@@ -206,19 +206,22 @@ plot(temp[order(c(temp$MEFENTRIFLUCONAZOLE)),"MEFENTRIFLUCONAZOLE"],
      main="MEFENTRIFLUCONAZOLE IC50",bg=cooloor[6],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$METCONAZOLE)),"METCONAZOLE"],
-     main="METCONAZOLE IC50",bg=cooloor[6],pch=21,cex=2,las=1,
+     main="METCONAZOLE IC50",bg=cooloor[7],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$PROCHLORAZE)),"PROCHLORAZE"],
-     main="PROCHLORAZE IC50",bg=cooloor[7],pch=21,cex=2,las=1,
+     main="PROCHLORAZE IC50",bg=cooloor[8],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$`PROTHIOCONAZOLE-DESTHIO`)),"PROTHIOCONAZOLE-DESTHIO"],
-     main="PROTHIOCONAZOLE-DESTHIO IC50",bg=cooloor[8],pch=21,cex=2,las=1,
+     main="PROTHIOCONAZOLE-DESTHIO IC50",bg=cooloor[9],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"],
-     main="TEBUCONAZOLE IC50",bg=cooloor[9],pch=21,cex=2,las=1,
+     main="TEBUCONAZOLE IC50",bg=cooloor[10],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$TETRACONAZOLE)),"TETRACONAZOLE"],
-     main="TETRACONAZOLE IC50",bg=cooloor[10],pch=21,cex=2,las=1,
+     main="TETRACONAZOLE IC50",bg=cooloor[11],pch=21,cex=2,las=1,
+     ylab="IC50",ylim=c(0,52))
+plot(temp[order(c(temp$TOLNAFTATE)),"TOLNAFTATE"],
+     main="TOLNAFTATE IC50",bg=cooloor[12],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 par(op)
 #export to pdf 14 x 10 inches
