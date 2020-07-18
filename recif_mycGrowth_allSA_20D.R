@@ -16,7 +16,7 @@ library(RColorBrewer)
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
 #datamyc2<-read.table("data/20200309_data_temp.txt",header=TRUE,sep=";")
-datamyc2<-read.table("data/20200415_data_12SA.txt",header=TRUE,sep=";")
+datamyc2<-read.table("data/20200415_data_12SA-2.txt",header=TRUE,sep=";")
 
 
 ##############################################################################/
@@ -132,8 +132,8 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
 {
   usr <- par("usr"); on.exit(par(usr))
   par(usr = c(0, 1, 0, 1))
-  r <- abs(cor(x, y))
-  txt <- format(c(r, 0.123456789), digits=digits)[1]
+  r <- abs(cor(x, y,use="pairwise.complete.obs"))
+  txt <- format(c(r, 2), digits=digits)[1]
   txt <- paste(prefix, txt, sep="")
   if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
   text(0.5, 0.5, txt, cex = cex.cor * r)
@@ -145,6 +145,10 @@ pairs(temp[,c(2:13)],las=1,main="Correlation between ActSubst",
 pairs(log(temp[,c(2:13)]),las=1,main="Correlation between log(ActSubst)",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 #export to pdf 11 x 11 inches
+
+#just for the difenoconazole and tetraconazole
+pairs(log(temp[,c(3,12)]),las=1,main="Correlation between log(ActSubst)",
+      lower.panel=panel.smooth, upper.panel=panel.cor)
 
 
 ##############################################################################/
