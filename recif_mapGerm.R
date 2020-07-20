@@ -141,6 +141,14 @@ par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
 
+boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
+abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 7 inches (for examples)
+
 
 ##############################################################################/
 #CARBENDAZIME MAP####
@@ -231,6 +239,14 @@ text(
 par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
+
+boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
+abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 7 inches (for examples)
 
 
 ##############################################################################/
@@ -325,6 +341,14 @@ par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
 
+boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
+abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 7 inches (for examples)
+
 
 ##############################################################################/
 #AZOXYSTROBINE R TOTAL####
@@ -416,6 +440,14 @@ text(
 par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
+
+boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
+abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 7 inches (for examples)
 
 
 ##############################################################################/
