@@ -155,8 +155,7 @@ datacount <- cbind(
     databrute$rslt_03, exclude =
       ""
   )),
-  "Resistant" = table(databrute$parcel_dpt,
-                      as.numeric(databrute$rslt_03)>0, exclude = "")[,2],
+  "Resistant" = 0,
   "Sensible" = table(databrute$parcel_dpt,
                      as.numeric(databrute$rslt_03)>0, exclude = "")[,1],
   "Total" = rowSums(table(
@@ -196,7 +195,7 @@ data2map <- data2map[order(as.numeric(as.character(data2map$Total)),
                            decreasing = TRUE), ]
 
 #defining the colors of the pies
-colovec <- c(brewer.pal(9, "Reds")[6], brewer.pal(9, "Blues")[7])
+colovec <- c(brewer.pal(9, "Reds")[6])
 
 #actual plotting
 op <- par(mar = c(0, 0, 2, 0))
@@ -251,7 +250,7 @@ datacount <- cbind(
   "Resistant" = table(databrute$parcel_dpt,
                       as.numeric(databrute$rslt_03)>0, exclude = "")[,2],
   "Sensible" = table(databrute$parcel_dpt,
-                     as.numerci(databrute$rslt_03)>0, exclude = "")[,1],
+                     as.numeric(databrute$rslt_03)>0, exclude = "")[,1],
   "Total" = rowSums(table(
     databrute$parcel_dpt,
     databrute$rslt_03>0, exclude = ""
@@ -341,8 +340,7 @@ datacount <- cbind(
     databrute$rslt_03, exclude =
       ""
   )),
-  "Resistant" = table(databrute$parcel_dpt,
-                      as.numeric(databrute$rslt_03)>0, exclude = "")[,2],
+  "Resistant" = 0,
   "Sensible" = table(databrute$parcel_dpt,
                      as.numeric(databrute$rslt_03)>0, exclude = "")[,1],
   "Total" = rowSums(table(
@@ -382,7 +380,7 @@ data2map <- data2map[order(as.numeric(as.character(data2map$Total)),
                            decreasing = TRUE), ]
 
 #defining the colors of the pies
-colovec <- c(brewer.pal(9, "Reds")[6], brewer.pal(9, "Blues")[7])
+colovec <- c(brewer.pal(9, "Reds")[6])
 
 #actual plotting
 op <- par(mar = c(0, 0, 2, 0))
