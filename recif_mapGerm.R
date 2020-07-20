@@ -64,12 +64,12 @@ datacount <- cbind(
       ""
   )),
   "Resistant" = table(databrute$parcel_dpt,
-                      databrute$rslt_03>2, exclude = "")[,2],
+                      as.numeric(databrute$rslt_03)>0, exclude = "")[,2],
   "Sensible" = table(databrute$parcel_dpt,
-                     databrute$rslt_03>2, exclude = "")[,1],
+                     as.numeric(databrute$rslt_03)>0, exclude = "")[,1],
   "Total" = rowSums(table(
     databrute$parcel_dpt,
-    databrute$rslt_03>0, exclude = ""
+    as.numeric(databrute$rslt_03)>0, exclude = ""
   ))
 )
 #export the count data by departement
@@ -143,7 +143,7 @@ par(op)
 
 
 ##############################################################################/
-#FENTINE HYDROXYDE MAP####
+#CARBENDAZIME MAP####
 ##############################################################################/
 
 databrute<-databruteTOT[databruteTOT$pest_sa_id=="CARBENDAZIME",]
@@ -156,12 +156,12 @@ datacount <- cbind(
       ""
   )),
   "Resistant" = table(databrute$parcel_dpt,
-                      databrute$rslt_03>2, exclude = "")[,2],
+                      as.numeric(databrute$rslt_03)>0, exclude = "")[,2],
   "Sensible" = table(databrute$parcel_dpt,
-                     databrute$rslt_03>2, exclude = "")[,1],
+                     as.numeric(databrute$rslt_03)>0, exclude = "")[,1],
   "Total" = rowSums(table(
     databrute$parcel_dpt,
-    databrute$rslt_03>0, exclude = ""
+    as.numeric(databrute$rslt_03)>0, exclude = ""
   ))
 )
 #export the count data by departement
@@ -249,9 +249,9 @@ datacount <- cbind(
       ""
   )),
   "Resistant" = table(databrute$parcel_dpt,
-                      databrute$rslt_03>2, exclude = "")[,2],
+                      as.numeric(databrute$rslt_03)>0, exclude = "")[,2],
   "Sensible" = table(databrute$parcel_dpt,
-                     databrute$rslt_03>2, exclude = "")[,1],
+                     as.numerci(databrute$rslt_03)>0, exclude = "")[,1],
   "Total" = rowSums(table(
     databrute$parcel_dpt,
     databrute$rslt_03>0, exclude = ""
@@ -342,9 +342,9 @@ datacount <- cbind(
       ""
   )),
   "Resistant" = table(databrute$parcel_dpt,
-                      databrute$rslt_03>2, exclude = "")[,2],
+                      as.numeric(databrute$rslt_03)>0, exclude = "")[,2],
   "Sensible" = table(databrute$parcel_dpt,
-                     databrute$rslt_03>2, exclude = "")[,1],
+                     as.numeric(databrute$rslt_03)>0, exclude = "")[,1],
   "Total" = rowSums(table(
     databrute$parcel_dpt,
     databrute$rslt_03>0, exclude = ""
