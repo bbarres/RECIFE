@@ -32,7 +32,7 @@ summary(db_commu)
 db_arrond<-arrond@data
 db_arrond$DEPARR<-paste(db_arrond$INSEE_DEP,db_arrond$INSEE_ARR)
 
-#load the resistance results
+#load the resistance results for the 2019 campaign
 databruteTOT <- read.delim(
   "data/cerco_germ_dec19.txt",
   header = TRUE,
@@ -40,6 +40,16 @@ databruteTOT <- read.delim(
   colClasses = c("character", "character", "character",
                  "character", "factor")
 )
+
+#load the resistance results for the 2019 campaign
+databruteTOT <- read.delim(
+  "data/data_DC_2020.txt",
+  header = TRUE,
+  sep = "\t",
+  colClasses = c("character", "character", "character",
+                 "character", "factor")
+)
+
 
 # #first we merge the resistance table with the commune info
 # databrute<-merge(databrute,db_commu,by.x="parcel_cmne",by.y="NOM_COM_M")
