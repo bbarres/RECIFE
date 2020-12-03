@@ -41,7 +41,7 @@ databruteTOT <- read.delim(
                  "character", "factor")
 )
 
-#load the resistance results for the 2019 campaign
+#load the resistance results for the 2020 campaign
 databruteTOT <- read.delim(
   "data/data_DC_2020.txt",
   header = TRUE,
@@ -118,7 +118,7 @@ colovec <- c(brewer.pal(9, "Reds")[6], brewer.pal(9, "Blues")[7])
 
 #actual plotting
 op <- par(mar = c(0, 0, 2, 0))
-plot(departe,main="FENTINE HYDROXYDE")
+plot(departe,main="FENTINE HYDROXIDE")
 draw.pie(
   x = data2map$longitude,
   y = data2map$latitude,
@@ -135,7 +135,7 @@ draw.pie(
   radius = 35000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
-  scale=FALSE # should the radius be scaled according to effectif
+  scale=FALSE # should the radius be scaled according to sample size
 )
 
 #writing the number of samples for each departement
@@ -151,13 +151,30 @@ par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
 
-boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
-abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
-stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,100),col="cornflowerblue",
+        main=paste("Fentine Hydroxyde\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.8),vertical=TRUE,
            method="jitter",jitter=0.1,add=TRUE)
 
 #export to a pdf file 3 x 7 inches (for examples)
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg="cornflowerblue",pch=21,cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Fentine Hydroxide")
+
+#export to a pdf file 7 x 5 inches (for examples)
 
 
 ##############################################################################/
@@ -234,7 +251,7 @@ draw.pie(
   radius = 35000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
-  scale=FALSE # should the radius be scaled according to effectif
+  scale=FALSE # should the radius be scaled according to sample size
 )
 
 #writing the number of samples for each departement
@@ -250,13 +267,30 @@ par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
 
-boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
-abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
-stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,120),col="cornflowerblue",
+        main=paste("Carbendazime\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.8),vertical=TRUE,
            method="jitter",jitter=0.1,add=TRUE)
 
 #export to a pdf file 3 x 7 inches (for examples)
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg="cornflowerblue",pch=21,cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Carbendazime")
+
+#export to a pdf file 7 x 5 inches (for examples)
 
 
 ##############################################################################/
@@ -335,7 +369,7 @@ draw.pie(
   radius = 35000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
-  scale=FALSE # should the radius be scaled according to effectif
+  scale=FALSE # should the radius be scaled according to sample size
 )
 
 #writing the number of samples for each departement
@@ -351,13 +385,30 @@ par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
 
-boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
-abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
-stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,140),col="cornflowerblue",
+        main=paste("Azoxystrobine RLC\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.8),vertical=TRUE,
            method="jitter",jitter=0.1,add=TRUE)
 
 #export to a pdf file 3 x 7 inches (for examples)
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg="cornflowerblue",pch=21,cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Azoxystrobine RLC")
+
+#export to a pdf file 7 x 5 inches (for examples)
 
 
 ##############################################################################/
@@ -435,7 +486,7 @@ draw.pie(
   radius = 35000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
-  scale=FALSE # should the radius be scaled according to effectif
+  scale=FALSE # should the radius be scaled according to sample size
 )
 
 #writing the number of samples for each departement
@@ -451,13 +502,30 @@ par(op)
 
 #export the map to a pdf file 7 x 7 inches (for examples)
 
-boxplot(as.numeric(databrute$rslt_03),boxwex=0.5,las=1,ylim=c(0,100))
-abline(h=mean(as.numeric(databrute$rslt_03)),col="red",lty=2,lwd=3)
-stripchart(as.numeric(databrute$rslt_03),cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.6),vertical=TRUE,
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,140),col="cornflowerblue",
+        main=paste("Azoxystrobine\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.8),vertical=TRUE,
            method="jitter",jitter=0.1,add=TRUE)
 
 #export to a pdf file 3 x 7 inches (for examples)
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg="cornflowerblue",pch=21,cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Azoxystrobine")
+
+#export to a pdf file 7 x 5 inches (for examples)
 
 
 ##############################################################################/
