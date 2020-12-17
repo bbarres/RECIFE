@@ -64,7 +64,8 @@ databruteTOT <- read.delim(
 #FENTINE HYDROXYDE MAP####
 ##############################################################################/
 
-databrute<-databruteTOT[databruteTOT$pest_sa_id=="FENTINE HYDROXYDE",]
+databrute<-databruteTOT[databruteTOT$pest_sa_id=="FENTINE HYDROXYDE" & 
+                          databruteTOT$dose!=0,]
 
 #counting the number of sampling according to their status
 datacount <- cbind(
@@ -181,7 +182,8 @@ plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
 #CARBENDAZIME MAP####
 ##############################################################################/
 
-databrute<-databruteTOT[databruteTOT$pest_sa_id=="CARBENDAZIME",]
+databrute<-databruteTOT[databruteTOT$pest_sa_id=="CARBENDAZIME" & 
+                          databruteTOT$dose!=0,]
 
 #counting the number of sampling according to their status
 datacount <- cbind(
@@ -298,7 +300,8 @@ plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
 ##############################################################################/
 
 databrute<-databruteTOT[databruteTOT$pest_sa_id=="AZOXYSTROBINE" & 
-                          databruteTOT$synerg_id=="SHAM",]
+                          databruteTOT$synerg_id=="SHAM" & 
+                          databruteTOT$dose!=0,]
 
 #counting the number of sampling according to their status
 datacount <- cbind(
@@ -416,7 +419,8 @@ plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
 ##############################################################################/
 
 databrute<-databruteTOT[databruteTOT$pest_sa_id=="AZOXYSTROBINE" & 
-                          databruteTOT$synerg_id=="AUCUN",]
+                          databruteTOT$synerg_id=="AUCUN" &
+                          databruteTOT$dose!=0,]
 
 #counting the number of sampling according to their status
 datacount <- cbind(
