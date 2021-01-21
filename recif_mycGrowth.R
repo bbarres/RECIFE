@@ -11,7 +11,8 @@ library(gdata)
 
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
-datamyc<-read.table("data/cerco_juillet19.txt",header=TRUE,sep=";")
+datamyc<-read.table("data/cerco_juillet19.txt",header=TRUE,
+                    sep=";",stringsAsFactors=TRUE)
 
 
 ##############################################################################/

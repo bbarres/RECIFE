@@ -17,7 +17,7 @@ library(RColorBrewer)
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
 #datamyc2<-read.table("data/20200309_data_temp.txt",header=TRUE,sep=";")
 datamyc2<-read.table("data/20200415_data_12SA-2.txt",header=TRUE,
-                     sep=";",stringAsFactors=TRUE)
+                     sep=";",stringsAsFactors=TRUE)
 
 
 ##############################################################################/

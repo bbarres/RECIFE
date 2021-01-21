@@ -16,9 +16,9 @@ library(RColorBrewer)
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
 datamyc2<-read.table("data/results_ec50_panels_1_2.txt",header=TRUE,
-                     sep=";",stringAsFactors=TRUE)
+                     sep=";",stringsAsFactors=TRUE)
 datamyc2<-read.table("data/data_1_2_3_4.txt",header=TRUE,
-                     sep="\t",stringAsFactors=TRUE)
+                     sep="\t",stringsAsFactors=TRUE)
 
 
 ##############################################################################/
