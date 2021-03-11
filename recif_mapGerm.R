@@ -541,5 +541,42 @@ plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
 
 
 ##############################################################################/
+#Mefentrifluconazole map 3 resistance categories####
+##############################################################################/
+
+#defining the colors of the pies
+colovec <- c(
+  rgb(200,200,00, max = 255, alpha = 240),
+  rgb(250,150,50, max = 255, alpha = 240),
+  rgb(255,50,50, max = 255, alpha = 240)
+)
+#changing the projection of the map
+departe.wgs <- spTransform(departe,
+                           CRS("+proj=longlat +datum=WGS84"))
+
+#actual plotting
+op <- par(mar = c(0, 0, 2, 0))
+plot(departe.wgs,main="MEFENTRIFLUCONAZOLE")
+draw.pie(
+  x = as.numeric(databruteTOT$gps_long),
+  y = as.numeric(databruteTOT$gps_lat),
+  z = cbind(
+    as.numeric(databruteTOT$FR.30),
+    as.numeric(databruteTOT$FR30.100),
+    as.numeric(databruteTOT$FR.100)
+    ),
+  col = colovec,         #colors of the pie
+  lty = 1,               #line type of the pie
+  border = NA,     #color of the border of the pie
+  lwd = 0.01,             #control the width of the border
+  radius = 0.08, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  #this number control the radius of the pies
+  labels = NA,
+  scale=FALSE # should the radius be scaled according to sample size
+)
+par(op)
+
+
+##############################################################################/
 #END
 ##############################################################################/
