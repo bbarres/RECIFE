@@ -50,6 +50,14 @@ databruteTOT <- read.delim(
                  "character", "factor")
 )
 
+#load the resistance results for the 2020 campaign
+databruteTOT <- read.delim(
+  "data/data_DC_classes_2020.txt",
+  header = TRUE,
+  sep = "\t",
+  colClasses = c("character", "character", "character",
+                 "character", "factor")
+)
 
 # #first we merge the resistance table with the commune info
 # databrute<-merge(databrute,db_commu,by.x="parcel_cmne",by.y="NOM_COM_M")
