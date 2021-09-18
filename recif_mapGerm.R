@@ -20,6 +20,7 @@ library(RColorBrewer)
 load("data/commu.RData")
 load("data/arrond.RData")
 load("data/departe.RData")
+load("data/regionsLight.RData")
 
 #some information on the data structure of the geodata
 class(commu)
