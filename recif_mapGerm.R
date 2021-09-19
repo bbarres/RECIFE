@@ -60,6 +60,13 @@ databruteTOT <- read.delim(
                  "character", "factor")
 )
 
+#load the resistance results for the 2020 campaign
+databruteTOT <- read.delim(
+  "data/data_DC_AZ_FH_Carb_2019_2020.txt",
+  header = TRUE,
+  sep = "\t"
+)
+
 # #first we merge the resistance table with the commune info
 # databrute<-merge(databrute,db_commu,by.x="parcel_cmne",by.y="NOM_COM_M")
 # #in order to acces to the arrondissement ID, we create an individual ID for 
@@ -128,7 +135,8 @@ colovec <- c(brewer.pal(9, "Reds")[6], brewer.pal(9, "Blues")[7])
 
 #actual plotting
 op <- par(mar = c(0, 0, 2, 0))
-plot(departe,main="FENTINE HYDROXIDE")
+plot(departe,main="FENTINE HYDROXIDE",border="grey70")
+plot(regionsLight,lwd=2,add=TRUE)
 draw.pie(
   x = data2map$longitude,
   y = data2map$latitude,
