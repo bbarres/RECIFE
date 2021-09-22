@@ -16,7 +16,9 @@ library(RColorBrewer)
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
 #datamyc2<-read.table("data/20200309_data_temp.txt",header=TRUE,sep=";")
-datamyc2<-read.table("data/20200415_data_12SA-2.txt",header=TRUE,
+# datamyc2<-read.table("data/20200415_data_12SA-2.txt",header=TRUE,
+#                      sep=";",stringsAsFactors=TRUE)
+datamyc2<-read.table("data/CRMYC_270821.txt",header=TRUE,
                      sep=";",stringsAsFactors=TRUE)
 
 
@@ -104,7 +106,7 @@ legend(300,47,levels(CompRez$Subs_Act),fill=cooloor,bty="n")
 par(op)
 dev.off()
 
-#histogramme by samples
+#histogram by samples
 samplelist<-as.character(names(table(CompRez$sample_ID)))
 pdf(file="output/histo_byInd_ASA.pdf",width=9,height=20)
 op<-par(mfrow=c(9,5))

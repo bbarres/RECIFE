@@ -616,13 +616,43 @@ par(op)
 #export to .pdf 8 x 8 inches
 
 
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Fentine Hydroxyde\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 8 inches (for examples)
+
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg=as.character(databrute$catgerm[order(as.numeric(databrute$rslt_03))]),
+     pch=databrute$year[order(as.numeric(databrute$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Fentine Hydroxyde")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+
+#export to a pdf file 12 x 5 inches
+
+
 ##############################################################################/
 #Carbendazime MAP####
 ##############################################################################/
 
 databrute<-databruteTOT[databruteTOT$pest_sa_id=="CARBENDAZIME" & 
                           databruteTOT$dose!=0,]
-
 
 #splitting the continuous percentage of germination in categories
 databrute$catgerm<-cut(databrute$rslt_03,
@@ -663,6 +693,37 @@ par(op)
 #export to .pdf 8 x 8 inches
 
 
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Carbendazime\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 8 inches (for examples)
+
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg=as.character(databrute$catgerm[order(as.numeric(databrute$rslt_03))]),
+     pch=databrute$year[order(as.numeric(databrute$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Carbendazime")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+
+#export to a pdf file 12 x 5 inches
+
+
 ##############################################################################/
 #Azoxystrobine total MAP####
 ##############################################################################/
@@ -670,7 +731,6 @@ par(op)
 databrute<-databruteTOT[databruteTOT$pest_sa_id=="AZOXYSTROBINE" & 
                           databruteTOT$synerg_id=="AUCUN" &
                           databruteTOT$dose!=0,]
-
 
 #splitting the continuous percentage of germination in categories
 databrute$catgerm<-cut(databrute$rslt_03,
@@ -711,14 +771,44 @@ par(op)
 #export to .pdf 8 x 8 inches
 
 
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Azoxystrobine total\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 8 inches (for examples)
+
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg=as.character(databrute$catgerm[order(as.numeric(databrute$rslt_03))]),
+     pch=databrute$year[order(as.numeric(databrute$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Azoxystrobine total")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+
+#export to a pdf file 12 x 5 inches
+
+
 ##############################################################################/
-#Azoxystrobine total MAP####
+#Azoxystrobine RLC MAP####
 ##############################################################################/
 
 databrute<-databruteTOT[databruteTOT$pest_sa_id=="AZOXYSTROBINE" & 
                           databruteTOT$synerg_id=="SHAM" &
                           databruteTOT$dose!=0,]
-
 
 #splitting the continuous percentage of germination in categories
 databrute$catgerm<-cut(databrute$rslt_03,
@@ -759,23 +849,66 @@ par(op)
 #export to .pdf 8 x 8 inches
 
 
+#boxplot for the resistant populations
+boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+        boxwex=0.5,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Azoxystrobine RLC\n(n=",
+                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   "/",
+                   length(databrute$rslt_03),")",sep=""),
+        ylab="% germination")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+
+#export to a pdf file 3 x 8 inches (for examples)
+
+
+#distribution of the % of germination at the DD
+plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
+     bg=as.character(databrute$catgerm[order(as.numeric(databrute$rslt_03))]),
+     pch=databrute$year[order(as.numeric(databrute$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,130),
+     ylab="% germination",
+     main="Azoxystrobine RLC")
+abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+
+#export to a pdf file 12 x 5 inches
+
+
 ##############################################################################/
 #Mefentrifluconazole map 3 resistance categories####
 ##############################################################################/
 
-#defining the colors of the pies
+#load the resistance results for the 2019-2020 campaign
+databruteTOT <- read.delim(
+  "data/data_DC_classes_MEFENTRI_2019_2020.txt",
+  header = TRUE,
+  sep = "\t"
+)
+
+#changing the projection of the map
+departeLight.wgs <- spTransform(departeLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+regionsLight.wgs <- spTransform(regionsLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+#defining the colors of the pies with transparency
 colovec <- c(
   rgb(200,200,00, max = 255, alpha = 240),
   rgb(250,150,50, max = 255, alpha = 240),
   rgb(255,50,50, max = 255, alpha = 240)
 )
-#changing the projection of the map
-departe.wgs <- spTransform(departe,
-                           CRS("+proj=longlat +datum=WGS84"))
+#defining another color vector
+colovec<-brewer.pal(11,"RdYlGn")[c(5,3,1)]
 
 #actual plotting
 op <- par(mar = c(0, 0, 2, 0))
-plot(departe.wgs,main="MEFENTRIFLUCONAZOLE")
+plot(departeLight.wgs,main="MEFENTRIFLUCONAZOLE",border="grey70")
+plot(regionsLight.wgs,lwd=2,add=TRUE)
 draw.pie(
   x = as.numeric(databruteTOT$gps_long),
   y = as.numeric(databruteTOT$gps_lat),
@@ -786,7 +919,154 @@ draw.pie(
     ),
   col = colovec,         #colors of the pie
   lty = 1,               #line type of the pie
-  border = NA,     #color of the border of the pie
+  border = "black",     #color of the border of the pie
+  lwd = 0.01,             #control the width of the border
+  radius = 0.08, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  #this number control the radius of the pies
+  labels = NA,
+  scale=FALSE # should the radius be scaled according to sample size
+)
+par(op)
+
+
+##############################################################################/
+#Prothio-destio map 3 resistance categories####
+##############################################################################/
+
+#load the resistance results for the 2019-2020 campaign
+databruteTOT <- read.delim(
+  "data/data_DC_classes_PROTHIO_2019_2020.txt",
+  header = TRUE,
+  sep = "\t"
+)
+
+#changing the projection of the map
+departeLight.wgs <- spTransform(departeLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+regionsLight.wgs <- spTransform(regionsLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+#defining the colors of the pies with transparency
+colovec <- c(
+  rgb(200,200,00, max = 255, alpha = 240),
+  rgb(250,150,50, max = 255, alpha = 240),
+  rgb(255,50,50, max = 255, alpha = 240)
+)
+#defining another color vector
+colovec<-brewer.pal(11,"RdYlGn")[c(5,3,1)]
+
+#actual plotting
+op <- par(mar = c(0, 0, 2, 0))
+plot(departeLight.wgs,main="PROTHIO-DESTHIO",border="grey70")
+plot(regionsLight.wgs,lwd=2,add=TRUE)
+draw.pie(
+  x = as.numeric(databruteTOT$gps_long),
+  y = as.numeric(databruteTOT$gps_lat),
+  z = cbind(
+    as.numeric(databruteTOT$FR.30),
+    as.numeric(databruteTOT$FR30.100),
+    as.numeric(databruteTOT$FR.100)
+  ),
+  col = colovec,         #colors of the pie
+  lty = 1,               #line type of the pie
+  border = "black",     #color of the border of the pie
+  lwd = 0.01,             #control the width of the border
+  radius = 0.08, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  #this number control the radius of the pies
+  labels = NA,
+  scale=FALSE # should the radius be scaled according to sample size
+)
+par(op)
+
+
+##############################################################################/
+#Difénoconazole map 3 resistance categories####
+##############################################################################/
+
+#load the resistance results for the 2019-2020 campaign
+databruteTOT <- read.delim(
+  "data/data_DC_classes_DIFENO_2019_2020.txt",
+  header = TRUE,
+  sep = "\t"
+)
+
+#changing the projection of the map
+departeLight.wgs <- spTransform(departeLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+regionsLight.wgs <- spTransform(regionsLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+#defining the colors of the pies with transparency
+colovec <- c(
+  rgb(200,200,00, max = 255, alpha = 240),
+  rgb(250,150,50, max = 255, alpha = 240),
+  rgb(255,50,50, max = 255, alpha = 240)
+)
+#defining another color vector
+colovec<-brewer.pal(11,"RdYlGn")[c(5,3,1)]
+
+#actual plotting
+op <- par(mar = c(0, 0, 2, 0))
+plot(departeLight.wgs,main="DIFENOCONAZOLE",border="grey70")
+plot(regionsLight.wgs,lwd=2,add=TRUE)
+draw.pie(
+  x = as.numeric(databruteTOT$gps_long),
+  y = as.numeric(databruteTOT$gps_lat),
+  z = cbind(
+    as.numeric(databruteTOT$FR.30),
+    as.numeric(databruteTOT$FR30.100),
+    as.numeric(databruteTOT$FR.100)
+  ),
+  col = colovec,         #colors of the pie
+  lty = 1,               #line type of the pie
+  border = "black",     #color of the border of the pie
+  lwd = 0.01,             #control the width of the border
+  radius = 0.08, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  #this number control the radius of the pies
+  labels = NA,
+  scale=FALSE # should the radius be scaled according to sample size
+)
+par(op)
+
+
+##############################################################################/
+#Tétraconazole map 3 resistance categories####
+##############################################################################/
+
+#load the resistance results for the 2019-2020 campaign
+databruteTOT <- read.delim(
+  "data/data_DC_classes_TETRACO_2019_2020.txt",
+  header = TRUE,
+  sep = "\t"
+)
+
+#changing the projection of the map
+departeLight.wgs <- spTransform(departeLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+regionsLight.wgs <- spTransform(regionsLight,
+                                CRS("+proj=longlat +datum=WGS84"))
+#defining the colors of the pies with transparency
+colovec <- c(
+  rgb(200,200,00, max = 255, alpha = 240),
+  rgb(250,150,50, max = 255, alpha = 240),
+  rgb(255,50,50, max = 255, alpha = 240)
+)
+#defining another color vector
+colovec<-brewer.pal(11,"RdYlGn")[c(5,3,1)]
+
+#actual plotting
+op <- par(mar = c(0, 0, 2, 0))
+plot(departeLight.wgs,main="TETRACONAZOLE",border="grey70")
+plot(regionsLight.wgs,lwd=2,add=TRUE)
+draw.pie(
+  x = as.numeric(databruteTOT$gps_long),
+  y = as.numeric(databruteTOT$gps_lat),
+  z = cbind(
+    as.numeric(databruteTOT$FR.30),
+    as.numeric(databruteTOT$FR30.100),
+    as.numeric(databruteTOT$FR.100)
+  ),
+  col = colovec,         #colors of the pie
+  lty = 1,               #line type of the pie
+  border = "black",     #color of the border of the pie
   lwd = 0.01,             #control the width of the border
   radius = 0.08, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
