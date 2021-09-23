@@ -142,12 +142,18 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
 
-pairs(temp[,c(2:13)],las=1,main="Correlation between ActSubst",
+#all 13 active substance
+pairs(log(temp[,c(2:14)]),las=1,main="Correlation between ActSubst",
       lower.panel=panel.smooth, upper.panel=panel.cor)
-
-pairs(log(temp[,c(2:13)]),las=1,main="Correlation between log(ActSubst)",
+#export to pdf 13 x 11 inches
+#all 10 DMI active subsatnce
+pairs(log(temp[,c(2:4,7:13)]),las=1,main="Correlation between ActSubst",
       lower.panel=panel.smooth, upper.panel=panel.cor)
-#export to pdf 11 x 11 inches
+#export to pdf 13 x 11 inches
+#only 4 widely investigated DMI
+pairs(log(temp[,c(3,8,11,13)]),las=1,main="Correlation between log(ActSubst)",
+      lower.panel=panel.smooth, upper.panel=panel.cor)
+#export to pdf 8 x 6 inches
 
 #just for the difenoconazole and tetraconazole
 pairs(log(temp[,c(3,12)]),las=1,main="Correlation between log(ActSubst)",
@@ -193,7 +199,7 @@ temp<-CompRez[,c(1,2,4)]
 temp<-spread(temp,Subs_Act,ED50)
 
 #distribution of the IC50 by Active Substance
-op<-par(mfrow=c(3,4))
+op<-par(mfrow=c(2,5))
 plot(temp[order(c(temp$CYPROCONAZOLE)),"CYPROCONAZOLE"],
      main="CYPROCONAZOLE IC50",bg=cooloor[1],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
@@ -202,9 +208,6 @@ plot(temp[order(c(temp$DIFENOCONAZOLE)),"DIFENOCONAZOLE"],
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$EPOXICONAZOLE)),"EPOXICONAZOLE"],
      main="EPOXICONAZOLE IC50",bg=cooloor[3],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$`FENTINE HYDROXYDE`)),"FENTINE HYDROXYDE"],
-     main="FENTINE HYDROXYDE IC50",bg=cooloor[4],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
 plot(temp[order(c(temp$FLUTRIAFOL)),"FLUTRIAFOL"],
      main="FLUTRIAFOL IC50",bg=cooloor[5],pch=21,cex=2,las=1,
@@ -227,11 +230,33 @@ plot(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"],
 plot(temp[order(c(temp$TETRACONAZOLE)),"TETRACONAZOLE"],
      main="TETRACONAZOLE IC50",bg=cooloor[11],pch=21,cex=2,las=1,
      ylab="IC50",ylim=c(0,52))
-plot(temp[order(c(temp$TOLNAFTATE)),"TOLNAFTATE"],
-     main="TOLNAFTATE IC50",bg=cooloor[12],pch=21,cex=2,las=1,
-     ylab="IC50",ylim=c(0,52))
 par(op)
 #export to pdf 14 x 10 inches
+
+#same plot but combine on one figure and with log(EC50)
+plot(log(temp[order(c(temp$CYPROCONAZOLE)),"CYPROCONAZOLE"]),
+     main="log EC50 distribution",bg=cooloor[1],pch=21,cex=2,las=1,
+     ylab="log(EC50)",ylim=c(-6,6))
+points(log(temp[order(c(temp$DIFENOCONAZOLE)),"DIFENOCONAZOLE"]),
+     bg=cooloor[2],pch=21,cex=2,las=1)
+points(log(temp[order(c(temp$EPOXICONAZOLE)),"EPOXICONAZOLE"]),
+     bg=cooloor[3],pch=21,cex=2,las=1)
+points(log(temp[order(c(temp$FLUTRIAFOL)),"FLUTRIAFOL"]),
+     bg=cooloor[5],pch=21,cex=2,las=1)
+points(log(temp[order(c(temp$MEFENTRIFLUCONAZOLE)),"MEFENTRIFLUCONAZOLE"]),
+     bg=cooloor[6],pch=21,cex=2,las=1)
+points(log(temp[order(c(temp$METCONAZOLE)),"METCONAZOLE"]),
+     bg=cooloor[7],pch=21,cex=2,las=1)
+points(log(temp[order(c(temp$PROCHLORAZE)),"PROCHLORAZE"]),
+     bg=cooloor[8],pch=21,cex=2,las=1)
+points(log(temp[order(c(temp$`PROTHIOCONAZOLE-DESTHIO`)),"PROTHIOCONAZOLE-DESTHIO"]),
+     bg=cooloor[9],pch=21,cex=2,las=1)
+points(log(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"]),
+     bg=cooloor[10],pch=21,cex=2,las=1,)
+points(log(temp[order(c(temp$TETRACONAZOLE)),"TETRACONAZOLE"]),
+     bg=cooloor[11],pch=21,cex=2,las=1)
+legend(botomleft)
+#export to .pdf 8 x 7 inches
 
 
 ##############################################################################/
