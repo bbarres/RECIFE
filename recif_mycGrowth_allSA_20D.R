@@ -235,27 +235,35 @@ par(op)
 
 #same plot but combine on one figure and with log(EC50)
 plot(log(temp[order(c(temp$CYPROCONAZOLE)),"CYPROCONAZOLE"]),
-     main="log EC50 distribution",bg=cooloor[1],pch=21,cex=2,las=1,
+     main="log EC50 distribution",bg=cooloor[1],pch=21,cex=1,las=1,
      ylab="log(EC50)",ylim=c(-6,6))
 points(log(temp[order(c(temp$DIFENOCONAZOLE)),"DIFENOCONAZOLE"]),
-     bg=cooloor[2],pch=21,cex=2,las=1)
+     bg=cooloor[2],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$EPOXICONAZOLE)),"EPOXICONAZOLE"]),
-     bg=cooloor[3],pch=21,cex=2,las=1)
+     bg=cooloor[3],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$FLUTRIAFOL)),"FLUTRIAFOL"]),
-     bg=cooloor[5],pch=21,cex=2,las=1)
+     bg=cooloor[5],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$MEFENTRIFLUCONAZOLE)),"MEFENTRIFLUCONAZOLE"]),
-     bg=cooloor[6],pch=21,cex=2,las=1)
+     bg=cooloor[6],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$METCONAZOLE)),"METCONAZOLE"]),
-     bg=cooloor[7],pch=21,cex=2,las=1)
+     bg=cooloor[7],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$PROCHLORAZE)),"PROCHLORAZE"]),
-     bg=cooloor[8],pch=21,cex=2,las=1)
+     bg=cooloor[8],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$`PROTHIOCONAZOLE-DESTHIO`)),"PROTHIOCONAZOLE-DESTHIO"]),
-     bg=cooloor[9],pch=21,cex=2,las=1)
+     bg=cooloor[9],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"]),
-     bg=cooloor[10],pch=21,cex=2,las=1,)
+     bg=cooloor[10],pch=21,cex=1,las=1,)
 points(log(temp[order(c(temp$TETRACONAZOLE)),"TETRACONAZOLE"]),
-     bg=cooloor[11],pch=21,cex=2,las=1)
-legend(botomleft)
+     bg=cooloor[11],pch=21,cex=1,las=1)
+legend(60,-1,legend=c("CYPROCONAZOLE","DIFENOCONAZOLE","EPOXICONAZOLE",
+                      "FLUTRIAFOL","MEFENTRIFLUCONAZOLE","METCONAZOLE",
+                      "PROCHLORAZE","PROTHIOCONAZOLE-DESTHIO","TEBUCONAZOLE",
+                      "TETRACONAZOLE"),
+       cex=1,pt.cex=1.3,
+       y.intersp=0.7,x.intersp=1.2,
+       pch=c(15),
+       col=cooloor[c(1,2,3,5,6,7,8,9,10,11)],
+       bty="n")
 #export to .pdf 8 x 7 inches
 
 
