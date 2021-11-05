@@ -249,7 +249,8 @@ points(log(temp[order(c(temp$METCONAZOLE)),"METCONAZOLE"]),
      bg=cooloor[7],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$PROCHLORAZE)),"PROCHLORAZE"]),
      bg=cooloor[8],pch=21,cex=1,las=1)
-points(log(temp[order(c(temp$`PROTHIOCONAZOLE-DESTHIO`)),"PROTHIOCONAZOLE-DESTHIO"]),
+points(log(temp[order(c(temp$`PROTHIOCONAZOLE-DESTHIO`)),
+                "PROTHIOCONAZOLE-DESTHIO"]),
      bg=cooloor[9],pch=21,cex=1,las=1)
 points(log(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"]),
      bg=cooloor[10],pch=21,cex=1,las=1,)
