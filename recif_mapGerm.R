@@ -574,7 +574,7 @@ points(
   y = as.numeric(oldFent$gps_lat),
   bg = as.character(oldFent$catgerm),  #colors of the points
   pch = oldFent$year,                  #plotting character
-  cex = 1.2                              #size of the points
+  cex = 1.2                            #size of the points
 )
 
 legend(142464,7180000,
@@ -583,13 +583,20 @@ legend(142464,7180000,
        pch=15,
        col=as.character(levels(oldFent$catgerm)),
        bg="transparent",bty="n")
-legend(352464,7180000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+legend(352464,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
        y.intersp=0.75,x.intersp=0.8,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
 
 par(op)
 
-#export to .pdf 8 x 8 inches
+#export to .pdf 8 x 5 inches
+
+#histogram of the distribution of the % of germination
+hist(as.numeric(oldFent$rslt_03[order(as.numeric(oldFent$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",
+     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,1,1,1)],
+     xlab="Germination classes",ylab="Pourcentage")
+box(bty="l")
 
 
 #boxplot for the resistant populations

@@ -25,8 +25,8 @@ load("data/REG_SHP.RData")
 load("data/coorddep.RData")
 load("data/coordreg.RData")
 
-DEP_SHP.1<-crop(DEP_SHP,extent(114528.2,1132915.3,6447211,7168463))
-REG_SHP.1<-crop(REG_SHP,extent(114528.2,1132915.3,6447211,7168463))
+DEP_SHP.1<-crop(DEP_SHP,extent(114528.2,1132915.3,6500000,7168463))
+REG_SHP.1<-crop(REG_SHP,extent(114528.2,1132915.3,6500000,7168463))
 
 
 ##############################################################################/
