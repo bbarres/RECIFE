@@ -9,6 +9,416 @@ source("recif_load.R")
 
 
 ##############################################################################/
+#New versions####
+##############################################################################/
+
+##############################################################################/
+#Maps for population germination tests for old SA####
+##############################################################################/
+
+#load the resistance results for the 2019-2020 campaign
+oldSA<-read.delim(
+  "data/data_DC_AZ_FH_Carb_2019_2020.txt",
+  header=TRUE,
+  sep="\t"
+)
+
+oldSA<-oldSA[!is.na(oldSA$gps_lat),]
+
+#turning this dataframe into a spatial dataframe (wgs84)
+oldSA.wgs<-SpatialPointsDataFrame(coords=oldSA[,c("gps_long","gps_lat")],
+                                  data=oldSA,
+                                  proj4string=CRS("+proj=longlat +datum=WGS84")
+)
+oldSA<-spTransform(oldSA.wgs,CRS("+init=epsg:2154"))
+
+
+##############################################################################/
+#Fentine Hydroxyde MAP####
+##############################################################################/
+
+oldprod<-oldSA[oldSA$pest_sa_id=="FENTINE HYDROXYDE" & 
+                 oldSA$dose!=0 & 
+                 oldSA$milieu_cult_id!="CV8",]
+oldprod$rslt_03[oldprod$rslt_03>100]<-100
+
+#splitting the continuous percentage of germination in categories
+oldprod$catgerm<-cut(oldprod$rslt_03,
+                     breaks=c(0.00,0.001,5,10,20,30,40,50,
+                              max(oldprod$rslt_03)),
+                     include.lowest=TRUE)
+nomCat<-c("0 %","]0-5] %","]5-10] %","]10-20] %","]20-30] %",
+          "]30-40] %","]40-50] %",">50 %")
+#defining the colors of the points
+levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
+#defining sampling year
+oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
+
+#actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    4,4,4,3),4,4,byrow=TRUE))
+op<-par(mar=c(0,0,0,0))
+plot(DEP_SHP.1,main="",border="grey70")
+plot(REG_SHP.1,lwd=2,add=TRUE)
+points(
+  x = as.numeric(oldprod$gps_long),
+  y = as.numeric(oldprod$gps_lat),
+  bg = as.character(oldprod$catgerm),  #colors of the points
+  pch = oldprod$year,                  #plotting character
+  cex = 1.2                            #size of the points
+)
+
+legend(110000,7150000,title="Germination\nclasses",
+       legend=nomCat,cex=1,pt.cex=1.8,
+       y.intersp=0.7,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=as.character(levels(oldprod$catgerm)),
+       bg="transparent",bty="n")
+legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+       pch=c(21,22),col=c("black"),bg="transparent",bty="n")
+par(op)
+
+#histogram of the distribution of the % of germination
+op<-par(mar=c(6.1,4.1,2.1,2.1))
+hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
+     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
+     xlab="Germination classes",ylab="Pourcentage")
+box(bty="l")
+par(op)
+
+#boxplot for the resistant populations
+op<-par(mar=c(3.1,4.1,4.1,2.1))
+boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Germination des résistants\n(n=",
+                   length(oldprod$rslt_03[oldprod$rslt_03!=0]),
+                   "/",
+                   length(oldprod$rslt_03),")",sep=""),
+        ylab="% germination",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+par(op)
+
+#distribution of the % of germination at the DD
+op<-par(mar=c(3.1,6.1,0,2.1))
+plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
+     pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,100),
+     ylab="% germination",xlab="",
+     main="",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+par(op)
+
+#export to a pdf file 10 x 7 inches
+
+
+##############################################################################/
+#Carbendazime MAP####
+##############################################################################/
+
+oldprod<-oldSA[oldSA$pest_sa_id=="CARBENDAZIME" & 
+                 oldSA$dose!=0,]
+oldprod$rslt_03[oldprod$rslt_03>100]<-100
+
+#splitting the continuous percentage of germination in categories
+oldprod$catgerm<-cut(oldprod$rslt_03,
+                     breaks=c(0.00,0.001,5,10,20,30,40,50,
+                              max(oldprod$rslt_03)),
+                     include.lowest=TRUE)
+nomCat<-c("0 %","]0-5] %","]5-10] %","]10-20] %","]20-30] %",
+          "]30-40] %","]40-50] %",">50 %")
+#defining the colors of the points
+levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
+#defining sampling year
+oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
+
+#actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    4,4,4,3),4,4,byrow=TRUE))
+op<-par(mar=c(0,0,0,0))
+plot(DEP_SHP.1,main="",border="grey70")
+plot(REG_SHP.1,lwd=2,add=TRUE)
+points(
+  x = as.numeric(oldprod$gps_long),
+  y = as.numeric(oldprod$gps_lat),
+  bg = as.character(oldprod$catgerm),  #colors of the points
+  pch = oldprod$year,                  #plotting character
+  cex = 1.2                            #size of the points
+)
+
+legend(110000,7150000,title="Germination\nclasses",
+       legend=nomCat,cex=1,pt.cex=1.8,
+       y.intersp=0.7,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=as.character(levels(oldprod$catgerm)),
+       bg="transparent",bty="n")
+legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+       pch=c(21,22),col=c("black"),bg="transparent",bty="n")
+par(op)
+
+#histogram of the distribution of the % of germination
+op<-par(mar=c(6.1,4.1,2.1,2.1))
+hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
+     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
+     xlab="Germination classes",ylab="Pourcentage")
+box(bty="l")
+par(op)
+
+#boxplot for the resistant populations
+op<-par(mar=c(3.1,4.1,4.1,2.1))
+boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Germination des résistants\n(n=",
+                   length(oldprod$rslt_03[oldprod$rslt_03!=0]),
+                   "/",
+                   length(oldprod$rslt_03),")",sep=""),
+        ylab="% germination",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+par(op)
+
+#distribution of the % of germination at the DD
+op<-par(mar=c(3.1,6.1,0,2.1))
+plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
+     pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,100),
+     ylab="% germination",xlab="",
+     main="",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+par(op)
+
+#export to a pdf file 10 x 7 inches
+
+
+##############################################################################/
+#Azoxystrobine R total MAP####
+##############################################################################/
+
+oldprod<-oldSA[oldSA$pest_sa_id=="AZOXYSTROBINE" & 
+                 oldSA$synerg_id=="AUCUN" &
+                 oldSA$dose!=0,]
+oldprod$rslt_03[oldprod$rslt_03>100]<-100
+
+#splitting the continuous percentage of germination in categories
+oldprod$catgerm<-cut(oldprod$rslt_03,
+                     breaks=c(0.00,0.001,5,10,20,30,40,50,
+                              max(oldprod$rslt_03)),
+                     include.lowest=TRUE)
+nomCat<-c("0 %","]0-5] %","]5-10] %","]10-20] %","]20-30] %",
+          "]30-40] %","]40-50] %",">50 %")
+#defining the colors of the points
+levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
+#defining sampling year
+oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
+
+#actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    4,4,4,3),4,4,byrow=TRUE))
+op<-par(mar=c(0,0,0,0))
+plot(DEP_SHP.1,main="",border="grey70")
+plot(REG_SHP.1,lwd=2,add=TRUE)
+points(
+  x = as.numeric(oldprod$gps_long),
+  y = as.numeric(oldprod$gps_lat),
+  bg = as.character(oldprod$catgerm),  #colors of the points
+  pch = oldprod$year,                  #plotting character
+  cex = 1.2                            #size of the points
+)
+
+legend(110000,7150000,title="Germination\nclasses",
+       legend=nomCat,cex=1,pt.cex=1.8,
+       y.intersp=0.7,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=as.character(levels(oldprod$catgerm)),
+       bg="transparent",bty="n")
+legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+       pch=c(21,22),col=c("black"),bg="transparent",bty="n")
+par(op)
+
+#histogram of the distribution of the % of germination
+op<-par(mar=c(6.1,4.1,2.1,2.1))
+hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
+     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
+     xlab="Germination classes",ylab="Pourcentage")
+box(bty="l")
+par(op)
+
+#boxplot for the resistant populations
+op<-par(mar=c(3.1,4.1,4.1,2.1))
+boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Germination des résistants\n(n=",
+                   length(oldprod$rslt_03[oldprod$rslt_03!=0]),
+                   "/",
+                   length(oldprod$rslt_03),")",sep=""),
+        ylab="% germination",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+par(op)
+
+#distribution of the % of germination at the DD
+op<-par(mar=c(3.1,6.1,0,2.1))
+plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
+     pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,100),
+     ylab="% germination",xlab="",
+     main="",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+par(op)
+
+#export to a pdf file 10 x 7 inches
+
+
+##############################################################################/
+#Azoxystrobine TSR only MAP####
+##############################################################################/
+
+oldprod<-oldSA[oldSA$pest_sa_id=="AZOXYSTROBINE" & 
+                 oldSA$synerg_id=="SHAM" &
+                 oldSA$dose!=0,]
+oldprod$rslt_03[oldprod$rslt_03>100]<-100
+
+#splitting the continuous percentage of germination in categories
+oldprod$catgerm<-cut(oldprod$rslt_03,
+                     breaks=c(0.00,0.001,5,10,20,30,40,50,
+                              max(oldprod$rslt_03)),
+                     include.lowest=TRUE)
+nomCat<-c("0 %","]0-5] %","]5-10] %","]10-20] %","]20-30] %",
+          "]30-40] %","]40-50] %",">50 %")
+#defining the colors of the points
+levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
+#defining sampling year
+oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
+
+#actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    4,4,4,3),4,4,byrow=TRUE))
+op<-par(mar=c(0,0,0,0))
+plot(DEP_SHP.1,main="",border="grey70")
+plot(REG_SHP.1,lwd=2,add=TRUE)
+points(
+  x = as.numeric(oldprod$gps_long),
+  y = as.numeric(oldprod$gps_lat),
+  bg = as.character(oldprod$catgerm),  #colors of the points
+  pch = oldprod$year,                  #plotting character
+  cex = 1.2                            #size of the points
+)
+
+legend(110000,7150000,title="Germination\nclasses",
+       legend=nomCat,cex=1,pt.cex=1.8,
+       y.intersp=0.7,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=as.character(levels(oldprod$catgerm)),
+       bg="transparent",bty="n")
+legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+       pch=c(21,22),col=c("black"),bg="transparent",bty="n")
+par(op)
+
+#histogram of the distribution of the % of germination
+op<-par(mar=c(6.1,4.1,2.1,2.1))
+hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
+     col=brewer.pal(11,"RdYlGn")[c(3,3,2,2,rep(1,10))],
+     xlab="Germination classes",ylab="Pourcentage")
+box(bty="l")
+par(op)
+
+#boxplot for the resistant populations
+op<-par(mar=c(3.1,4.1,4.1,2.1))
+boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
+        main=paste("Germination des résistants\n(n=",
+                   length(oldprod$rslt_03[oldprod$rslt_03!=0]),
+                   "/",
+                   length(oldprod$rslt_03),")",sep=""),
+        ylab="% germination",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+par(op)
+
+#distribution of the % of germination at the DD
+op<-par(mar=c(3.1,6.1,0,2.1))
+plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
+     pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
+     cex=1.5,las=1,ylim=c(0,100),
+     ylab="% germination",xlab="",
+     main="",frame=FALSE)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+       col="red",lty=2,lwd=3)
+par(op)
+
+#export to a pdf file 10 x 7 inches
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################/
 #loading and preparing the data####
 ##############################################################################/
 
@@ -522,112 +932,6 @@ plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
 
 #export to a pdf file 7 x 5 inches (for examples)
 
-
-##############################################################################/
-#Maps for population germination tests for old SA####
-##############################################################################/
-
-#load the resistance results for the 2019-2020 campaign
-oldSA<-read.delim(
-  "data/data_DC_AZ_FH_Carb_2019_2020.txt",
-  header=TRUE,
-  sep="\t"
-)
-
-oldSA<-oldSA[!is.na(oldSA$gps_lat),]
-
-#turning this dataframe into a spatial dataframe (wgs84)
-oldSA.wgs<-SpatialPointsDataFrame(coords=oldSA[,c("gps_long","gps_lat")],
-                                  data=oldSA,
-                                  proj4string=CRS("+proj=longlat +datum=WGS84")
-)
-oldSA<-spTransform(oldSA.wgs,CRS("+init=epsg:2154"))
-
-
-##############################################################################/
-#Fentine Hydroxyde MAP####
-##############################################################################/
-
-oldFent<-oldSA[oldSA$pest_sa_id=="FENTINE HYDROXYDE" & 
-                 oldSA$dose!=0 & 
-                 oldSA$milieu_cult_id!="CV8",]
-
-
-#splitting the continuous percentage of germination in categories
-oldFent$catgerm<-cut(oldFent$rslt_03,
-                       breaks=c(0.00,0.001,5,10,20,30,40,50,
-                                max(oldFent$rslt_03)),
-                       include.lowest=TRUE)
-nomCat<-c("0","]0-5]","]5-10]","]10-20]","]20-30]",
-          "]30-40]","]40-50]",">50")
-#defining the colors of the points
-levels(oldFent$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
-#defining sampling year
-oldFent$year<-as.numeric(substr(oldFent$prelvt_id,1,2))+2
-
-#actual plotting
-op <- par(mar = c(0, 0, 2, 0))
-plot(DEP_SHP.1,main="",border="grey70")
-plot(REG_SHP.1,lwd=2,add=TRUE)
-points(
-  x = as.numeric(oldFent$gps_long),
-  y = as.numeric(oldFent$gps_lat),
-  bg = as.character(oldFent$catgerm),  #colors of the points
-  pch = oldFent$year,                  #plotting character
-  cex = 1.2                            #size of the points
-)
-
-legend(142464,7180000,
-       legend=nomCat,cex=0.9,pt.cex=1.8,
-       y.intersp=0.75,x.intersp=1,
-       pch=15,
-       col=as.character(levels(oldFent$catgerm)),
-       bg="transparent",bty="n")
-legend(352464,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
-       y.intersp=0.75,x.intersp=0.8,
-       pch=c(21,22),col=c("black"),bg="transparent",bty="n")
-
-par(op)
-
-#export to .pdf 8 x 5 inches
-
-#histogram of the distribution of the % of germination
-hist(as.numeric(oldFent$rslt_03[order(as.numeric(oldFent$rslt_03))]),
-     breaks=20,bty="l",freq=FALSE,las=1,main="",
-     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,1,1,1)],
-     xlab="Germination classes",ylab="Pourcentage")
-box(bty="l")
-
-
-#boxplot for the resistant populations
-boxplot(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0]),
-        boxwex=0.5,las=1,ylim=c(0,100),col="transparent",
-        main=paste("Fentine Hydroxyde\n(n=",
-                   length(oldFent$rslt_03[oldFent$rslt_03!=0]),
-                   "/",
-                   length(oldFent$rslt_03),")",sep=""),
-        ylab="% germination")
-abline(h=mean(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0])),
-       col="red",lty=2,lwd=3)
-stripchart(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0]),
-           cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
-           method="jitter",jitter=0.1,add=TRUE)
-
-#export to a pdf file 3 x 8 inches (for examples)
-
-
-#distribution of the % of germination at the DD
-plot(as.numeric(oldFent$rslt_03[order(as.numeric(oldFent$rslt_03))]),
-     bg=as.character(oldFent$catgerm[order(as.numeric(oldFent$rslt_03))]),
-     pch=oldFent$year[order(as.numeric(oldFent$rslt_03))],
-     cex=1.5,las=1,ylim=c(0,130),
-     ylab="% germination",
-     main="Fentine Hydroxyde")
-abline(h=mean(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0])),
-       col="red",lty=2,lwd=3)
-
-#export to a pdf file 12 x 5 inches
 
 
 ##############################################################################/
