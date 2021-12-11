@@ -4,12 +4,8 @@
 ##############################################################################/
 ##############################################################################/
 
-#loading the packages necessary for the analysis
-library(rgdal)
-library(rgeos)
-library(plotrix)
-library(mapplots)
-library(RColorBrewer)
+#loading the dataset and the necessary library
+source("recif_load.R")
 
 
 ##############################################################################/
@@ -23,16 +19,7 @@ load("data/departe.RData")
 load("data/regionsLight.RData")
 load("data/departeLight.RData")
 
-#some information on the data structure of the geodata
-class(commu)
-slotNames(commu)
-summary(commu@data)
 
-#isolate the information in the spatial data on the communes
-db_commu<-commu@data
-summary(db_commu)
-db_arrond<-arrond@data
-db_arrond$DEPARR<-paste(db_arrond$INSEE_DEP,db_arrond$INSEE_ARR)
 
 #load the resistance results for the 2019 campaign
 databruteTOT <- read.delim(
