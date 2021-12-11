@@ -87,6 +87,7 @@ datacount <- cbind(
     as.numeric(databrute$rslt_03)>0, exclude = ""
   ))
 )
+
 #export the count data by departement
 write.table(
   datacount,
@@ -96,22 +97,7 @@ write.table(
   row.names = FALSE
 )
 
-#extract the department coordinates
-ind_list <- departe$INSEE_DEP
-coorddep <- data.frame(
-  "longitude" = departe@polygons[1][[1]]@labpt[1],
-  "latitude" = departe@polygons[1][[1]]@labpt[2]
-)
-for (i in 2:length(ind_list)) {
-  coorddep <- rbind(
-    coorddep,
-    cbind(
-      "longitude" = departe@polygons[i][[1]]@labpt[1],
-      "latitude" = departe@polygons[i][[1]]@labpt[2]
-    )
-  )
-}
-coorddep <- cbind("dep_ID" = ind_list, coorddep)
+
 
 #combining the information of the geographic
 data2map <- merge(datacount, coorddep, by = "dep_ID")
@@ -123,8 +109,8 @@ colovec <- c(brewer.pal(9, "Reds")[6], brewer.pal(9, "Blues")[7])
 
 #actual plotting
 op <- par(mar = c(0, 0, 2, 0))
-plot(departe,main="FENTINE HYDROXIDE",border="grey70")
-plot(regionsLight,lwd=2,add=TRUE)
+plot(DEP_SHP,main="FENTINE HYDROXIDE",border="grey70")
+plot(REG_SHP,lwd=2,add=TRUE)
 draw.pie(
   x = data2map$longitude,
   y = data2map$latitude,
@@ -542,60 +528,63 @@ plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
 ##############################################################################/
 
 #load the resistance results for the 2019-2020 campaign
-databruteTOT <- read.delim(
+oldSA<-read.delim(
   "data/data_DC_AZ_FH_Carb_2019_2020.txt",
-  header = TRUE,
-  sep = "\t"
+  header=TRUE,
+  sep="\t"
 )
 
-#changing the projection of the map
-departeLight.wgs <- spTransform(departeLight,
-                           CRS("+proj=longlat +datum=WGS84"))
-regionsLight.wgs <- spTransform(regionsLight,
-                                CRS("+proj=longlat +datum=WGS84"))
+oldSA<-oldSA[!is.na(oldSA$gps_lat),]
+
+#turning this dataframe into a spatial dataframe (wgs84)
+oldSA.wgs<-SpatialPointsDataFrame(coords=oldSA[,c("gps_long","gps_lat")],
+                                  data=oldSA,
+                                  proj4string=CRS("+proj=longlat +datum=WGS84")
+)
+oldSA<-spTransform(oldSA.wgs,CRS("+init=epsg:2154"))
 
 
 ##############################################################################/
 #Fentine Hydroxyde MAP####
 ##############################################################################/
 
-databrute<-databruteTOT[databruteTOT$pest_sa_id=="FENTINE HYDROXYDE" & 
-                          databruteTOT$dose!=0 & 
-                          databruteTOT$milieu_cult_id!="CV8",]
+oldFent<-oldSA[oldSA$pest_sa_id=="FENTINE HYDROXYDE" & 
+                 oldSA$dose!=0 & 
+                 oldSA$milieu_cult_id!="CV8",]
 
 
 #splitting the continuous percentage of germination in categories
-databrute$catgerm<-cut(databrute$rslt_03,
+oldFent$catgerm<-cut(oldFent$rslt_03,
                        breaks=c(0.00,0.001,5,10,20,30,40,50,
-                                max(databrute$rslt_03)),
+                                max(oldFent$rslt_03)),
                        include.lowest=TRUE)
 nomCat<-c("0","]0-5]","]5-10]","]10-20]","]20-30]",
           "]30-40]","]40-50]",">50")
 #defining the colors of the points
-levels(databrute$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
+levels(oldFent$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
 #defining sampling year
-databrute$year<-as.numeric(substr(databrute$prelvt_id,1,2))+2
+oldFent$year<-as.numeric(substr(oldFent$prelvt_id,1,2))+2
 
 #actual plotting
 op <- par(mar = c(0, 0, 2, 0))
-plot(departeLight.wgs,main="FENTINE HYDROXYDE",border="grey70")
-plot(regionsLight.wgs,lwd=2,add=TRUE)
+plot(DEP_SHP.1,main="",border="grey70")
+plot(REG_SHP.1,lwd=2,add=TRUE)
 points(
-  x = as.numeric(databrute$gps_long),
-  y = as.numeric(databrute$gps_lat),
-  bg = as.character(databrute$catgerm),  #colors of the points
-  pch = databrute$year,                  #plotting character
+  x = as.numeric(oldFent$gps_long),
+  y = as.numeric(oldFent$gps_lat),
+  bg = as.character(oldFent$catgerm),  #colors of the points
+  pch = oldFent$year,                  #plotting character
   cex = 1.2                              #size of the points
 )
 
-legend(-4.8,51.5,
+legend(142464,7180000,
        legend=nomCat,cex=0.9,pt.cex=1.8,
-       y.intersp=0.9,x.intersp=1.2,
+       y.intersp=0.75,x.intersp=1,
        pch=15,
-       col=as.character(levels(databrute$catgerm)),
+       col=as.character(levels(oldFent$catgerm)),
        bg="transparent",bty="n")
-legend(6.2,51.5,legend=c("2019","2020"),cex=1,pt.cex=1.6,
-       y.intersp=0.9,x.intersp=1.2,
+legend(352464,7180000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=0.75,x.intersp=0.8,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
 
 par(op)
@@ -604,16 +593,16 @@ par(op)
 
 
 #boxplot for the resistant populations
-boxplot(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+boxplot(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0]),
         boxwex=0.5,las=1,ylim=c(0,100),col="transparent",
         main=paste("Fentine Hydroxyde\n(n=",
-                   length(databrute$rslt_03[databrute$rslt_03!=0]),
+                   length(oldFent$rslt_03[oldFent$rslt_03!=0]),
                    "/",
-                   length(databrute$rslt_03),")",sep=""),
+                   length(oldFent$rslt_03),")",sep=""),
         ylab="% germination")
-abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+abline(h=mean(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0])),
        col="red",lty=2,lwd=3)
-stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
+stripchart(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0]),
            cex=1,pch=19,
            col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
            method="jitter",jitter=0.1,add=TRUE)
@@ -622,13 +611,13 @@ stripchart(as.numeric(databrute$rslt_03[databrute$rslt_03!=0]),
 
 
 #distribution of the % of germination at the DD
-plot(as.numeric(databrute$rslt_03[order(as.numeric(databrute$rslt_03))]),
-     bg=as.character(databrute$catgerm[order(as.numeric(databrute$rslt_03))]),
-     pch=databrute$year[order(as.numeric(databrute$rslt_03))],
+plot(as.numeric(oldFent$rslt_03[order(as.numeric(oldFent$rslt_03))]),
+     bg=as.character(oldFent$catgerm[order(as.numeric(oldFent$rslt_03))]),
+     pch=oldFent$year[order(as.numeric(oldFent$rslt_03))],
      cex=1.5,las=1,ylim=c(0,130),
      ylab="% germination",
      main="Fentine Hydroxyde")
-abline(h=mean(as.numeric(databrute$rslt_03[databrute$rslt_03!=0])),
+abline(h=mean(as.numeric(oldFent$rslt_03[oldFent$rslt_03!=0])),
        col="red",lty=2,lwd=3)
 
 #export to a pdf file 12 x 5 inches
