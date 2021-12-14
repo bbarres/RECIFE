@@ -38,7 +38,7 @@ oldSA<-spTransform(oldSA.wgs,CRS("+init=epsg:2154"))
 ##############################################################################/
 
 oldprod<-oldSA[oldSA$pest_sa_id=="FENTINE HYDROXYDE" & 
-                 oldSA$dose!=0 & 
+                 oldSA$dose!=0 & oldSA$repet==1 &
                  oldSA$milieu_cult_id!="CV8",]
 oldprod$rslt_03[oldprod$rslt_03>100]<-100
 
@@ -67,7 +67,7 @@ points(
   y = as.numeric(oldprod$gps_lat),
   bg = as.character(oldprod$catgerm),  #colors of the points
   pch = oldprod$year,                  #plotting character
-  cex = 1.2                            #size of the points
+  cex = 2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
@@ -157,7 +157,7 @@ points(
   y = as.numeric(oldprod$gps_lat),
   bg = as.character(oldprod$catgerm),  #colors of the points
   pch = oldprod$year,                  #plotting character
-  cex = 1.2                            #size of the points
+  cex = 2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
@@ -248,7 +248,7 @@ points(
   y = as.numeric(oldprod$gps_lat),
   bg = as.character(oldprod$catgerm),  #colors of the points
   pch = oldprod$year,                  #plotting character
-  cex = 1.2                            #size of the points
+  cex = 2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
@@ -339,7 +339,7 @@ points(
   y = as.numeric(oldprod$gps_lat),
   bg = as.character(oldprod$catgerm),  #colors of the points
   pch = oldprod$year,                  #plotting character
-  cex = 1.2                            #size of the points
+  cex = 2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
