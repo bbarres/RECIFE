@@ -427,9 +427,9 @@ newSA<-spTransform(newSA.wgs,CRS("+init=epsg:2154"))
 colovec<-brewer.pal(11,"RdYlGn")[c(5,3,1)]
 #defining another color vector
 colovec<-c(
-  rgb(254,224,139,max=255,alpha=230),
-  rgb(244,109,67,max=255,alpha=230),
-  rgb(165,0,38,max=255,alpha=230)
+  rgb(254,224,139,max=255,alpha=210),
+  rgb(244,109,67,max=255,alpha=210),
+  rgb(165,0,38,max=255,alpha=210)
 )
 
 
@@ -442,8 +442,8 @@ newprod<-newSA[newSA$pest_sa_id=="MEFENTRIFLUCONAZOLE",]
   
 #actual plotting
 op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.1,main="",border="grey70")
-plot(REG_SHP.1,lwd=2,add=TRUE)
+plot(DEP_SHP.2,main="",border="grey70")
+plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x = as.numeric(newprod$gps_long),
   y = as.numeric(newprod$gps_lat),
@@ -454,14 +454,44 @@ draw.pie(
   ),
   col = colovec,         #colors of the pie
   lty = 1,               #line type of the pie
-  border = "black",     #color of the border of the pie
+  border = "transparent",     #color of the border of the pie
   lwd = 0.01,             #control the width of the border
-  radius = 7000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
+legend(465000,7070000,title="Classes de facteur\nde résistance",
+       legend=c("FR<30","30<FR<100","100<FR"),
+       cex=1,pt.cex=1.8,
+       y.intersp=0.7,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=colovec,
+       bg="transparent",bty="n")
 par(op)
+
+pie(colMeans(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100))),
+  labels=c("FR<30","30<FR<100","100<FR"),
+  col=colovec,main="Fréquence globale",
+  border="transparent")
+
+boxplot(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  col=colovec,frame=FALSE,las=1,boxwex=0.4,
+  names=c("FR<30","30<FR<100","100<FR"))
+box(bty="l")
+stripchart(list(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  cex=1,pch=19,at=c(1:3),
+  col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+  method="jitter",jitter=0.1,add=TRUE)
 
 
 ##############################################################################/

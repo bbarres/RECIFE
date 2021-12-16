@@ -28,6 +28,9 @@ load("data/coordreg.RData")
 DEP_SHP.1<-crop(DEP_SHP,extent(114528.2,1132915.3,6500000,7168463))
 REG_SHP.1<-crop(REG_SHP,extent(114528.2,1132915.3,6500000,7168463))
 
+DEP_SHP.2<-crop(DEP_SHP,extent(466064.2,854936.4,6741138,7123635))
+REG_SHP.2<-crop(REG_SHP,extent(466064.2,854936.4,6741138,7123635))
+
 
 ##############################################################################/
 #loading the bioassay results data####
