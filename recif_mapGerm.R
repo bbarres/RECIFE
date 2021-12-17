@@ -439,8 +439,12 @@ colovec<-c(
 
 #limiting the data set to mefentrifluconazole
 newprod<-newSA[newSA$pest_sa_id=="MEFENTRIFLUCONAZOLE",]
-  
+
 #actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    1,1,1,3),4,4,byrow=TRUE))
 op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.2,main="",border="grey70")
 plot(REG_SHP.2,lwd=2,add=TRUE)
@@ -461,23 +465,27 @@ draw.pie(
   labels = NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
-legend(465000,7070000,title="Classes de facteur\nde résistance",
+legend(467000,7080000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
-       cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+       cex=1.5,pt.cex=3,
+       y.intersp=0.9,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
 par(op)
 
+op<-par(mar=c(0,0,0,0))
 pie(colMeans(cbind(
   as.numeric(newprod$FR.30),
   as.numeric(newprod$FR30.100),
   as.numeric(newprod$FR.100))),
-  labels=c("FR<30","30<FR<100","100<FR"),
-  col=colovec,main="Fréquence globale",
-  border="transparent")
+  labels=NA,#labels=c("FR<30","30<FR<100","100<FR"),
+  col=colovec,main=NA,
+  border="transparent",radius=1)
+title("Fréquence\nglobale",line=-4)
+par(op)
 
+op<-par(mar=c(3.1,1.6,0,2.1))
 boxplot(cbind(
   as.numeric(newprod$FR.30),
   as.numeric(newprod$FR30.100),
@@ -492,6 +500,7 @@ stripchart(list(
   cex=1,pch=19,at=c(1:3),
   col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
   method="jitter",jitter=0.1,add=TRUE)
+par(op)
 
 
 ##############################################################################/
