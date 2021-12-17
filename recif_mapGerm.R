@@ -465,24 +465,27 @@ draw.pie(
   labels = NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
-legend(467000,7080000,title="Classes de facteur\nde résistance",
+legend(467000,7100000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
-       cex=1.5,pt.cex=3,
+       cex=1.8,pt.cex=3.5,
        y.intersp=0.9,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
 par(op)
 
-op<-par(mar=c(0,0,0,0))
+op<-par(mar=c(2.1,0,0,0))
 pie(colMeans(cbind(
   as.numeric(newprod$FR.30),
   as.numeric(newprod$FR30.100),
   as.numeric(newprod$FR.100))),
-  labels=NA,#labels=c("FR<30","30<FR<100","100<FR"),
-  col=colovec,main=NA,
-  border="transparent",radius=1)
-title("Fréquence\nglobale",line=-4)
+  labels=round(colMeans(cbind(
+    as.numeric(newprod$FR.30),
+    as.numeric(newprod$FR30.100),
+    as.numeric(newprod$FR.100))),1),
+  col=colovec,main=NA,font=1,cex=1.2,
+  border="transparent",radius=0.95)
+title("Fréquence globale",line=-2.5,cex.main=1.5)
 par(op)
 
 op<-par(mar=c(3.1,1.6,0,2.1))
@@ -492,6 +495,8 @@ boxplot(cbind(
   as.numeric(newprod$FR.100)),
   col=colovec,frame=FALSE,las=1,boxwex=0.4,
   names=c("FR<30","30<FR<100","100<FR"))
+title("Distribution des fréquences",
+      line=2,xpd=NA,cex.main=1.5)
 box(bty="l")
 stripchart(list(
   as.numeric(newprod$FR.30),
@@ -502,6 +507,8 @@ stripchart(list(
   method="jitter",jitter=0.1,add=TRUE)
 par(op)
 
+#export to .pdf 10 x 7 inches
+
 
 ##############################################################################/
 #tétraconazole map 3 resistance categories####
@@ -511,9 +518,13 @@ par(op)
 newprod<-newSA[newSA$pest_sa_id=="TETRACONAZOLE",]
 
 #actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    1,1,1,3),4,4,byrow=TRUE))
 op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.1,main="",border="grey70")
-plot(REG_SHP.1,lwd=2,add=TRUE)
+plot(DEP_SHP.2,main="",border="grey70")
+plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x = as.numeric(newprod$gps_long),
   y = as.numeric(newprod$gps_lat),
@@ -524,14 +535,56 @@ draw.pie(
   ),
   col = colovec,         #colors of the pie
   lty = 1,               #line type of the pie
-  border = "black",     #color of the border of the pie
+  border = "transparent",     #color of the border of the pie
   lwd = 0.01,             #control the width of the border
-  radius = 8000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
+legend(467000,7100000,title="Classes de facteur\nde résistance",
+       legend=c("FR<30","30<FR<100","100<FR"),
+       cex=1.8,pt.cex=3.5,
+       y.intersp=0.9,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=colovec,
+       bg="transparent",bty="n")
 par(op)
+
+op<-par(mar=c(2.1,0,0,0))
+pie(colMeans(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),na.rm=TRUE),
+  labels=round(colMeans(cbind(
+    as.numeric(newprod$FR.30),
+    as.numeric(newprod$FR30.100),
+    as.numeric(newprod$FR.100)),na.rm=TRUE),1),
+  col=colovec,main=NA,font=1,cex=1.2,
+  border="transparent",radius=0.95)
+title("Fréquence globale",line=-2.5,cex.main=1.5)
+par(op)
+
+op<-par(mar=c(3.1,1.6,0,2.1))
+boxplot(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  col=colovec,frame=FALSE,las=1,boxwex=0.4,
+  names=c("FR<30","30<FR<100","100<FR"))
+title("Distribution des fréquences",
+      line=2,xpd=NA,cex.main=1.5)
+box(bty="l")
+stripchart(list(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  cex=1,pch=19,at=c(1:3),
+  col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+  method="jitter",jitter=0.1,add=TRUE)
+par(op)
+
+#export to .pdf 10 x 7 inches
 
 
 ##############################################################################/
@@ -542,9 +595,13 @@ par(op)
 newprod<-newSA[newSA$pest_sa_id=="DIFENOCONAZOLE",]
 
 #actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    1,1,1,3),4,4,byrow=TRUE))
 op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.1,main="",border="grey70")
-plot(REG_SHP.1,lwd=2,add=TRUE)
+plot(DEP_SHP.2,main="",border="grey70")
+plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x = as.numeric(newprod$gps_long),
   y = as.numeric(newprod$gps_lat),
@@ -555,14 +612,56 @@ draw.pie(
   ),
   col = colovec,         #colors of the pie
   lty = 1,               #line type of the pie
-  border = "black",     #color of the border of the pie
+  border = "transparent",     #color of the border of the pie
   lwd = 0.01,             #control the width of the border
-  radius = 8000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
+legend(467000,7100000,title="Classes de facteur\nde résistance",
+       legend=c("FR<30","30<FR<100","100<FR"),
+       cex=1.8,pt.cex=3.5,
+       y.intersp=0.9,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=colovec,
+       bg="transparent",bty="n")
 par(op)
+
+op<-par(mar=c(2.1,0,0,0))
+pie(colMeans(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),na.rm=TRUE),
+  labels=round(colMeans(cbind(
+    as.numeric(newprod$FR.30),
+    as.numeric(newprod$FR30.100),
+    as.numeric(newprod$FR.100)),na.rm=TRUE),1),
+  col=colovec,main=NA,font=1,cex=1.2,clockwise=FALSE,
+  border="transparent",radius=0.95,init.angle=20)
+title("Fréquence globale",line=-2.5,cex.main=1.5)
+par(op)
+
+op<-par(mar=c(3.1,1.6,0,2.1))
+boxplot(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  col=colovec,frame=FALSE,las=1,boxwex=0.4,
+  names=c("FR<30","30<FR<100","100<FR"))
+title("Distribution des fréquences",
+      line=2,xpd=NA,cex.main=1.5)
+box(bty="l")
+stripchart(list(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  cex=1,pch=19,at=c(1:3),
+  col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+  method="jitter",jitter=0.1,add=TRUE)
+par(op)
+
+#export to .pdf 10 x 7 inches
 
 
 ##############################################################################/
@@ -573,9 +672,13 @@ par(op)
 newprod<-newSA[newSA$pest_sa_id=="PROTHIOCONAZOLE-DESTHIO",]
 
 #actual plotting
+nf<-layout(matrix(c(1,1,1,2,
+                    1,1,1,2,
+                    1,1,1,3,
+                    1,1,1,3),4,4,byrow=TRUE))
 op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.1,main="",border="grey70")
-plot(REG_SHP.1,lwd=2,add=TRUE)
+plot(DEP_SHP.2,main="",border="grey70")
+plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x = as.numeric(newprod$gps_long),
   y = as.numeric(newprod$gps_lat),
@@ -586,15 +689,56 @@ draw.pie(
   ),
   col = colovec,         #colors of the pie
   lty = 1,               #line type of the pie
-  border = "black",     #color of the border of the pie
+  border = "transparent",     #color of the border of the pie
   lwd = 0.01,             #control the width of the border
-  radius = 8000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
   labels = NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
+legend(467000,7100000,title="Classes de facteur\nde résistance",
+       legend=c("FR<30","30<FR<100","100<FR"),
+       cex=1.8,pt.cex=3.5,
+       y.intersp=0.9,x.intersp=0.8,
+       pch=15,title.adj=0.3,
+       col=colovec,
+       bg="transparent",bty="n")
 par(op)
 
+op<-par(mar=c(2.1,0,0,0))
+pie(colMeans(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),na.rm=TRUE),
+  labels=round(colMeans(cbind(
+    as.numeric(newprod$FR.30),
+    as.numeric(newprod$FR30.100),
+    as.numeric(newprod$FR.100)),na.rm=TRUE),1),
+  col=colovec,main=NA,font=1,cex=1.2,clockwise=TRUE,
+  border="transparent",radius=0.95)
+title("Fréquence globale",line=-2.5,cex.main=1.5)
+par(op)
+
+op<-par(mar=c(3.1,1.6,0,2.1))
+boxplot(cbind(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  col=colovec,frame=FALSE,las=1,boxwex=0.4,
+  names=c("FR<30","30<FR<100","100<FR"))
+title("Distribution des fréquences",
+      line=2,xpd=NA,cex.main=1.5)
+box(bty="l")
+stripchart(list(
+  as.numeric(newprod$FR.30),
+  as.numeric(newprod$FR30.100),
+  as.numeric(newprod$FR.100)),
+  cex=1,pch=19,at=c(1:3),
+  col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+  method="jitter",jitter=0.1,add=TRUE)
+par(op)
+
+#export to .pdf 10 x 7 inches
 
 
 
