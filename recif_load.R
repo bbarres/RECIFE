@@ -5,12 +5,17 @@
 ##############################################################################/
 
 #loading the packages necessary for the analysis
+library(ade4)
+library(drc)
+library(factoextra)
+library(gdata)
+library(mapplots)
+library(plotrix)
 library(rgdal)
 library(rgeos)
-library(plotrix)
-library(mapplots)
 library(raster)
 library(RColorBrewer)
+library(tidyr)
 
 
 ##############################################################################/

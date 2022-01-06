@@ -4,14 +4,8 @@
 ##############################################################################/
 ##############################################################################/
 
-#loading the packages necessary for the analysis
-library(drc)
-library(plotrix)
-library(gdata)
-library(tidyr)
-library(ade4)
-library(factoextra)
-library(RColorBrewer)
+##loading the dataset and the necessary library
+source("recif_load.R")
 
 #loading the data
 #datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
