@@ -80,23 +80,23 @@ oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
 #actual plotting
 op<-par(mfrow=c(2,2),mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
+title(main="Fentine Hydroxyde",font=2,line=-2)
 plot(REG_SHP.1,lwd=2,add=TRUE)
 points(
   x = as.numeric(oldprod$gps_long),
   y = as.numeric(oldprod$gps_lat),
   bg = as.character(oldprod$catgerm),  #colors of the points
   pch = oldprod$year,                  #plotting character
-  cex = 2                              #size of the points
+  cex = 1.7                            #size of the points
 )
-
-legend(110000,7150000,title="Germination\nclasses",
-       legend=nomCat,cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+legend(100000,7250000,title="Germination\nclasses",
+       legend=nomCat,cex=0.9,pt.cex=1.8,
+       y.intersp=0.6,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=as.character(levels(oldprod$catgerm)),
        bg="transparent",bty="n")
-legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
-       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+legend(300000,7250000,legend=c("2019","2020"),cex=0.9,pt.cex=1.6,
+       y.intersp=0.6,x.intersp=0.8,title="Année",title.adj=0.3,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
 
 
@@ -122,24 +122,24 @@ levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
 oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
 
 #actual plotting
-plot(DEP_SHP.1,main="Azoxystrobine",border="grey70")
+plot(DEP_SHP.1,main="",border="grey70")
+title(main="Azoxystrobine",font=2,line=-2)
 plot(REG_SHP.1,lwd=2,add=TRUE)
 points(
   x = as.numeric(oldprod$gps_long),
   y = as.numeric(oldprod$gps_lat),
   bg = as.character(oldprod$catgerm),  #colors of the points
   pch = oldprod$year,                  #plotting character
-  cex = 2                              #size of the points
+  cex = 1.7                            #size of the points
 )
-
-legend(110000,7150000,title="Germination\nclasses",
-       legend=nomCat,cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+legend(100000,7250000,title="Germination\nclasses",
+       legend=nomCat,cex=0.9,pt.cex=1.8,
+       y.intersp=0.6,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=as.character(levels(oldprod$catgerm)),
        bg="transparent",bty="n")
-legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
-       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+legend(300000,7250000,legend=c("2019","2020"),cex=0.9,pt.cex=1.6,
+       y.intersp=0.6,x.intersp=0.8,title="Année",title.adj=0.3,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
 
 
@@ -152,6 +152,7 @@ newprod<-newSA[newSA$pest_sa_id=="DIFENOCONAZOLE",]
 
 #actual plotting
 plot(DEP_SHP.1,main="",border="grey70")
+title(main="Difénoconazole",font=2,line=-2)
 plot(REG_SHP.1,lwd=2,add=TRUE)
 draw.pie(
   x = as.numeric(newprod$gps_long),
@@ -161,19 +162,19 @@ draw.pie(
     as.numeric(newprod$FR30.100),
     as.numeric(newprod$FR.100)
   ),
-  col = colovec,         #colors of the pie
-  lty = 1,               #line type of the pie
-  border = "transparent",     #color of the border of the pie
-  lwd = 0.01,             #control the width of the border
-  radius = 10000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
-  #this number control the radius of the pies
-  labels = NA,
-  scale=FALSE # should the radius be scaled according to sample size
+  col=colovec,           #colors of the pie
+  lty=1,                 #line type of the pie
+  border="transparent",  #color of the border of the pie
+  lwd=0.01,              #control the width of the border
+  radius=11000,          #(sqrt(as.numeric(as.character(data2map$Total))) * 
+                         #16000), this number control the radius of the pies
+  labels=NA,
+  scale=FALSE            #should the radius be scaled according to sample size
 )
-legend(110000,7150000,title="Classes de facteur\nde résistance",
+legend(100000,7200000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
-       cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+       cex=0.9,pt.cex=1.8,
+       y.intersp=0.6,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
@@ -188,6 +189,7 @@ newprod<-newSA[newSA$pest_sa_id=="TETRACONAZOLE",]
 
 #actual plotting
 plot(DEP_SHP.1,main="",border="grey70")
+title(main="Tétraconazole",font=2,line=-2)
 plot(REG_SHP.1,lwd=2,add=TRUE)
 draw.pie(
   x = as.numeric(newprod$gps_long),
@@ -197,29 +199,28 @@ draw.pie(
     as.numeric(newprod$FR30.100),
     as.numeric(newprod$FR.100)
   ),
-  col = colovec,         #colors of the pie
-  lty = 1,               #line type of the pie
-  border = "transparent",     #color of the border of the pie
-  lwd = 0.01,             #control the width of the border
-  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
-  #this number control the radius of the pies
-  labels = NA,
-  scale=FALSE # should the radius be scaled according to sample size
+  col=colovec,           #colors of the pie
+  lty=1,                 #line type of the pie
+  border="transparent",  #color of the border of the pie
+  lwd=0.01,              #control the width of the border
+  radius=11000,          #(sqrt(as.numeric(as.character(data2map$Total))) * 
+                         #16000), this number control the radius of the pies
+  labels=NA,
+  scale=FALSE            #should the radius be scaled according to sample size
 )
-legend(110000,7150000,title="Classes de facteur\nde résistance",
+legend(100000,7200000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
-       cex=1.8,pt.cex=3.5,
-       y.intersp=0.9,x.intersp=0.8,
+       cex=0.9,pt.cex=1.8,
+       y.intersp=0.6,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
 
-
-
 par(op)
 
+#export to a pdf file 10 x 10 inches
 
 
-
-#export to a pdf file 10 x 7 inches
-
+##############################################################################/
+#END
+##############################################################################/
