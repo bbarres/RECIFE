@@ -90,7 +90,7 @@ pdf(file="output/histo_AllInd_ASA.pdf",width=60,height=8)
 op<-par(mfrow=c(1,1))
 par(mar=c(8,3,3,0.5))
 barplot(as.numeric(as.character(CompRez$ED50)),
-        ylim=c(0,52),col=cooloor[as.numeric(CompRez$Subs_Act)],
+        ylim=c(0,52),col=cooloor[as.numeric(as.factor(CompRez$Subs_Act))],
         names.arg=CompRez$sample_ID,las=2,
         main="Comparison of the different samples by SA")
 abline(h=12,lty=2)
@@ -155,7 +155,7 @@ pairs(log(temp[,c(3,12)]),las=1,main="Correlation between log(ActSubst)",
 
 
 ##############################################################################/
-#Analyzing the multisensitivity profil of the strains####
+#Analyzing the multisensitivity profile of the strains####
 ##############################################################################/
 
 #Clusterization based on scoring of 10 SA
@@ -188,7 +188,7 @@ fviz_dend(hclu,k=5,cex=0.5,rect=TRUE,
 #plot of the distribution of IC50 for each active substance####
 ##############################################################################/
 
-#preparing the dataset
+#preparing the data set
 temp<-CompRez[,c(1,2,4)]
 temp<-spread(temp,Subs_Act,ED50)
 
