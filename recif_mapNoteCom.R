@@ -4,12 +4,12 @@
 ##############################################################################/
 ##############################################################################/
 
-#loading the dataset and the necessary library
+#loading the data set and the necessary library
 source("recif_load.R")
 
 
 ##############################################################################/
-#Preparing the two datasets####
+#Preparing the two data sets####
 ##############################################################################/
 
 #load the resistance results for the 2019-2020 campaign
@@ -245,7 +245,8 @@ dataCamem$catgerm<-cut(dataCamem$Resist,
                        include.lowest=TRUE)
 nomCat<-c("[0]","[1]","]1-5]","]5-10]","]10-15]","]15-20]")
 #defining the colors of the points
-levels(dataCamem$catgerm)<-brewer.pal(11,"RdYlGn")[6:1]
+levels(dataCamem$catgerm)<-c(brewer.pal(4,"Paired")[4],
+                             brewer.pal(11,"RdYlGn")[5:1])
 
 
 ##############################################################################/
@@ -253,24 +254,55 @@ levels(dataCamem$catgerm)<-brewer.pal(11,"RdYlGn")[6:1]
 ##############################################################################/
 
 #mapping the results for each "programme" of the monitoring
-temp<-dataCamem[dataCamem$SA=="918",]
-png(file=paste("output/",temp$themat_ID,temp$pest,".png",sep=""),
-    width=4,height=4,units="in",res=300)
-op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP,border="grey70")
-plot(REG_SHP,lwd=2,add=TRUE)
-plot(DEP_SHP[DEP_SHP$INSEE_DEP %in% temp$dptmt,],
-     col=as.character(temp$catgerm),add=TRUE)
+#first
 
-draw.pie(x=temp$longitude,y=temp$latitude,
-         z=cbind((as.numeric(as.character(temp$Resist))),
-                 (as.numeric(as.character(temp$Sensi)))),
-         col=colovec,lty=0,
-         radius=(sqrt(as.numeric(as.character(temp$Tot)))*15000),
-         labels=NA)
-text(x=temp$longitude,y=temp$latitude,
-     labels=as.character(temp$Tot),cex=1.2)
-#scalebar(c(191260,6060000),300000,"km",division.cex=0.8)
+png(file=paste("output/Myzusmap",".png",sep=""),
+    width=9,height=9,units="in",res=300)
+
+op<-par(mfrow=c(2,2),mar=c(0,0,0,0))
+
+temp<-dataCamem[dataCamem$SA=="1014",]
+plot(DEP_SHP,border="grey70")
+title(main="kdr",font.main=4,line=-1.4,cex.main=2)
+plot(DEP_SHP[DEP_SHP$INSEE_DEP %in% temp$dptmt,],
+     col=as.character(temp$catgerm),
+     border="grey70",add=TRUE)
+plot(REG_SHP,lwd=2,add=TRUE)
+legend(70000,7150000,title="Classes de nombre de\nprélèvement(s) résistant(s)",
+       legend=nomCat,cex=0.8,pt.cex=1.6,
+       y.intersp=0.9,x.intersp=0.8,
+       pch=15,title.adj=0.6,
+       col=as.character(levels(temp$catgerm)),
+       bg="transparent",bty="n")
+
+temp<-dataCamem[dataCamem$SA=="918",]
+plot(DEP_SHP,border="grey70")
+title(main="skdr",font.main=4,line=-1.4,cex.main=2)
+plot(DEP_SHP[DEP_SHP$INSEE_DEP %in% temp$dptmt,],
+     col=as.character(temp$catgerm),
+     border="grey70",add=TRUE)
+plot(REG_SHP,lwd=2,add=TRUE)
+legend(70000,7150000,title="Classes de nombre de\nprélèvement(s) résistant(s)",
+       legend=nomCat,cex=0.8,pt.cex=1.6,
+       y.intersp=0.9,x.intersp=0.8,
+       pch=15,title.adj=0.6,
+       col=as.character(levels(temp$catgerm)),
+       bg="transparent",bty="n")
+
+temp<-dataCamem[dataCamem$SA=="222",]
+plot(DEP_SHP,border="grey70")
+title(main="MACE",font.main=4,line=-1.4,cex.main=2)
+plot(DEP_SHP[DEP_SHP$INSEE_DEP %in% temp$dptmt,],
+     col=as.character(temp$catgerm),
+     border="grey70",add=TRUE)
+plot(REG_SHP,lwd=2,add=TRUE)
+legend(70000,7150000,title="Classes de nombre de\nprélèvement(s) résistant(s)",
+       legend=nomCat,cex=0.8,pt.cex=1.6,
+       y.intersp=0.9,x.intersp=0.8,
+       pch=15,title.adj=0.6,
+       col=as.character(levels(temp$catgerm)),
+       bg="transparent",bty="n")
+
 par(op)
 dev.off()
 
