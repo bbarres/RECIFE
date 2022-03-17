@@ -222,5 +222,59 @@ par(op)
 
 
 ##############################################################################/
+#loading the Myzus data sets####
+##############################################################################/
+
+#loading the data exported from PROSPER "tableau de bord"
+rezMoni<-read.table("data/myzusNotCo.txt",header=TRUE,sep="\t",
+                    colClasses="character")
+#turning the resistance status factor into two different columns
+rezMoni$rslt_RS<-factor(rezMoni$rslt_RS,levels=c("R","S"))
+rezMoni$Resistant<-as.numeric(rezMoni$rslt_RS==levels(rezMoni$rslt_RS)[1])
+rezMoni$Sensitive<-as.numeric(rezMoni$rslt_RS==levels(rezMoni$rslt_RS)[2])
+rezMoni$Total<-rezMoni$Resistant+rezMoni$Sensitive
+#grouping and counting the resistant and sensitive samples
+rezMoni$SA<-as.factor(rezMoni$SA)
+dataCamem<-rezMoni %>% 
+  group_by(SA,dptmt,pest,host) %>% 
+  summarise(Resist=sum(Resistant),Sensi=sum(Sensitive),Tot=sum(Total))
+
+#splitting the continuous percentage of germination in categories
+dataCamem$catgerm<-cut(dataCamem$Resist,
+                       breaks=c(0,0.001,1,5,10,15,20),
+                       include.lowest=TRUE)
+nomCat<-c("[0]","[1]","]1-5]","]5-10]","]10-15]","]15-20]")
+#defining the colors of the points
+levels(dataCamem$catgerm)<-brewer.pal(11,"RdYlGn")[6:1]
+
+
+##############################################################################/
+#Maps of the results of the monitoring####
+##############################################################################/
+
+#mapping the results for each "programme" of the monitoring
+temp<-dataCamem[dataCamem$SA=="918",]
+png(file=paste("output/",temp$themat_ID,temp$pest,".png",sep=""),
+    width=4,height=4,units="in",res=300)
+op<-par(mar=c(0,0,0,0))
+plot(DEP_SHP,border="grey70")
+plot(REG_SHP,lwd=2,add=TRUE)
+plot(DEP_SHP[DEP_SHP$INSEE_DEP %in% temp$dptmt,],
+     col=as.character(temp$catgerm),add=TRUE)
+
+draw.pie(x=temp$longitude,y=temp$latitude,
+         z=cbind((as.numeric(as.character(temp$Resist))),
+                 (as.numeric(as.character(temp$Sensi)))),
+         col=colovec,lty=0,
+         radius=(sqrt(as.numeric(as.character(temp$Tot)))*15000),
+         labels=NA)
+text(x=temp$longitude,y=temp$latitude,
+     labels=as.character(temp$Tot),cex=1.2)
+#scalebar(c(191260,6060000),300000,"km",division.cex=0.8)
+par(op)
+dev.off()
+
+
+##############################################################################/
 #END
 ##############################################################################/

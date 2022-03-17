@@ -6,6 +6,7 @@
 
 #loading the packages necessary for the analysis
 library(ade4)
+library(dplyr)
 library(drc)
 library(factoextra)
 library(gdata)
