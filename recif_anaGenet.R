@@ -4,7 +4,7 @@
 ##############################################################################/
 ##############################################################################/
 
-source("Agra_load.R")
+source("recif_load.R")
 
 
 ##############################################################################/
@@ -13,7 +13,7 @@ source("Agra_load.R")
 
 #here is the structure of the data file, for explanation of each columns, see 
 #ReadMe.txt file in the repository
-head(datAgracc)
+head(sugmic)
 #a summary of the different variables
 summary(datAgracc)
 colnames(datAgracc)
