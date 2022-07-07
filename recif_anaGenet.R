@@ -8,82 +8,130 @@ source("recif_load.R")
 
 
 ##############################################################################/
-#DAPC analysis: loading and preparing the data set####
+#Loading and preparing the data set####
 ##############################################################################/
 
 #here is the structure of the data file, for explanation of each columns, see 
 #ReadMe.txt file in the repository
 head(sugmic)
+#we turn the microsatellite data from factors to numeric
+indcol<-colnames(sugmic)[3:14]
+sugmic[indcol] <- lapply(sugmic[indcol], function(x) as.numeric(as.character(x)))
 #a summary of the different variables
-summary(datAgracc)
-colnames(datAgracc)
-#total number of individuals
-dim(datAgracc)[1] #309 individuals
-#we reorganize the levels of the host_corrected column, because the 
-#alphabetical order doesn't fit our needs
-datAgracc$host_ord<-factor(datAgracc$host,
-                           levels=c("peach","oilseed_rape","tobacco",
-                                    "other_crops","Aerial_trap"))
-#we reorder the individuals according to the host_corrected factor
-datAgracc<-datAgracc[order(datAgracc$host_ord),]
-JDD<-datAgracc #name of the input file
+summary(sugmic)
+str(sugmic)
+#we remove the individuals with genotyping issue
+sugmic_clean<-sugmic[sugmic$qualmicro==1,]
+#total number of individuals genotyped
+dim(sugmic)[1] #1274 individuals
+#total number of individuals genotyped
+dim(sugmic_clean)[1] #969 individuals
+
+JDD<-sugmic_clean #name of the input file
 JDD<-drop.levels(JDD)
 #let's define a set of color for keeping some consistency in the plots
 coloor<-c("firebrick","royalblue4","chartreuse4","khaki2","darkorange")
 
 
 ##############################################################################/
-#DAPC on microsatellites markers####
+#Importing data and basic statistics of the microsatellites markers####
 ##############################################################################/
 
 #converting data to a genind format, first we use only the microsatellite data
-JDDmicro<-df2genind(JDD[,c("MP_27","MP_39","MP_44","MP_5","MP_7","MP_23",
-                           "MP_45","MP_28","MP_9","MP_13","MP_2","MP_38",
-                           "MP_4","MP_46")],
-                    ncode=3,ind.names=JDD$sample_ID, 
-                    pop=JDD$host,ploidy=2,NA.char="999")
-#include the coordinates of the samples
-JDDmicro@other$xy<-JDD[,c("longitude","latitude")]
-#we can also include the resistance genotypes as supplementary information
-JDDmicro@other$KDR<-JDD[,"KDR"]
-JDDmicro@other$sKDR<-JDD[,"sKDR"]
-JDDmicro@other$MACE<-JDD[,"MACE"]
-JDDmicro@other$R81T<-JDD[,"R81T"]
+JDDmicro<-df2genind(JDD[,colnames(JDD)[3:14]],
+                    ncode=3,ind.names=JDD$ech_id, 
+                    pop=JDD$pop,ploidy=1)
+#some basic information
+summary(JDDmicro)
+strata(JDDmicro)<-data.frame(popu=pop(JDDmicro))
+#turning the data set to a genclon object
+JDDmicroClon<-as.genclone(JDDmicro)
+#missing data by pop and loci
+info_table(JDDmicro,plot=TRUE)
+
+#locus statistics
+locus_table(JDDmicro)
+
+
+##############################################################################/
+#MLG analysis####
+##############################################################################/
+
+JDDstra<-strata(JDDmicroClon) %>% 
+  group_by(popu) %>%
+  summarize(Count=n())
+
+# Plotting, First three arguments are necessary.
+treemap(dtf = JDDstra, index = nameStrata(JDDmicroClon), vSize = "Count",
+        type = "categorical", vColor = "popu", title = "Cercospora beticola")
+
+#genotypic diversity assessment
+JDDmicro_diversity<-poppr(JDDmicro)
+JDDmicro_diversity
+
+#creating clone corrected by population data set
+JDDmicroCC<-clonecorrect(JDDmicro,strata =~popu,)
+
+
+##############################################################################/
+#DAPC analysis####
+##############################################################################/
 
 #now we format the data set to analyse it with DAPC from the adegenet package
-JDDade<-JDDmicro
+JDDade<-JDDmicroCC
 #determination of the number of clusters
 clustJDDade<-find.clusters(JDDade,max.n.clust=30)
-#with 50 PCs, we lost nearly no information and after K=4, the decrease of 
-#the BIC value is smaller, so we chose the maximum number of clusters to be 4 
+#with 30 PCs, we lost nearly no information and after K=5, the decrease of 
+#the BIC value is smaller, so we chose the maximum number of clusters to be 5 
 #which individuals in which clusters per population
 table(pop(JDDade),clustJDDade$grp)
 #We try to optimize the number of principal component (PCs) to retain to 
 #perform the analysis
 dapcJDDade<-dapc(JDDade,clustJDDade$grp,n.da=5,n.pca=30)
 temp<-optim.a.score(dapcJDDade)
-dapcJDDade<-dapc(JDDade,clustJDDade$grp,n.da=4,n.pca=15)
+dapcJDDade<-dapc(JDDade,clustJDDade$grp,n.da=4,n.pca=10)
 temp<-optim.a.score(dapcJDDade)
-#we chose the to keep 8 PCs in order to avoid over fitting of the 
+#we chose the to keep 6 PCs in order to avoid over fitting of the 
 #model. Then we do the actual DAPC analysis
-dapcJDDade<-dapc(JDDade,clustJDDade$grp,n.da=4,n.pca=8)
+dapcJDDade<-dapc(JDDade,clustJDDade$grp,n.da=4,n.pca=6)
 #STRUCTURE-like graphic
 compoplot(dapcJDDade,lab=pop(JDDade),legend=FALSE,
           cex.names=0.3,cex.lab=0.5,cex.axis=0.5,col=coloor)
 #scatter plot
-scatter(dapcJDDade,xax=1, yax=2,col=coloor)
-scatter(dapcJDDade,xax=1, yax=3,col=coloor)
-scatter(dapcJDDade,xax=2, yax=3,col=coloor)
+scatter(dapcJDDade,xax=1,yax=2,cstar=1,cell=0,clab=0,main="K=3",
+        solid=0.3,col=coloor,pch=19,cex=3,
+        scree.da=FALSE,scree.pca=TRUE,posi.pca="bottomright")
+scatter(dapcJDDade,xax=2,yax=3,cstar=1,cell=0,clab=0,main="K=3",
+        solid=0.3,col=coloor,pch=19,cex=3,
+        scree.da=FALSE,scree.pca=TRUE,posi.pca="bottomleft")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #Run the 'find.clusters' and DAPC analysis for K=3 and 4
 set.seed(227)
 clustJDDade3<-find.clusters(JDDade,n.pca=50,n.clust=3)
-dapcJDDade3<-dapc(JDDade,clustJDDade3$grp,n.da=4,n.pca=12)
+dapcJDDade3<-dapc(JDDade,clustJDDade3$grp,n.da=4,n.pca=5)
 compoplot(dapcJDDade3,lab=pop(JDDade),legend=FALSE,
           cex.names=0.3,cex.lab=0.5,cex.axis=0.5,col=coloor)
 set.seed(355)
 clustJDDade4<-find.clusters(JDDade,n.pca=50,n.clust=4)
-dapcJDDade4<-dapc(JDDade,clustJDDade4$grp,n.da=4,n.pca=12)
+dapcJDDade4<-dapc(JDDade,clustJDDade4$grp,n.da=4,n.pca=5)
 compoplot(dapcJDDade4,lab=pop(JDDade),legend=FALSE,
           cex.names=0.3,cex.lab=0.5,cex.axis=0.5,col=coloor)
 

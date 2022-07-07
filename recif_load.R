@@ -12,11 +12,13 @@ library(factoextra)
 library(gdata)
 library(mapplots)
 library(plotrix)
+library(poppr)
 library(rgdal)
 library(rgeos)
 library(raster)
 library(RColorBrewer)
 library(tidyr)
+library(treemap)
 
 
 ##############################################################################/
