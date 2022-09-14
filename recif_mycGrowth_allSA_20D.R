@@ -138,13 +138,36 @@ panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...)
   text(0.5, 0.5, txt, cex = cex.cor * r)
 }
 
+#a function to plot the graph instead of using 'panel.smooth'
+panel.corplot<-function(x,y,col=par("col"),bg=NA,pch=par("pch"),
+                          cex=1,col.corplot=2)
+{
+  usr<-par("usr");on.exit(par(usr))
+  points(x,y,pch=pch,col=col,bg=bg,cex=cex)
+  ok <- is.finite(x) & is.finite(y)
+  if (any(ok))
+    reg<-lm(x[ok]~y[ok])
+  abline(reg,col=col.corplot)
+}
+
+panel.smooMod<-function(x,y,col=par("col"),bg=NA,pch=par("pch"), 
+          cex=1,col.smooth=2,span=2/3,iter=3,lwd=par("lwd"),...) 
+{
+  points(x,y,pch=pch,col=col,bg=bg,cex=cex)
+  ok<-is.finite(x) & is.finite(y)
+  if(any(ok)) 
+    lines(stats::lowess(x[ok],y[ok],f=span,iter=iter), 
+          col=col.smooth,lwd=lwd*2,...)
+}
+
+
 #all 13 active substance
 pairs(log(temp[,c(2:14)]),las=1,main="Correlation between ActSubst",
       lower.panel=panel.smooth, upper.panel=panel.cor)
 #export to pdf 13 x 11 inches
 #all 10 DMI active subsatnce
-pairs(log(temp[,c(2:4,7:13)]),las=1,main="Correlation between ActSubst",
-      lower.panel=panel.smooth, upper.panel=panel.cor)
+pairs(log(temp[,c(2:4,7:13)]),
+      lower.panel=panel.smooMod,upper.panel=panel.cor,las=1)
 #export to pdf 13 x 11 inches
 #only 4 widely investigated DMI
 pairs(log(temp[,c(3,8,11,13)]),las=1,main="Correlation between log(ActSubst)",
@@ -252,10 +275,10 @@ points(log(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"]),
      bg=cooloor[10],pch=21,cex=1,las=1,)
 points(log(temp[order(c(temp$TETRACONAZOLE)),"TETRACONAZOLE"]),
      bg=cooloor[11],pch=21,cex=1,las=1)
-legend(60,-1,legend=c("CYPROCONAZOLE","DIFENOCONAZOLE","EPOXICONAZOLE",
-                      "FLUTRIAFOL","MEFENTRIFLUCONAZOLE","METCONAZOLE",
-                      "PROCHLORAZE","PROTHIOCONAZOLE-DESTHIO","TEBUCONAZOLE",
-                      "TETRACONAZOLE"),
+legend(60,-1,legend=c("cyproconazole","difénoconazole","époxiconazole",
+                      "flutriafol","méfentrifluconazole","metconazole",
+                      "prochloraze","prothioconazole-desthio","tébuconazole",
+                      "tétraconazole"),
        cex=1,pt.cex=1.3,
        y.intersp=0.7,x.intersp=1.2,
        pch=c(15),
