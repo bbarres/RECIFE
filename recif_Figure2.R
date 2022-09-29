@@ -5,47 +5,46 @@
 ##############################################################################/
 
 ##loading the dataset and the necessary library
-CompRez<-read.table(file)
+CompRez<-read.table(file="output/ASA_results_cerco.txt",header=TRUE,
+                    sep="\t")
+CompRez$ED50<-as.character(CompRez$ED50)
+CompRez[CompRez$ED50==">10","ED50"]<-12
+CompRez[CompRez$ED50==">20","ED50"]<-22
+CompRez[CompRez$ED50==">50","ED50"]<-52
+CompRez$ED50<-as.numeric(as.character(CompRez$ED50))
+
 #define a color vector
 cooloor<-brewer.pal(12,"Set3")[c(1,2,3,5,6,7,8,9,10,11)]
-#preparing the dataset
-temp<-CompRez[,c(1,2,4)]
-temp<-spread(temp,Subs_Act,ED50)
+#preparing the dataset for cross active substance analyses
+multSA<-CompRez[,c(1,2,4)]
+multSA<-spread(multSA,Subs_Act,ED50)
+row.names(multSA)<-multSA$sample_ID
+#we remove active substance that don't have enough information fenpropidine
+#fluopyram and tolnaftate
+multSA<-multSA[,-c(1,5,6,14)]
+colnames(multSA)<-c("cyproconazole","difénoconazole","époxiconazole",
+                    "flutriafol","méfentrifluconazole","metconazole",
+                    "prochloraze","prothioconazole-desthio","tébuconazole",
+                    "tétraconazole")
+
 
 ##############################################################################/
 #Regression analysis of mycelial growth experiment scoring 20 or 21 days####
 ##############################################################################/
 
-
-
-
-#same plot but combine on one figure and with log(EC50)
-plot(temp[order(c(temp$CYPROCONAZOLE)),"CYPROCONAZOLE"],
+#ordered distribution of the EC50 of strains for the different active
+#substances
+plot(multSA[order(c(multSA[,1])),c(1)],
      main="EC50 distribution",bg=cooloor[1],pch=21,cex=2,las=1,
-     ylab="EC50",xlab="",ylim=c(0,52))
-points(temp[order(c(temp$DIFENOCONAZOLE)),"DIFENOCONAZOLE"],
-       bg=cooloor[2],pch=21,cex=2,las=1)
-points(temp[order(c(temp$EPOXICONAZOLE)),"EPOXICONAZOLE"],
-       bg=cooloor[3],pch=21,cex=2,las=1)
-points(temp[order(c(temp$FLUTRIAFOL)),"FLUTRIAFOL"],
-       bg=cooloor[4],pch=21,cex=2,las=1)
-points(temp[order(c(temp$MEFENTRIFLUCONAZOLE)),"MEFENTRIFLUCONAZOLE"],
-       bg=cooloor[5],pch=21,cex=2,las=1)
-points(temp[order(c(temp$METCONAZOLE)),"METCONAZOLE"],
-       bg=cooloor[6],pch=21,cex=2,las=1)
-points(temp[order(c(temp$PROCHLORAZE)),"PROCHLORAZE"],
-       bg=cooloor[7],pch=21,cex=2,las=1)
-points(temp[order(c(temp$`PROTHIOCONAZOLE-DESTHIO`)),
-                "PROTHIOCONAZOLE-DESTHIO"],
-       bg=cooloor[8],pch=21,cex=2,las=1)
-points(temp[order(c(temp$TEBUCONAZOLE)),"TEBUCONAZOLE"],
-       bg=cooloor[9],pch=21,cex=2,las=1,)
-points(temp[order(c(temp$TETRACONAZOLE)),"TETRACONAZOLE"],
-       bg=cooloor[10],pch=21,cex=2,las=1)
-legend(0,55,legend=c("cyproconazole","difénoconazole","époxiconazole",
-                      "flutriafol","méfentrifluconazole","metconazole",
-                      "prochloraze","prothioconazole-desthio","tébuconazole",
-                      "tétraconazole"),
+     ylab="EC50",xlab="",
+     ylim=c(min(multSA,na.rm=TRUE),max(multSA,na.rm=TRUE)+10),log="y")
+for (i in 2:10) {
+  points(multSA[order(c(multSA[,i])),c(i)],
+         bg=cooloor[i],pch=21,cex=2,las=1)
+  
+}
+
+legend(70,0.4,legend=colnames(multSA),
        cex=1,pt.cex=1.3,
        y.intersp=0.7,x.intersp=0.9,
        pch=c(15),
@@ -53,7 +52,14 @@ legend(0,55,legend=c("cyproconazole","difénoconazole","époxiconazole",
        bty="n")
 #export to .pdf 8 x 7 inches
 
-
+#boxplot of the EC50 for the different active substances
+vioplot(multSA,wex=0.7,col=cooloor,las=1)
+stripchart(multSA,cex=0.9,frame=FALSE,yaxt='n',xaxt='n',method="jitter",
+           offset=1,add=TRUE,vertical=TRUE,pch=21,
+           col=adjustcolor("black",alpha=0.5),jitter=0.25)
+points(apply(multSA,MARGIN=2,FUN=mean,na.rm=TRUE),
+       pch=17,cex=1.5,col="red",bg=cooloor,font=2)
+#export to .pdf 8 x 7 inches
 
 #a function to compute the absolute correlation between pairs of variables
 panel.cor<-function(x, y, digits=2, prefix="", cex.cor, ...)
@@ -99,7 +105,7 @@ diag_custom_labels<-function(labels) {
 }
 
 
-pairs(log(temp[,c(2:4,7:13)]),
+pairs(log(multSA),
       text.panel=diag_custom_labels(c(CYPROCONAZOLE="cyproconazole",
                                       DIFENOCONAZOLE="difénoconazole",
                                       "époxiconazole",
@@ -110,7 +116,7 @@ pairs(log(temp[,c(2:4,7:13)]),
 
 
 
-
+https://stackoverflow.com/questions/31851537/set-backgroud-color-of-a-panel-in-pairs-function-call
 
 ##############################################################################/
 #END
