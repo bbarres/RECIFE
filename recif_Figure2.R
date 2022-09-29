@@ -35,6 +35,16 @@ colnames(multSA)<-c("cyproconazole","difénoconazole","époxiconazole",
 #Regression analysis of mycelial growth experiment scoring 20 or 21 days####
 ##############################################################################/
 
+#dividing the layout
+nf<-layout(matrix(c(1,1,1,1,
+                    1,1,1,1,
+                    1,1,1,1,
+                    2,2,2,2,
+                    3,3,4,4,
+                    3,3,4,4),6,4,byrow=TRUE))
+
+pairs(multSA)
+
 #ordered distribution of the EC50 of strains for the different active
 #substances
 plot(multSA[order(c(multSA[,1])),c(1)],
