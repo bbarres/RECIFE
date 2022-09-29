@@ -5,6 +5,9 @@
 ##############################################################################/
 
 ##loading the dataset and the necessary library
+source("recif_load.R")
+
+##loading the dataset and the necessary library
 CompRez<-read.table(file="output/ASA_results_cerco.txt",header=TRUE,
                     sep="\t")
 CompRez$ED50<-as.character(CompRez$ED50)
@@ -53,12 +56,18 @@ legend(70,0.4,legend=colnames(multSA),
 #export to .pdf 8 x 7 inches
 
 #boxplot of the EC50 for the different active substances
-vioplot(multSA,wex=0.7,col=cooloor,las=1)
+vioplot(multSA,wex=0.7,col=cooloor,las=1,xaxt="n",yaxt="n",
+        frame.plot=FALSE)
 stripchart(multSA,cex=0.9,frame=FALSE,yaxt='n',xaxt='n',method="jitter",
            offset=1,add=TRUE,vertical=TRUE,pch=21,
            col=adjustcolor("black",alpha=0.5),jitter=0.25)
 points(apply(multSA,MARGIN=2,FUN=mean,na.rm=TRUE),
        pch=17,cex=1.5,col="red",bg=cooloor,font=2)
+axis(1,lwd=2,at=c(1:10),labels=NA)
+text(labels=colnames(multSA),x=1:10,y=rep(-4,10),cex=0.9,font=2,
+     srt=-25,xpd=TRUE,adj=0)
+axis(2,lwd=2,las=1,font=2)
+box(bty="o",lwd=2)
 #export to .pdf 8 x 7 inches
 
 #a function to compute the absolute correlation between pairs of variables
