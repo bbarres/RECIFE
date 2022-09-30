@@ -63,11 +63,11 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
 points(
-  x = as.numeric(oldprod$gps_long),
-  y = as.numeric(oldprod$gps_lat),
-  bg = as.character(oldprod$catgerm),  #colors of the points
-  pch = oldprod$year,                  #plotting character
-  cex = 2                              #size of the points
+  x=as.numeric(oldprod$gps_long),
+  y=as.numeric(oldprod$gps_lat),
+  bg=as.character(oldprod$catgerm),  #colors of the points
+  pch=oldprod$year,                  #plotting character
+  cex=2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
@@ -153,11 +153,11 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
 points(
-  x = as.numeric(oldprod$gps_long),
-  y = as.numeric(oldprod$gps_lat),
-  bg = as.character(oldprod$catgerm),  #colors of the points
-  pch = oldprod$year,                  #plotting character
-  cex = 2                              #size of the points
+  x=as.numeric(oldprod$gps_long),
+  y=as.numeric(oldprod$gps_lat),
+  bg=as.character(oldprod$catgerm),  #colors of the points
+  pch=oldprod$year,                  #plotting character
+  cex=2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
@@ -244,11 +244,11 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
 points(
-  x = as.numeric(oldprod$gps_long),
-  y = as.numeric(oldprod$gps_lat),
-  bg = as.character(oldprod$catgerm),  #colors of the points
-  pch = oldprod$year,                  #plotting character
-  cex = 2                              #size of the points
+  x=as.numeric(oldprod$gps_long),
+  y=as.numeric(oldprod$gps_lat),
+  bg=as.character(oldprod$catgerm),  #colors of the points
+  pch=oldprod$year,                  #plotting character
+  cex=2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
@@ -335,11 +335,11 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
 points(
-  x = as.numeric(oldprod$gps_long),
-  y = as.numeric(oldprod$gps_lat),
-  bg = as.character(oldprod$catgerm),  #colors of the points
-  pch = oldprod$year,                  #plotting character
-  cex = 2                              #size of the points
+  x=as.numeric(oldprod$gps_long),
+  y=as.numeric(oldprod$gps_lat),
+  bg=as.character(oldprod$catgerm),  #colors of the points
+  pch=oldprod$year,                  #plotting character
+  cex=2                              #size of the points
 )
 
 legend(110000,7150000,title="Germination\nclasses",
@@ -449,20 +449,20 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.2,main="",border="grey70")
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
-  x = as.numeric(newprod$gps_long),
-  y = as.numeric(newprod$gps_lat),
-  z = cbind(
+  x=as.numeric(newprod$gps_long),
+  y=as.numeric(newprod$gps_lat),
+  z=cbind(
     as.numeric(newprod$FR.30),
     as.numeric(newprod$FR30.100),
     as.numeric(newprod$FR.100)
   ),
-  col = colovec,         #colors of the pie
-  lty = 1,               #line type of the pie
-  border = "transparent",     #color of the border of the pie
-  lwd = 0.01,             #control the width of the border
-  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  col=colovec,         #colors of the pie
+  lty=1,               #line type of the pie
+  border="transparent",     #color of the border of the pie
+  lwd=0.01,             #control the width of the border
+  radius=5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
-  labels = NA,
+  labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
 legend(467000,7100000,title="Classes de facteur\nde résistance",
@@ -526,20 +526,20 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.2,main="",border="grey70")
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
-  x = as.numeric(newprod$gps_long),
-  y = as.numeric(newprod$gps_lat),
-  z = cbind(
+  x=as.numeric(newprod$gps_long),
+  y=as.numeric(newprod$gps_lat),
+  z=cbind(
     as.numeric(newprod$FR.30),
     as.numeric(newprod$FR30.100),
     as.numeric(newprod$FR.100)
   ),
-  col = colovec,         #colors of the pie
-  lty = 1,               #line type of the pie
-  border = "transparent",     #color of the border of the pie
-  lwd = 0.01,             #control the width of the border
-  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  col=colovec,         #colors of the pie
+  lty=1,               #line type of the pie
+  border="transparent",     #color of the border of the pie
+  lwd=0.01,             #control the width of the border
+  radius=5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
-  labels = NA,
+  labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
 legend(467000,7100000,title="Classes de facteur\nde résistance",
@@ -603,20 +603,20 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.2,main="",border="grey70")
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
-  x = as.numeric(newprod$gps_long),
-  y = as.numeric(newprod$gps_lat),
-  z = cbind(
+  x=as.numeric(newprod$gps_long),
+  y=as.numeric(newprod$gps_lat),
+  z=cbind(
     as.numeric(newprod$FR.30),
     as.numeric(newprod$FR30.100),
     as.numeric(newprod$FR.100)
   ),
-  col = colovec,         #colors of the pie
-  lty = 1,               #line type of the pie
-  border = "transparent",     #color of the border of the pie
-  lwd = 0.01,             #control the width of the border
-  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  col=colovec,         #colors of the pie
+  lty=1,               #line type of the pie
+  border="transparent",     #color of the border of the pie
+  lwd=0.01,             #control the width of the border
+  radius=5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
-  labels = NA,
+  labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
 legend(467000,7100000,title="Classes de facteur\nde résistance",
@@ -680,20 +680,20 @@ op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.2,main="",border="grey70")
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
-  x = as.numeric(newprod$gps_long),
-  y = as.numeric(newprod$gps_lat),
-  z = cbind(
+  x=as.numeric(newprod$gps_long),
+  y=as.numeric(newprod$gps_lat),
+  z=cbind(
     as.numeric(newprod$FR.30),
     as.numeric(newprod$FR30.100),
     as.numeric(newprod$FR.100)
   ),
-  col = colovec,         #colors of the pie
-  lty = 1,               #line type of the pie
-  border = "transparent",     #color of the border of the pie
-  lwd = 0.01,             #control the width of the border
-  radius = 5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
+  col=colovec,         #colors of the pie
+  lty=1,               #line type of the pie
+  border="transparent",     #color of the border of the pie
+  lwd=0.01,             #control the width of the border
+  radius=5000, #(sqrt(as.numeric(as.character(data2map$Total))) * 16000), 
   #this number control the radius of the pies
-  labels = NA,
+  labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
 legend(467000,7100000,title="Classes de facteur\nde résistance",
