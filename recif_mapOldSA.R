@@ -69,32 +69,35 @@ legend(160000,7150000,title="classe de fréquence\nde résistance",
        pch=15,title.adj=0.3,
        col=as.character(levels(oldprod$catgerm)),
        bg="transparent",bty="n")
-legend(350000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+legend(360000,7150000,legend=c("2019","2020"),cex=1.2,pt.cex=1.6,
        y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
-text(125500,7150000,labels="A",cex=3,font=2)
+text(123000,7150000,labels="A",cex=3,font=2)
 par(op)
 
 #distribution of the % of germination at the DD
-op<-par(mar=c(4.1,5.1,0,2.1))
+op<-par(mar=c(4.1,6.1,0,2.1))
 plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
      bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
      pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
-     cex=1.5,las=1,ylim=c(0,100),
+     cex=1.5,las=1,ylim=c(0,100),cex.axis=1.5,cex.lab=1.3,
      ylab="% résistance",xlab="population",
      main="",frame=FALSE)
 box(bty="l")
 abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
        col="red",lty=2,lwd=3)
+mtext(text="B",side=3,cex=2,at=0,font=2,las=0,adj=3,line=1)
 par(op)
 
 #histogram of the distribution of the % of germination
-op<-par(mar=c(5.1,5.1,3.1,2.1))
+op<-par(mar=c(5.1,6.1,3.1,2.1))
 hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
-     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),cex.lab=1.5,
      col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
+     cex.axis=1.3,
      xlab="classe de fréquence de résistance",ylab="% résistance")
 box(bty="l")
+mtext(text="C",side=3,cex=2,at=0,font=2,las=0,adj=3,line=1)
 par(op)
 
 #boxplot for the resistant populations
@@ -105,7 +108,7 @@ boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
         #            length(oldprod$rslt_03[oldprod$rslt_03!=0]),
         #            "/",
         #            length(oldprod$rslt_03),")",sep=""),
-        ylab="% résistance",frame=FALSE)
+        ylab="% résistance",frame=FALSE,cex.axis=1.3,cex.lab=1.5)
 box(bty="l")
 abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
        col="red",lty=2,lwd=3)
