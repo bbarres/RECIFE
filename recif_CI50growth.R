@@ -74,6 +74,18 @@ write.table(CompRez, file="output/ASA_results_cerco.txt",
             sep="\t",quote=FALSE,row.names=FALSE)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 ##############################################################################/
 #barplot to compare the ED50 of the different samples####
 ##############################################################################/
