@@ -41,13 +41,14 @@ colovec<-c(
 #limiting the data set to mefentrifluconazole
 newprod<-newSA[newSA$pest_sa_id=="MEFENTRIFLUCONAZOLE",]
 
+pdf(file="output/map_mefentriflu.pdf",width=10,height=7)
 #actual plotting
 nf<-layout(matrix(c(1,1,1,2,
                     1,1,1,2,
                     1,1,1,3,
                     1,1,1,3),4,4,byrow=TRUE))
-op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.2,main="",border="grey70")
+op<-par(mar=c(0,0,3.1,0))
+plot(DEP_SHP.2,main="méfentrifluconazole",border="grey70",cex.main=3)
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x=as.numeric(newprod$gps_long),
@@ -66,13 +67,14 @@ draw.pie(
   labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
-legend(467000,7100000,title="Classes de facteur\nde résistance",
+legend(467000,7080000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
        cex=1.8,pt.cex=3.5,
-       y.intersp=0.9,x.intersp=0.8,
+       y.intersp=1.1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
+text(455000,7130000,labels="B",cex=6,font=2,xpd=TRUE)
 par(op)
 
 op<-par(mar=c(2.1,0,0,0))
@@ -108,6 +110,7 @@ stripchart(list(
   method="jitter",jitter=0.1,add=TRUE)
 par(op)
 #export to .pdf 10 x 7 inches
+dev.off()
 
 
 ##############################################################################/
@@ -117,13 +120,14 @@ par(op)
 #limiting the data set to mefentrifluconazole
 newprod<-newSA[newSA$pest_sa_id=="TETRACONAZOLE",]
 
+pdf(file="output/map_tetracona.pdf",width=10,height=7)
 #actual plotting
 nf<-layout(matrix(c(1,1,1,2,
                     1,1,1,2,
                     1,1,1,3,
                     1,1,1,3),4,4,byrow=TRUE))
-op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.2,main="",border="grey70")
+op<-par(mar=c(0,0,3.1,0))
+plot(DEP_SHP.2,main="tétraconazole",border="grey70",cex.main=3)
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x=as.numeric(newprod$gps_long),
@@ -142,13 +146,14 @@ draw.pie(
   labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
-legend(467000,7100000,title="Classes de facteur\nde résistance",
+legend(467000,7080000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
        cex=1.8,pt.cex=3.5,
-       y.intersp=0.9,x.intersp=0.8,
+       y.intersp=1.1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
+text(455000,7130000,labels="D",cex=6,font=2,xpd=TRUE)
 par(op)
 
 op<-par(mar=c(2.1,0,0,0))
@@ -183,8 +188,8 @@ stripchart(list(
   col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
   method="jitter",jitter=0.1,add=TRUE)
 par(op)
-
 #export to .pdf 10 x 7 inches
+dev.off()
 
 
 ##############################################################################/
@@ -194,13 +199,14 @@ par(op)
 #limiting the data set to mefentrifluconazole
 newprod<-newSA[newSA$pest_sa_id=="DIFENOCONAZOLE",]
 
+pdf(file="output/map_difenocona.pdf",width=10,height=7)
 #actual plotting
 nf<-layout(matrix(c(1,1,1,2,
                     1,1,1,2,
                     1,1,1,3,
                     1,1,1,3),4,4,byrow=TRUE))
-op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.2,main="",border="grey70")
+op<-par(mar=c(0,0,3.1,0))
+plot(DEP_SHP.2,main="difénoconazole",border="grey70",cex.main=3)
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x=as.numeric(newprod$gps_long),
@@ -219,13 +225,14 @@ draw.pie(
   labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
-legend(467000,7100000,title="Classes de facteur\nde résistance",
+legend(467000,7080000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
        cex=1.8,pt.cex=3.5,
-       y.intersp=0.9,x.intersp=0.8,
+       y.intersp=1.1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
+text(455000,7130000,labels="A",cex=6,font=2,xpd=TRUE)
 par(op)
 
 op<-par(mar=c(2.1,0,0,0))
@@ -260,8 +267,8 @@ stripchart(list(
   col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
   method="jitter",jitter=0.1,add=TRUE)
 par(op)
-
 #export to .pdf 10 x 7 inches
+dev.off()
 
 
 ##############################################################################/
@@ -271,13 +278,14 @@ par(op)
 #limiting the data set to mefentrifluconazole
 newprod<-newSA[newSA$pest_sa_id=="PROTHIOCONAZOLE-DESTHIO",]
 
+pdf(file="output/map_prothiodesth.pdf",width=10,height=7)
 #actual plotting
 nf<-layout(matrix(c(1,1,1,2,
                     1,1,1,2,
                     1,1,1,3,
                     1,1,1,3),4,4,byrow=TRUE))
-op<-par(mar=c(0,0,0,0))
-plot(DEP_SHP.2,main="",border="grey70")
+op<-par(mar=c(0,0,3.1,0))
+plot(DEP_SHP.2,main="prothioconazole-desthio",border="grey70",cex.main=3)
 plot(REG_SHP.2,lwd=2,add=TRUE)
 draw.pie(
   x=as.numeric(newprod$gps_long),
@@ -296,13 +304,14 @@ draw.pie(
   labels=NA,
   scale=FALSE # should the radius be scaled according to sample size
 )
-legend(467000,7100000,title="Classes de facteur\nde résistance",
+legend(467000,7080000,title="Classes de facteur\nde résistance",
        legend=c("FR<30","30<FR<100","100<FR"),
        cex=1.8,pt.cex=3.5,
-       y.intersp=0.9,x.intersp=0.8,
+       y.intersp=1.1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=colovec,
        bg="transparent",bty="n")
+text(455000,7130000,labels="C",cex=6,font=2,xpd=TRUE)
 par(op)
 
 op<-par(mar=c(2.1,0,0,0))
@@ -338,6 +347,7 @@ stripchart(list(
   method="jitter",jitter=0.1,add=TRUE)
 par(op)
 #export to .pdf 10 x 7 inches
+dev.off()
 
 
 ##############################################################################/
