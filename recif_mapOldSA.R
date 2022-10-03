@@ -45,6 +45,7 @@ levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
 #defining sampling year
 oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
 
+pdf(file="output/map_fentineHydrox.pdf",width=7,height=10)
 #actual plotting
 nf<-layout(matrix(c(1,1,1,1,
                     1,1,1,1,
@@ -62,63 +63,72 @@ points(
   pch=oldprod$year,                  #plotting character
   cex=2                              #size of the points
 )
-
 legend(160000,7150000,title="classe de fréquence\nde résistance",
        legend=nomCat,cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+       y.intersp=1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=as.character(levels(oldprod$catgerm)),
        bg="transparent",bty="n")
-legend(360000,7150000,legend=c("2019","2020"),cex=1.2,pt.cex=1.6,
-       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+legend(360000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=1,x.intersp=0.8,title="année",title.adj=0.3,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
 text(123000,7150000,labels="A",cex=3,font=2)
 par(op)
 
 #distribution of the % of germination at the DD
-op<-par(mar=c(4.1,6.1,0,2.1))
+op<-par(mar=c(5.1,6.1,0,2.1))
 plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
      bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
      pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
-     cex=1.5,las=1,ylim=c(0,100),cex.axis=1.5,cex.lab=1.3,
-     ylab="% résistance",xlab="population",
+     cex=1.5,las=1,ylim=c(0,100),cex.axis=1.3,cex.lab=1.5,
+     ylab="",xlab="population",
      main="",frame=FALSE)
 box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+abline(h=mean(as.numeric(oldprod$rslt_03)),
        col="red",lty=2,lwd=3)
-mtext(text="B",side=3,cex=2,at=0,font=2,las=0,adj=3,line=1)
+mtext(text="B",side=3,cex=2,at=0,font=2,las=0,adj=3.55,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
 par(op)
 
 #histogram of the distribution of the % of germination
-op<-par(mar=c(5.1,6.1,3.1,2.1))
+op<-par(mar=c(5.1,6.1,3.1,5.1))
 hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
      breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),cex.lab=1.5,
      col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
      cex.axis=1.3,
-     xlab="classe de fréquence de résistance",ylab="% résistance")
+     xlab="classe de fréquence de résistance",ylab="")
 box(bty="l")
-mtext(text="C",side=3,cex=2,at=0,font=2,las=0,adj=3,line=1)
+mtext(text="C",side=3,cex=2,at=0,font=2,las=0,adj=3.45,line=1)
+mtext(text="fréquence",side=2,cex=1,font=2,line=4)
 par(op)
 
 #boxplot for the resistant populations
 op<-par(mar=c(5.1,4.1,3.1,2.1))
-boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+boxplot(as.numeric(oldprod$rslt_03),
         boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
         # main=paste("Germination des résistants\n(n=",
         #            length(oldprod$rslt_03[oldprod$rslt_03!=0]),
         #            "/",
         #            length(oldprod$rslt_03),")",sep=""),
-        ylab="% résistance",frame=FALSE,cex.axis=1.3,cex.lab=1.5)
+        ylab="",frame=FALSE,cex.axis=1.3,cex.lab=1.5)
 box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+abline(h=mean(as.numeric(oldprod$rslt_03)),
        col="red",lty=2,lwd=3)
-stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
+stripchart(as.numeric(oldprod$rslt_03),
            cex=1,pch=19,
            col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
            method="jitter",jitter=0.1,add=TRUE)
+mtext(text="D",side=3,cex=2,at=0,font=2,las=0,adj=2,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
 par(op)
-
 #export to a pdf file 10 x 7 inches
+dev.off()
+
+min(as.numeric(oldprod$rslt_03))
+max(as.numeric(oldprod$rslt_03))
+mean(as.numeric(oldprod$rslt_03))
+median(as.numeric(oldprod$rslt_03))
+length(as.numeric(oldprod$rslt_03))
 
 
 ##############################################################################/
@@ -141,11 +151,14 @@ levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
 #defining sampling year
 oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
 
+pdf(file="output/map_carbendaz.pdf",width=7,height=10)
 #actual plotting
-nf<-layout(matrix(c(1,1,1,2,
-                    1,1,1,2,
-                    1,1,1,3,
-                    4,4,4,3),4,4,byrow=TRUE))
+nf<-layout(matrix(c(1,1,1,1,
+                    1,1,1,1,
+                    1,1,1,1,
+                    2,2,2,2,
+                    3,3,3,4,
+                    3,3,3,4),6,4,byrow=TRUE))
 op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
@@ -156,59 +169,72 @@ points(
   pch=oldprod$year,                  #plotting character
   cex=2                              #size of the points
 )
-
-legend(110000,7150000,title="Germination\nclasses",
+legend(160000,7150000,title="classe de fréquence\nde résistance",
        legend=nomCat,cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+       y.intersp=1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=as.character(levels(oldprod$catgerm)),
        bg="transparent",bty="n")
-legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
-       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+legend(360000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=1,x.intersp=0.8,title="année",title.adj=0.3,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
-par(op)
-
-#histogram of the distribution of the % of germination
-op<-par(mar=c(6.1,4.1,2.1,2.1))
-hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
-     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
-     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
-     xlab="Germination classes",ylab="Pourcentage")
-box(bty="l")
-par(op)
-
-#boxplot for the resistant populations
-op<-par(mar=c(3.1,4.1,4.1,2.1))
-boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
-        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
-        main=paste("Germination des résistants\n(n=",
-                   length(oldprod$rslt_03[oldprod$rslt_03!=0]),
-                   "/",
-                   length(oldprod$rslt_03),")",sep=""),
-        ylab="% germination",frame=FALSE)
-box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
-       col="red",lty=2,lwd=3)
-stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
-           cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
-           method="jitter",jitter=0.1,add=TRUE)
+text(123000,7150000,labels="A",cex=3,font=2)
 par(op)
 
 #distribution of the % of germination at the DD
-op<-par(mar=c(3.1,6.1,0,2.1))
+op<-par(mar=c(5.1,6.1,0,2.1))
 plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
      bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
      pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
-     cex=1.5,las=1,ylim=c(0,100),
-     ylab="% germination",xlab="",
+     cex=1.5,las=1,ylim=c(0,100),cex.axis=1.3,cex.lab=1.5,
+     ylab="",xlab="population",
      main="",frame=FALSE)
 box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+abline(h=mean(as.numeric(oldprod$rslt_03)),
        col="red",lty=2,lwd=3)
+mtext(text="B",side=3,cex=2,at=0,font=2,las=0,adj=3.55,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
 par(op)
 
+#histogram of the distribution of the % of germination
+op<-par(mar=c(5.1,6.1,3.1,5.1))
+hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),cex.lab=1.5,
+     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
+     cex.axis=1.3,
+     xlab="classe de fréquence de résistance",ylab="")
+box(bty="l")
+mtext(text="C",side=3,cex=2,at=0,font=2,las=0,adj=3.45,line=1)
+mtext(text="fréquence",side=2,cex=1,font=2,line=4)
+par(op)
+
+#boxplot for the resistant populations
+op<-par(mar=c(5.1,4.1,3.1,2.1))
+boxplot(as.numeric(oldprod$rslt_03),
+        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
+        # main=paste("Germination des résistants\n(n=",
+        #            length(oldprod$rslt_03[oldprod$rslt_03!=0]),
+        #            "/",
+        #            length(oldprod$rslt_03),")",sep=""),
+        ylab="",frame=FALSE,cex.axis=1.3,cex.lab=1.5)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03)),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(oldprod$rslt_03),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+mtext(text="D",side=3,cex=2,at=0,font=2,las=0,adj=2,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
+par(op)
 #export to a pdf file 10 x 7 inches
+dev.off()
+
+min(as.numeric(oldprod$rslt_03))
+max(as.numeric(oldprod$rslt_03))
+mean(as.numeric(oldprod$rslt_03))
+median(as.numeric(oldprod$rslt_03))
+length(as.numeric(oldprod$rslt_03))
 
 
 ##############################################################################/
@@ -232,11 +258,14 @@ levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
 #defining sampling year
 oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
 
+pdf(file="output/map_azoxyTot.pdf",width=7,height=10)
 #actual plotting
-nf<-layout(matrix(c(1,1,1,2,
-                    1,1,1,2,
-                    1,1,1,3,
-                    4,4,4,3),4,4,byrow=TRUE))
+nf<-layout(matrix(c(1,1,1,1,
+                    1,1,1,1,
+                    1,1,1,1,
+                    2,2,2,2,
+                    3,3,3,4,
+                    3,3,3,4),6,4,byrow=TRUE))
 op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
@@ -247,59 +276,72 @@ points(
   pch=oldprod$year,                  #plotting character
   cex=2                              #size of the points
 )
-
-legend(110000,7150000,title="Germination\nclasses",
+legend(160000,7150000,title="classe de fréquence\nde résistance",
        legend=nomCat,cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+       y.intersp=1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=as.character(levels(oldprod$catgerm)),
        bg="transparent",bty="n")
-legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
-       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+legend(360000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=1,x.intersp=0.8,title="année",title.adj=0.3,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
-par(op)
-
-#histogram of the distribution of the % of germination
-op<-par(mar=c(6.1,4.1,2.1,2.1))
-hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
-     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
-     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
-     xlab="Germination classes",ylab="Pourcentage")
-box(bty="l")
-par(op)
-
-#boxplot for the resistant populations
-op<-par(mar=c(3.1,4.1,4.1,2.1))
-boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
-        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
-        main=paste("Germination des résistants\n(n=",
-                   length(oldprod$rslt_03[oldprod$rslt_03!=0]),
-                   "/",
-                   length(oldprod$rslt_03),")",sep=""),
-        ylab="% germination",frame=FALSE)
-box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
-       col="red",lty=2,lwd=3)
-stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
-           cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
-           method="jitter",jitter=0.1,add=TRUE)
+text(123000,7150000,labels="A",cex=3,font=2)
 par(op)
 
 #distribution of the % of germination at the DD
-op<-par(mar=c(3.1,6.1,0,2.1))
+op<-par(mar=c(5.1,6.1,0,2.1))
 plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
      bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
      pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
-     cex=1.5,las=1,ylim=c(0,100),
-     ylab="% germination",xlab="",
+     cex=1.5,las=1,ylim=c(0,100),cex.axis=1.3,cex.lab=1.5,
+     ylab="",xlab="population",
      main="",frame=FALSE)
 box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+abline(h=mean(as.numeric(oldprod$rslt_03)),
        col="red",lty=2,lwd=3)
+mtext(text="B",side=3,cex=2,at=0,font=2,las=0,adj=3.55,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
 par(op)
 
+#histogram of the distribution of the % of germination
+op<-par(mar=c(5.1,6.1,3.1,5.1))
+hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),cex.lab=1.5,
+     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))],
+     cex.axis=1.3,
+     xlab="classe de fréquence de résistance",ylab="")
+box(bty="l")
+mtext(text="C",side=3,cex=2,at=0,font=2,las=0,adj=3.45,line=1)
+mtext(text="fréquence",side=2,cex=1,font=2,line=4)
+par(op)
+
+#boxplot for the resistant populations
+op<-par(mar=c(5.1,4.1,3.1,2.1))
+boxplot(as.numeric(oldprod$rslt_03),
+        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
+        # main=paste("Germination des résistants\n(n=",
+        #            length(oldprod$rslt_03[oldprod$rslt_03!=0]),
+        #            "/",
+        #            length(oldprod$rslt_03),")",sep=""),
+        ylab="",frame=FALSE,cex.axis=1.3,cex.lab=1.5)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03)),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(oldprod$rslt_03),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+mtext(text="D",side=3,cex=2,at=0,font=2,las=0,adj=2,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
+par(op)
 #export to a pdf file 10 x 7 inches
+dev.off()
+
+min(as.numeric(oldprod$rslt_03))
+max(as.numeric(oldprod$rslt_03))
+mean(as.numeric(oldprod$rslt_03))
+median(as.numeric(oldprod$rslt_03))
+length(as.numeric(oldprod$rslt_03))
 
 
 ##############################################################################/
@@ -323,11 +365,13 @@ levels(oldprod$catgerm)<-brewer.pal(11,"RdYlGn")[8:1]
 #defining sampling year
 oldprod$year<-as.numeric(substr(oldprod$prelvt_id,1,2))+2
 
-#actual plotting
-nf<-layout(matrix(c(1,1,1,2,
-                    1,1,1,2,
-                    1,1,1,3,
-                    4,4,4,3),4,4,byrow=TRUE))
+pdf(file="output/map_azoxyCib.pdf",width=7,height=10)
+nf<-layout(matrix(c(1,1,1,1,
+                    1,1,1,1,
+                    1,1,1,1,
+                    2,2,2,2,
+                    3,3,3,4,
+                    3,3,3,4),6,4,byrow=TRUE))
 op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
@@ -338,59 +382,72 @@ points(
   pch=oldprod$year,                  #plotting character
   cex=2                              #size of the points
 )
-
-legend(110000,7150000,title="Germination\nclasses",
+legend(160000,7150000,title="classe de fréquence\nde résistance",
        legend=nomCat,cex=1,pt.cex=1.8,
-       y.intersp=0.7,x.intersp=0.8,
+       y.intersp=1,x.intersp=0.8,
        pch=15,title.adj=0.3,
        col=as.character(levels(oldprod$catgerm)),
        bg="transparent",bty="n")
-legend(280000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
-       y.intersp=0.7,x.intersp=0.8,title="Année",title.adj=0.3,
+legend(360000,7150000,legend=c("2019","2020"),cex=1,pt.cex=1.6,
+       y.intersp=1,x.intersp=0.8,title="année",title.adj=0.3,
        pch=c(21,22),col=c("black"),bg="transparent",bty="n")
-par(op)
-
-#histogram of the distribution of the % of germination
-op<-par(mar=c(6.1,4.1,2.1,2.1))
-hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
-     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),
-     col=brewer.pal(11,"RdYlGn")[c(3,3,2,2,rep(1,10))],
-     xlab="Germination classes",ylab="Pourcentage")
-box(bty="l")
-par(op)
-
-#boxplot for the resistant populations
-op<-par(mar=c(3.1,4.1,4.1,2.1))
-boxplot(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
-        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
-        main=paste("Germination des résistants\n(n=",
-                   length(oldprod$rslt_03[oldprod$rslt_03!=0]),
-                   "/",
-                   length(oldprod$rslt_03),")",sep=""),
-        ylab="% germination",frame=FALSE)
-box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
-       col="red",lty=2,lwd=3)
-stripchart(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0]),
-           cex=1,pch=19,
-           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
-           method="jitter",jitter=0.1,add=TRUE)
+text(123000,7150000,labels="A",cex=3,font=2)
 par(op)
 
 #distribution of the % of germination at the DD
-op<-par(mar=c(3.1,6.1,0,2.1))
+op<-par(mar=c(5.1,6.1,0,2.1))
 plot(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
      bg=as.character(oldprod$catgerm[order(as.numeric(oldprod$rslt_03))]),
      pch=oldprod$year[order(as.numeric(oldprod$rslt_03))],
-     cex=1.5,las=1,ylim=c(0,100),
-     ylab="% germination",xlab="",
+     cex=1.5,las=1,ylim=c(0,100),cex.axis=1.3,cex.lab=1.5,
+     ylab="",xlab="population",
      main="",frame=FALSE)
 box(bty="l")
-abline(h=mean(as.numeric(oldprod$rslt_03[oldprod$rslt_03!=0])),
+abline(h=mean(as.numeric(oldprod$rslt_03)),
        col="red",lty=2,lwd=3)
+mtext(text="B",side=3,cex=2,at=0,font=2,las=0,adj=3.55,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
 par(op)
 
+#histogram of the distribution of the % of germination
+op<-par(mar=c(5.1,6.1,3.1,5.1))
+hist(as.numeric(oldprod$rslt_03[order(as.numeric(oldprod$rslt_03))]),
+     breaks=20,bty="l",freq=FALSE,las=1,main="",xlim=c(0,100),cex.lab=1.5,
+     col=brewer.pal(11,"RdYlGn")[c(8,6,5,5,4,4,3,3,2,2,rep(1,10))][7:20],
+     cex.axis=1.3,
+     xlab="classe de fréquence de résistance",ylab="")
+box(bty="l")
+mtext(text="C",side=3,cex=2,at=0,font=2,las=0,adj=3.45,line=1)
+mtext(text="fréquence",side=2,cex=1,font=2,line=4)
+par(op)
+
+#boxplot for the resistant populations
+op<-par(mar=c(5.1,4.1,3.1,2.1))
+boxplot(as.numeric(oldprod$rslt_03),
+        boxwex=0.4,las=1,ylim=c(0,100),col="transparent",
+        # main=paste("Germination des résistants\n(n=",
+        #            length(oldprod$rslt_03[oldprod$rslt_03!=0]),
+        #            "/",
+        #            length(oldprod$rslt_03),")",sep=""),
+        ylab="",frame=FALSE,cex.axis=1.3,cex.lab=1.5)
+box(bty="l")
+abline(h=mean(as.numeric(oldprod$rslt_03)),
+       col="red",lty=2,lwd=3)
+stripchart(as.numeric(oldprod$rslt_03),
+           cex=1,pch=19,
+           col=adjustcolor("grey",alpha=0.5),vertical=TRUE,
+           method="jitter",jitter=0.1,add=TRUE)
+mtext(text="D",side=3,cex=2,at=0,font=2,las=0,adj=2,line=1)
+mtext(text="% resistance",side=2,cex=1,font=2,line=4)
+par(op)
 #export to a pdf file 10 x 7 inches
+dev.off()
+
+min(as.numeric(oldprod$rslt_03))
+max(as.numeric(oldprod$rslt_03))
+mean(as.numeric(oldprod$rslt_03))
+median(as.numeric(oldprod$rslt_03))
+length(as.numeric(oldprod$rslt_03))
 
 
 ##############################################################################/
