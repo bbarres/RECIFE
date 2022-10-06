@@ -45,6 +45,13 @@ REG_SHP.2<-crop(REG_SHP,extent(466064.2,854936.4,6741138,7123635))
 #loading the bioassay results data####
 ##############################################################################/
 
+#dose response data set
+
+
+#CI50 for the different cyp51 haplotypes
+haplopheno<-read.table("data/haplo_pheno.txt",sep="\t",header=TRUE,
+                       stringsAsFactors=TRUE)
+
 
 ##############################################################################/
 #loading the microsatellite data####
