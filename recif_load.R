@@ -49,7 +49,7 @@ REG_SHP.2<-crop(REG_SHP,extent(466064.2,854936.4,6741138,7123635))
 
 
 #CI50 for the different cyp51 haplotypes
-haplo51<-read.table("data/haplo_pheno.txt",sep="\t",header=TRUE,
+haplo51<-read.table("data/haplo_pheno.txt",sep="\t",header=TRUE,quote="",
                     colClasses=c("character","factor","factor","character",
                                  "numeric","numeric","Date","factor",
                                  "factor","factor","character","character",

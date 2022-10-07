@@ -55,6 +55,7 @@ haploRECIF$ActivSub<-as.factor(haploRECIF$ActivSub)
 #boxplot plotting by haplotype####
 ##############################################################################/
 
+pdf("output/haplopheno_byhaplo.pdf",width=13,height=6)
 atat<-boxplot(haploRECIF$CI50~haploRECIF$ActivSub:haploRECIF$haplotype_cyp51,
               las=1,col=cooloor[c(2,5,8,10)],at=c(1:54)[-c(seq(5,54,5))],
               xaxt="n",yaxt="n",frame.plot=FALSE,ann=FALSE)
@@ -70,8 +71,8 @@ axis(1,lwd=2,at=seq(2.5,52.5,5),font=2,
 mtext("haplotype",side=1,font=2,cex=1.4,line=2.5)
 axis(2,lwd=2,las=1,font=2)
 mtext("CI50 (mg/L)",side=2,font=2,cex=1.4,line=2.5)
-legend(44,48,legend=levels(haploRECIF$ActivSub),
-       cex=1,pt.cex=1.3,
+legend(45.5,48,legend=levels(haploRECIF$ActivSub),
+       cex=1,pt.cex=1.3,bg="white",
        y.intersp=1,x.intersp=0.8,
        pch=c(22),
        pt.bg=cooloor[c(2,5,8,10)])
@@ -94,8 +95,7 @@ segments(x0=seq(from=1,to=54,by=5)-0.5,
          y0=byhaploCI,
          x1= seq(from=4,to=54,by=5)+0.5,
          y1=byhaploCI,col="red",lty=2,lwd=3)
-
-
+dev.off()
 #export to .pdf 13 x 6 inches
 
 
@@ -103,6 +103,7 @@ segments(x0=seq(from=1,to=54,by=5)-0.5,
 #boxplot plotting by Active substance####
 ##############################################################################/
 
+pdf("output/haplopheno_bySA.pdf",width=13,height=6)
 atat<-boxplot(haploRECIF$CI50~haploRECIF$haplotype_cyp51:haploRECIF$ActivSub,
               las=1,col=rep(cooloor[c(2,5,8,10)],each=11),
               at=c(1:47)[-c(12,24,36)],
@@ -135,6 +136,7 @@ segments(x0=seq(from=1,to=48,by=12)-0.5,
          y0=byactiSACI,
          x1= seq(from=11,to=48,by=12)+0.5,
          y1=byactiSACI,col="red",lty=2,lwd=3)
+dev.off()
 #export to .pdf 13 x 6 inches
 
 
