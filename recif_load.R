@@ -48,6 +48,28 @@ REG_SHP.2<-crop(REG_SHP,extent(466064.2,854936.4,6741138,7123635))
 #dose response data set
 
 
+#load the resistance results for the 2019-2020 campaign
+oldSA<-read.delim(
+  "data/data_DC_AZ_FH_Carb_2019_2020.txt",
+  header=TRUE,
+  sep="\t"
+)
+#load the resistance results for the 2019-2020 campaign
+newSA<-read.delim(
+  "data/data_DC_classes_2019_2020.txt",
+  header=TRUE,
+  sep="\t"
+)
+AllSamp<-rbind(oldSA[,c("prelvt_id","gps_lat","gps_long")],
+               newSA[,c("prelvt_id","gps_lat","gps_long")])
+AllSamp<-AllSamp[!is.na(AllSamp$gps_lat),]
+#turning this dataframe into a spatial dataframe (wgs84)
+AllSamp.wgs<-SpatialPointsDataFrame(coords=AllSamp[,c("gps_long","gps_lat")],
+                                    data=AllSamp,
+                                proj4string=CRS("+proj=longlat +datum=WGS84")
+)
+AllSamp<-spTransform(AllSamp.wgs,CRS("+init=epsg:2154"))
+
 #CI50 for the different cyp51 haplotypes
 haplo51<-read.table("data/haplo_pheno.txt",sep="\t",header=TRUE,quote="",
                     colClasses=c("character","factor","factor","character",
