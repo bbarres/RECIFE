@@ -7,13 +7,6 @@
 #loading the dataset and the necessary library
 source("recif_load.R")
 
-#load the resistance results for the 2019-2020 campaign
-newSA<-read.delim(
-  "data/data_DC_classes_2019_2020.txt",
-  header=TRUE,
-  sep="\t"
-)
-
 #removing samples without spatial coordinates
 newSA<-newSA[!is.na(newSA$gps_lat),]
 

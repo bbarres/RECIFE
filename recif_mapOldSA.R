@@ -7,13 +7,6 @@
 #loading the dataset and the necessary library
 source("recif_load.R")
 
-#load the resistance results for the 2019-2020 campaign
-oldSA<-read.delim(
-  "data/data_DC_AZ_FH_Carb_2019_2020.txt",
-  header=TRUE,
-  sep="\t"
-)
-
 oldSA<-oldSA[!is.na(oldSA$gps_lat),]
 
 #turning this dataframe into a spatial dataframe (wgs84)

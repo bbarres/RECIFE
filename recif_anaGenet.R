@@ -16,8 +16,8 @@ source("recif_load.R")
 head(sugmic)
 #we turn the microsatellite data from factors to numeric
 indcol<-colnames(sugmic)[3:14]
-sugmic[indcol] <- lapply(sugmic[indcol],
-                         function(x) as.numeric(as.character(x)))
+sugmic[indcol]<-lapply(sugmic[indcol],
+                       function(x) as.numeric(as.character(x)))
 #a summary of the different variables
 summary(sugmic)
 str(sugmic)

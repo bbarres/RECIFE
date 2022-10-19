@@ -4,10 +4,11 @@
 ##############################################################################/
 ##############################################################################/
 
-##loading the dataset and the necessary library
+##loading the data set and the necessary library
 source("recif_load.R")
 
-##loading the dataset and the necessary library
+##loading the data set and the necessary library, first run the 
+#recif_CI50growth.R script
 CompRez<-read.table(file="output/ASA_results_cerco.txt",header=TRUE,
                     sep="\t")
 CompRez$ED50<-as.character(CompRez$ED50)
