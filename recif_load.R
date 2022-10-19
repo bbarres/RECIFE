@@ -46,7 +46,8 @@ REG_SHP.2<-crop(REG_SHP,extent(466064.2,854936.4,6741138,7123635))
 ##############################################################################/
 
 #dose response data set
-
+datamyc2<-read.table("data/CRMYC_270821.txt",header=TRUE,
+                     sep=";",stringsAsFactors=TRUE)
 
 #load the resistance results for the 2019-2020 campaign
 oldSA<-read.delim(

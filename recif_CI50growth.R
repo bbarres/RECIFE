@@ -7,14 +7,6 @@
 ##loading the dataset and the necessary library
 source("recif_load.R")
 
-#loading the data
-#datamyc<-read.table("data/cerco_mars19.txt",header=TRUE,sep=";")
-#datamyc2<-read.table("data/20200309_data_temp.txt",header=TRUE,sep=";")
-# datamyc2<-read.table("data/20200415_data_12SA-2.txt",header=TRUE,
-#                      sep=";",stringsAsFactors=TRUE)
-datamyc2<-read.table("data/CRMYC_270821.txt",header=TRUE,
-                     sep=";",stringsAsFactors=TRUE)
-
 
 ##############################################################################/
 #Regression analysis of mycelial growth experiment scoring 20 or 21 days####
@@ -61,7 +53,6 @@ for (j in 1:length(SAlist)) {
                         "ED95"=as.character(temp[2]),
                         "ED99"=as.character(temp[3]))
     }
-    
     REZSA<-rbind(REZSA,tempx)
   }
   CompRez<-rbind(CompRez,REZSA)
@@ -87,6 +78,7 @@ CompRez[CompRez$ED50==">10","ED50"]<-12
 CompRez[CompRez$ED50==">20","ED50"]<-22
 CompRez[CompRez$ED50==">50","ED50"]<-52
 CompRez$ED50<-as.numeric(as.character(CompRez$ED50))
+CompRez$Subs_Act<-as.factor(CompRez$Subs_Act)
 
 pdf(file="output/histo_AllInd_ASA.pdf",width=60,height=8)
 op<-par(mfrow=c(1,1))
@@ -123,6 +115,8 @@ dev.off()
 #Analyzing the multisensitivity profile of the strains####
 ##############################################################################/
 
+temp<-CompRez[,c(1:2,4)]
+temp<-spread(temp,Subs_Act,ED50)
 #Clusterization based on scoring of 10 SA
 row.names(temp)<-temp$sample_ID
 
