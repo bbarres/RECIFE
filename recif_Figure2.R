@@ -108,7 +108,8 @@ axis(1,lwd=2,at=c(1:10),labels=NA)
 text(labels=colnames(multSA),x=1:10,y=rep(-4,10),cex=0.9,font=2,
      srt=-35,xpd=TRUE,adj=0)
 axis(2,lwd=2,las=1,font=2)
-mtext("CI50 (mg/L)",side=2,font=2,cex=1.3,line=2.5)
+legeText<-expression(paste(CI[50]," (mg.",L^-1,")",sep=""))
+mtext(legeText,side=2,font=2,cex=1.3,line=2.5)
 box(bty="o",lwd=2)
 mtext(text="A",side=3,cex=3,at=0,font=2,las=1,adj=1.4,line=0)
 #export to .pdf 8 x 7 inches
@@ -134,7 +135,8 @@ axis(2,lwd=2,las=1,font=2,
      at=c(0.005,0.01,0.05,0.1,0.5,1,5,10,50),
      labels=c("0.005","0.01","0.05","0.1","0.5","1","5","10","50"))
 box(bty="o",lwd=2)
-mtext(text="B",side=3,cex=3,at=0,font=2,las=1,adj=1.4,line=0)
+mtext(legeText,side=2,font=2,cex=1.3,line=2.5)
+mtext(text="B",side=3,cex=3,at=-4,font=2,las=1,adj=1.4,line=0)
 #export to .pdf 8 x 7 inches
 par(op)
 #export to .pdf 12 x 6 inches
