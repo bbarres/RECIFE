@@ -39,8 +39,8 @@ colnames(multSA)<-c("cyproconazole","difénoconazole","époxiconazole",
 #a function to compute the absolute correlation between pairs of variables
 cols=brewer.pal(9,"YlOrRd") #goes from red to white to blue
 pal=colorRampPalette(cols)
-cor_colors=data.frame(correlation=seq(0,1,0.01), 
-                      correlation_color=pal(101)[1:101])
+cor_colors=data.frame(correlation=seq(0.5,1,0.05), 
+                      correlation_color=pal(11)[1:11])
 cor_colors$correlation_color=as.character(cor_colors$correlation_color)
 
 panel.cor<-function(x,y,digits=2,prefix="",cex.cor, ...) {
@@ -48,7 +48,7 @@ panel.cor<-function(x,y,digits=2,prefix="",cex.cor, ...) {
   u<-par('usr') 
   names(u)<-c("xleft","xright","ybottom","ytop")
   r<-abs(cor(x,y,use="pairwise.complete.obs"))
-  bgcolor=cor_colors[r*100,2]    # converts correlation into a specific color
+  bgcolor=cor_colors[r*100/10,2]    # converts correlation into a specific color
   do.call(rect,c(col=bgcolor,as.list(u))) # colors the correlation box
   txt<-format(c(r,2),digits=digits)[1]
   txt<-paste(prefix,txt,sep="")
@@ -84,7 +84,10 @@ pairs(log(multSA),
       lower.panel=panel.smooMod,
       upper.panel=panel.cor,text.panel="",
       diag.panel=diag_custom_labels,las=1)
-mtext(text="C",side=3,cex=4,at=0,font=2,las=1,adj=1.4,line=1.1)
+mtext(text="C",side=3,cex=4.5,at=0,font=2,las=1,adj=1.2,line=1.1)
+legeText<-expression(paste("log(",CI[50],") (mg.",L^-1,")",sep=""))
+mtext(legeText,side=1,font=2,cex=1.5,line=4)
+mtext(legeText,side=2,font=2,cex=1.5,line=2.5)
 #export to .pdf 16x10 inches
 dev.off()
 
