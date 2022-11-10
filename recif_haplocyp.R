@@ -66,11 +66,14 @@ rect(25,-10,30,62,col=fondplot)
 rect(35,-10,40,62,col=fondplot)
 rect(45,-10,50,62,col=fondplot)
 rect(50,-10,55,62,col="white")
+text(x=seq(2.5,52.5,5),y=50,font=4,
+     labels=paste("n=",atat$n[(0:10)*4+1],sep=""))
 axis(1,lwd=2,at=seq(2.5,52.5,5),font=2,
      labels=levels(haploRECIF$haplotype_cyp51))
 mtext("haplotype",side=1,font=2,cex=1.4,line=2.5)
 axis(2,lwd=2,las=1,font=2)
-mtext("CI50 (mg/L)",side=2,font=2,cex=1.4,line=2.5)
+legeText<-expression(paste(CI[50]," (mg.",L^-1,")",sep=""))
+mtext(legeText,side=2,font=2,cex=1.3,line=2.5)
 legend(45.5,48,legend=levels(haploRECIF$ActivSub),
        cex=1,pt.cex=1.3,bg="white",
        y.intersp=1,x.intersp=0.8,
@@ -115,7 +118,8 @@ axis(1,lwd=2,at=c(6,18,30,42),font=2,
      labels=levels(haploRECIF$ActivSub))
 mtext("Substance active",side=1,font=2,cex=1.4,line=2.5)
 axis(2,lwd=2,las=1,font=2)
-mtext("CI50 (mg/L)",side=2,font=2,cex=1.4,line=2.5)
+legeText<-expression(paste(CI[50]," (mg.",L^-1,")",sep=""))
+mtext(legeText,side=2,font=2,cex=1.3,line=2.5)
 box(bty="o",lwd=2)
 
 boxplot(haploRECIF$CI50~haploRECIF$haplotype_cyp51:haploRECIF$ActivSub,
