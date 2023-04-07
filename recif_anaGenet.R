@@ -24,17 +24,17 @@ str(sugmic)
 #we remove the individuals with genotyping issue
 sugmic_clean<-sugmic[sugmic$qualmicro==1,]
 #we also build a dataset consisting only of the 3 main populations
-sugmic_simp<-sugmic_clean[sugmic_clean$pop %in% list("A2019","A2020","USA"),]
+sugmic_simp<-sugmic_clean[sugmic_clean$pop %in% list("A2019","A2020","A2014"),]
 
 #total number of individuals genotyped
 dim(sugmic)[1] #1274 individuals
 #total number of individuals genotyped
 dim(sugmic_clean)[1] #969 individuals
 #total number of individuals included in the study
-dim(sugmic_simp)[1] #967
+dim(sugmic_simp)[1] #890
 
 
-JDD<-sugmic_clean #name of the input file
+JDD<-sugmic_simp #name of the input file
 JDD<-drop.levels(JDD)
 #let's define a set of color for keeping some consistency in the plots
 coloor<-c("firebrick","royalblue4","chartreuse4","khaki2","darkorange")

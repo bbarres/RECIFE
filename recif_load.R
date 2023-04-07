@@ -86,7 +86,7 @@ haplo51<-read.table("data/haplo_pheno.txt",sep="\t",header=TRUE,quote="",
 #loading the microsatellite data####
 ##############################################################################/
 
-sugmic<-read.table("data/sugarMicro.dat",sep="\t",header=TRUE,
+sugmic<-read.table("data/sugarMicro2.dat",sep="\t",header=TRUE,
                    stringsAsFactors=TRUE)
 
 
