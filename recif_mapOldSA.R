@@ -14,7 +14,8 @@ oldSA.wgs<-SpatialPointsDataFrame(coords=oldSA[,c("gps_long","gps_lat")],
                                   data=oldSA,
                                   proj4string=CRS("+proj=longlat +datum=WGS84")
 )
-oldSA<-spTransform(oldSA.wgs,CRS("+init=epsg:2154"))
+oldSA.wgs<-st_as_sf(oldSA.wgs)
+oldSA.wgs<-st_transform(oldSA.wgs,CRS("+init=epsg:2154"))
 
 
 ##############################################################################/
@@ -49,13 +50,11 @@ nf<-layout(matrix(c(1,1,1,1,
 op<-par(mar=c(0,0,0,0))
 plot(DEP_SHP.1,main="",border="grey70")
 plot(REG_SHP.1,lwd=2,add=TRUE)
-points(
-  x=as.numeric(oldprod$gps_long),
-  y=as.numeric(oldprod$gps_lat),
-  bg=as.character(oldprod$catgerm),  #colors of the points
-  pch=oldprod$year,                  #plotting character
-  cex=2                              #size of the points
-)
+plot(oldprod,
+     bg=as.character(oldprod$catgerm),col="black",
+     pch=oldprod$year,
+     cex=2,
+     add=TRUE)
 legend(160000,7150000,title="classe de fréquence\nde résistance",
        legend=nomCat,cex=1,pt.cex=1.8,
        y.intersp=1,x.intersp=0.8,
