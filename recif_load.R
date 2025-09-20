@@ -6,12 +6,15 @@
 
 #loading the packages necessary for the analysis
 library(ade4)
+library(data.table)
 library(dplyr)
 library(drc)
 library(factoextra)
 library(gdata)
 library(genepop)
+library(grid)
 library(hierfstat)
+library(LDheatmap)
 library(mapplots)
 library(plotrix)
 library(poppr)

@@ -128,55 +128,212 @@ pairwise.WCfst(JDDade)
 
 
 ##############################################################################/
-#Linkage disequilibrium analyses####
+#Linkage disequilibrium analyses and data preparation####
 ##############################################################################/
 
 coloor<-c("firebrick","royalblue4","chartreuse4","khaki2","darkorange")
-JDDmicroCCgenp<-genind2genpop(JDDmicroCC)
 
-onebyhost<-"data/onebyhost.txt"
-test_LD(onebyhost,"output/onebyhost.txt.DIS")
+JDDmicroCC_genp<-"data/micro_genepop_CC.txt"
+test_LD(JDDmicroCC_genp,"output/micro_genepop_CC.txt.DIS")
 clean_workdir()
 
 #the output file have to be edited so it can be used for representation
-LDbyhost<-readLines("output/onebyhost.txt.DIS")
+#warning: some space between columns are not present for the tests for
+#all population. The input file must therefore be edited before importation
+LDall<-readLines("output/micro_genepop_CC.txt.DIS")
 #removing the first lines that are non relevant
-LDcolnames<-unlist(strsplit(LDbyhost[13],"\\s+"))
-LDbyhost<-LDbyhost[-c(1:14)]
-#for 14 markers and 4 populations there are 
-14*13/2*4 #LD tests for markers pairs
-LDbyhost<-LDbyhost[-c(365:length(LDbyhost))]
-LDbyhost<-as.data.table(matrix(unlist(strsplit(LDbyhost,"\\s+")),
-                               nrow=length(strsplit(LDbyhost,"\\s+")),
+LDcolnames<-unlist(strsplit(LDall[217],"\\s+"))
+LDcolnames<-c("Loc1","Loc2",LDcolnames[3:5])
+LDcolnames2<-unlist(strsplit(LDall[13],"\\s+"))
+LDall<-LDall[-c(1:14)]
+#for 12 markers and 3 populations there are 
+12*11/2*3 #LD tests for markers pairs
+#by population
+LDbypops<-LDall[-c(198+1:length(LDall))]
+LDbypops<-as.data.table(matrix(unlist(strsplit(LDbypops,"\\s+")),
+                               nrow=length(strsplit(LDbypops,"\\s+")),
                                byrow=TRUE))
-colnames(LDbyhost)<-LDcolnames
-LDbyhost$`P-Value`<-as.numeric(LDbyhost$`P-Value`)
+colnames(LDbypops)<-LDcolnames2
+LDbypops$`P-Value`<-as.numeric(LDbypops$`P-Value`)
 
-#Linkage disequilibrium in the peach population
-LDpeach<-as.matrix(LDbyhost[c(1:91),])
-row.names(LDpeach)<-paste(LDpeach[,2],LDpeach[,3])
-LDpeach<-rbind(LDpeach[,c(2,3,4)],LDpeach[,c(3,2,4)])
-LDpeach<-spread(data.frame(LDpeach),2,3,fill="NA",convert=TRUE)
+#for France 2019 population
+LDfran19<-as.matrix(LDbypops[c(1:66),])
+row.names(LDfran19)<-paste(LDfran19[,2],LDfran19[,3])
+LDfran19<-rbind(LDfran19[,c(2,3,4)],LDfran19[,c(3,2,4)])
+LDfran19<-spread(data.frame(LDfran19),2,3,fill="NA",convert=TRUE)
 #changing the rownames
-row.names(LDpeach)<-as.character(LDpeach[,1])
+row.names(LDfran19)<-as.character(LDfran19[,1])
 #removing the first unnecessary column
-LDpeach<-LDpeach[,c(-1)]
+LDfran19<-LDfran19[,c(-1)]
 #reordering the columns and turning the object into a matrix
-LDpeach<-as.matrix(LDpeach[c(2,8,12,13,14,1,3:7,9:11),
-                           c(2,8,12,13,14,1,3:7,9:11)])
+LDfran19<-as.matrix(LDfran19[c(1:2,11:12,3:10),
+                             c(1:2,11:12,3:10)])
 
-#Linkage disequilibrium in the oil seed population
-LDoils<-as.matrix(LDbyhost[c(92:182),])
-row.names(LDoils)<-paste(LDoils[,2],LDoils[,3])
-LDoils<-rbind(LDoils[,c(2,3,4)],LDoils[,c(3,2,4)])
-LDoils<-spread(data.frame(LDoils),2,3,fill="NA",convert=TRUE)
+#for France 2020 population
+LDfran20<-as.matrix(LDbypops[c(67:132),])
+row.names(LDfran20)<-paste(LDfran20[,2],LDfran20[,3])
+LDfran20<-rbind(LDfran20[,c(2,3,4)],LDfran20[,c(3,2,4)])
+LDfran20<-spread(data.frame(LDfran20),2,3,fill="NA",convert=TRUE)
 #changing the rownames
-row.names(LDoils)<-as.character(LDoils[,1])
+row.names(LDfran20)<-as.character(LDfran20[,1])
 #removing the first unnecessary column
-LDoils<-LDoils[,c(-1)]
+LDfran20<-LDfran20[,c(-1)]
 #reordering the columns and turning the object into a matrix
-LDoils<-as.matrix(LDoils[c(2,8,12,13,14,1,3:7,9:11),
-                         c(2,8,12,13,14,1,3:7,9:11)])
+LDfran20<-as.matrix(LDfran20[c(1:2,11:12,3:10),
+                             c(1:2,11:12,3:10)])
+
+#for USA 2014 population
+LDUSA14<-as.matrix(LDbypops[c(133:198),])
+row.names(LDUSA14)<-paste(LDUSA14[,2],LDUSA14[,3])
+LDUSA14<-rbind(LDUSA14[,c(2,3,4)],LDUSA14[,c(3,2,4)])
+LDUSA14<-spread(data.frame(LDUSA14),2,3,fill="NA",convert=TRUE)
+#changing the rownames
+row.names(LDUSA14)<-as.character(LDUSA14[,1])
+#removing the first unnecessary column
+LDUSA14<-LDUSA14[,c(-1)]
+#reordering the columns and turning the object into a matrix
+LDUSA14<-as.matrix(LDUSA14[c(1:2,11:12,3:10),
+                             c(1:2,11:12,3:10)])
+
+#for all populations
+LDallpop<-LDall[c((198+7):(length(LDall)-2))]
+LDallpop<-as.data.table(matrix(unlist(strsplit(LDallpop,"\\s+")),
+                               nrow=length(strsplit(LDallpop,"\\s+")),
+                               byrow=TRUE))
+LDallpop<-as.data.table(LDallpop[,c(1,3,4:6)])
+colnames(LDallpop)<-LDcolnames
+LDallpop$`P-Value`<-as.numeric(sub("<","",LDallpop$`P-Value`,fixed=TRUE))
+row.names(LDallpop)<-paste(LDallpop$Loc1,LDallpop$Loc2,sep="_")
+LDallpop<-as.matrix(LDallpop)
+LDallpop<-rbind(LDallpop[,c(1,2,5)],LDallpop[,c(2,1,5)])
+LDallpop<-spread(data.frame(LDallpop),2,3,fill="NA",convert=TRUE)
+#changing the rownames
+row.names(LDallpop)<-as.character(LDallpop[,1])
+#removing the first unnecessary column
+LDallpop<-LDallpop[,c(-1)]
+#reordering the columns and turning the object into a matrix
+LDallpop<-as.matrix(LDallpop[c(1:2,11:12,3:10),
+                             c(1:2,11:12,3:10)])
+
+
+##############################################################################/
+#Figure with 4 panels
+##############################################################################/
+
+#panel figure: France 2019 population
+temp<-LDfran19
+#scaling the p-value so it is easily usable with the LDheatmap function
+temp[temp>0.5]<-0.9
+temp[temp>0.10 & temp<0.9]<-0.8
+temp[temp>0.00076 & temp<0.8]<-0.6
+temp[temp>0.00015 & temp<0.6]<-0.4
+temp[temp>0.000015 & temp<0.4]<-0.2
+temp[temp<0.001]<-0.1
+#the actual plotting start here
+VP1<-viewport(x=0,y=0,width=1/3,height=1,just=c("left","bottom"),
+              name="vp1")
+pushViewport(VP1)
+LDall<-LDheatmap(temp,title=NULL,
+                 add.map=FALSE,distances=NULL,SNP.name=row.names(temp),
+                 color=c(rep(grey(0.8),3),
+                         brewer.pal(6,"YlOrRd")[c(2,4,6)]),
+                 name="fran19",flip=TRUE,add.key=FALSE,
+                 newpage=FALSE)
+grid.edit(gPath("fran19","heatMap","heatmap"),gp=gpar(col="white",lwd=2.5))
+grid.edit(gPath("fran19","SNPnames"),
+          gp=gpar(col="black",rot="0",cex=1.05,font=2),
+          rot=0,hjust=0.87)
+grid.text("France 2019",x=unit(0.5,"npc"),y=unit(0.8,"npc"),
+          gp=gpar(fontsize=35),check=TRUE)
+upViewport()
+
+#panel figure: France 2020 population
+temp<-LDfran20
+#scaling the p-value so it is easily usable with the LDheatmap function
+temp[temp>0.5]<-0.9
+temp[temp>0.10 & temp<0.9]<-0.8
+temp[temp>0.00076 & temp<0.8]<-0.6
+temp[temp>0.00015 & temp<0.6]<-0.4
+temp[temp>0.000015 & temp<0.4]<-0.2
+temp[temp<0.001]<-0.1
+#the actual plotting start here
+VP2<-viewport(x=1/3,y=0,width=1/3,height=1,just=c("left","bottom"),
+              name="vp2")
+pushViewport(VP2)
+LDall<-LDheatmap(temp,title=NULL,
+                 add.map=FALSE,distances=NULL,SNP.name=row.names(temp),
+                 color=c(rep(grey(0.8),3),
+                         brewer.pal(6,"YlOrRd")[c(2,4,6)]),
+                 name="fran20",flip=TRUE,add.key=FALSE,
+                 newpage=FALSE)
+grid.edit(gPath("fran20","heatMap","heatmap"),gp=gpar(col="white",lwd=2.5))
+grid.edit(gPath("fran20","SNPnames"),
+          gp=gpar(col="black",rot="0",cex=1.05,font=2),
+          rot=0,hjust=0.87)
+grid.text("France 2020",x=unit(0.5,"npc"),y=unit(0.8,"npc"),
+          gp=gpar(fontsize=35),check=TRUE)
+upViewport()
+
+#panel figure: USA 2014 population
+temp<-LDUSA14
+#scaling the p-value so it is easily usable with the LDheatmap function
+temp[temp>0.5]<-0.9
+temp[temp>0.10 & temp<0.9]<-0.8
+temp[temp>0.00076 & temp<0.8]<-0.6
+temp[temp>0.00015 & temp<0.6]<-0.4
+temp[temp>0.000015 & temp<0.4]<-0.2
+temp[temp<0.001]<-0.1
+#the actual plotting start here
+VP3<-viewport(x=2/3,y=0,width=1/3,height=1,just=c("left","bottom"),
+              name="vp3")
+pushViewport(VP3)
+LDall<-LDheatmap(temp,title=NULL,
+                 add.map=FALSE,distances=NULL,SNP.name=row.names(temp),
+                 color=c(rep(grey(0.8),3),
+                         brewer.pal(6,"YlOrRd")[c(2,4,6)]),
+                 name="USA14",flip=TRUE,add.key=FALSE,
+                 newpage=FALSE)
+grid.edit(gPath("USA14","heatMap","heatmap"),gp=gpar(col="white",lwd=2.5))
+grid.edit(gPath("USA14","SNPnames"),
+          gp=gpar(col="black",rot="0",cex=1.05,font=2),
+          rot=0,hjust=0.87)
+grid.text("USA 2014",x=unit(0.5,"npc"),y=unit(0.8,"npc"),
+          gp=gpar(fontsize=35),check=TRUE)
+upViewport()
+
+#export to pdf landscape 4.5 x 15 inches
+
+
+
+
+
+#extra figure for fun
+#panel figure: all populations
+temp<-LDallpop
+#scaling the p-value so it is easily usable with the LDheatmap function
+temp[temp>0.5]<-0.9
+temp[temp>0.10 & temp<0.9]<-0.8
+temp[temp>0.00076 & temp<0.8]<-0.6
+temp[temp>0.00015 & temp<0.6]<-0.4
+temp[temp>0.000015 & temp<0.4]<-0.2
+temp[temp<0.001]<-0.1
+#the actual plotting start here
+VP1<-viewport(x=0,y=0.5,width=0.5,height=0.5,just=c("left","bottom"),
+              name="vp1")
+pushViewport(VP1)
+LDall<-LDheatmap(temp,title=NULL,
+                 add.map=FALSE,distances=NULL,SNP.name=row.names(temp),
+                 color=c(rep(grey(0.8),3),
+                         brewer.pal(6,"YlOrRd")[c(2,4,6)]),
+                 name="allpop",flip=TRUE,add.key=FALSE,
+                 newpage=FALSE)
+grid.edit(gPath("allpop","heatMap","heatmap"),gp=gpar(col="white",lwd=2.5))
+grid.edit(gPath("allpop","SNPnames"),
+          gp=gpar(col="black",rot="0",cex=1.2,font=2),
+          rot=0,hjust=0.8)
+grid.text("All populations",x=unit(0.5,"npc"),y=unit(0.75,"npc"),
+          gp=gpar(fontsize=40),check=TRUE)
+upViewport()
 
 
 ##############################################################################/

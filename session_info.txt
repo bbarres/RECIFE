@@ -1,4 +1,4 @@
-─ Session info ───────────────────────────────────────────────────────────────────────
+─ Session info ───────────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.5.1 (2025-06-13 ucrt)
  os       Windows 10 x64 (build 19045)
@@ -8,12 +8,12 @@
  collate  French_France.utf8
  ctype    French_France.utf8
  tz       Europe/Paris
- date     2025-09-15
+ date     2025-09-20
  rstudio  2025.09.0+387 Cucumberleaf Sunflower (desktop)
  pandoc   NA
- quarto   ERROR: Unknown command "TMPDIR=C:/Users/benoi/AppData/Local/Temp/Rtmp0maSem/file2b7c431d7242". Did you mean command "uninstall"? @ C:\\PROGRA~1\\RStudio\\RESOUR~1\\app\\bin\\quarto\\bin\\quarto.exe
+ quarto   ERROR: Unknown command "TMPDIR=C:/Users/benoi/AppData/Local/Temp/RtmpMLKpJx/file1f4445874597". Did you mean command "uninstall"? @ C:\\PROGRA~1\\RStudio\\RESOUR~1\\app\\bin\\quarto\\bin\\quarto.exe
 
-─ Packages ───────────────────────────────────────────────────────────────────────────
+─ Packages ───────────────────────────────────────────────────────────────────────
  package      * version date (UTC) lib source
  abind          1.4-8   2024-09-12 [1] CRAN (R 4.4.1)
  ade4         * 1.7-23  2025-02-14 [1] CRAN (R 4.4.2)
@@ -28,7 +28,7 @@
  cluster        2.1.8.1 2025-03-12 [2] CRAN (R 4.5.1)
  codetools      0.2-20  2024-03-31 [2] CRAN (R 4.5.1)
  colorspace     2.1-1   2024-07-26 [1] CRAN (R 4.4.1)
- data.table     1.17.8  2025-07-10 [1] CRAN (R 4.5.1)
+ data.table   * 1.17.8  2025-07-10 [1] CRAN (R 4.5.1)
  DBI            1.2.3   2024-06-02 [1] CRAN (R 4.4.1)
  digest         0.6.37  2024-08-19 [1] CRAN (R 4.4.1)
  dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.4.1)
@@ -39,6 +39,7 @@
  fastmap        1.2.0   2024-05-15 [1] CRAN (R 4.4.1)
  Formula        1.2-5   2023-02-24 [1] CRAN (R 4.4.0)
  gdata        * 3.0.1   2024-10-22 [1] CRAN (R 4.4.2)
+ genepop      * 1.2.11  2025-08-27 [1] CRAN (R 4.5.1)
  generics       0.1.4   2025-05-09 [1] CRAN (R 4.4.2)
  ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.5.1)
  ggrepel        0.9.6   2024-09-07 [1] CRAN (R 4.4.1)
@@ -53,6 +54,7 @@
  KernSmooth     2.23-26 2025-01-01 [2] CRAN (R 4.5.1)
  later          1.4.4   2025-08-27 [1] CRAN (R 4.5.1)
  lattice        0.22-7  2025-04-02 [2] CRAN (R 4.5.1)
+ LDheatmap    * 1.0-6   2022-04-24 [1] CRAN (R 4.5.1)
  lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.4.1)
  magrittr       2.0.4   2025-09-12 [1] CRAN (R 4.5.1)
  mapplots     * 1.5.3   2025-06-26 [1] CRAN (R 4.5.0)
@@ -111,4 +113,4 @@
  [2] C:/Program Files/R/R-4.5.1/library
  * ── Packages attached to the search path.
 
-──────────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────
