@@ -86,6 +86,20 @@ JDDmicroCC<-clonecorrect(JDDmicro,strata =~popu,)
 
 
 ##############################################################################/
+#Genetic distance between individuals and phylogenetic tree####
+##############################################################################/
+
+dissyMat<-diss.dist(JDDmicroCC)
+str(dissyMat)
+treNJ<-nj(dissyMat)
+plot(treNJ,type="radial",show.tip=FALSE)
+tiplabels(pch=20,col=coloor[as.numeric(JDDmicroCC@pop)],cex=1.5)
+
+plot(treNJ,type="fan",show.tip=FALSE)
+tiplabels(pch=20,col=coloor[as.numeric(JDDmicroCC@pop)],cex=1.5)
+
+
+##############################################################################/
 #DAPC analysis####
 ##############################################################################/
 
@@ -93,8 +107,8 @@ JDDmicroCC<-clonecorrect(JDDmicro,strata =~popu,)
 JDDade<-JDDmicroCC
 #determination of the number of clusters
 clustJDDade<-find.clusters(JDDade,max.n.clust=30)
-#with 30 PCs, we lost nearly no information and after K=5, the decrease of 
-#the BIC value is smaller, so we chose the maximum number of clusters to be 5 
+#with 30 PCs, we lost nearly no information and after K=3, the decrease of 
+#the BIC value is smaller, so we chose the maximum number of clusters to be 3 
 #which individuals in which clusters per population
 table(pop(JDDade),clustJDDade$grp)
 #We try to optimize the number of principal component (PCs) to retain to 
@@ -110,19 +124,21 @@ dapcJDDade<-dapc(JDDade,clustJDDade$grp,n.da=4,n.pca=6)
 compoplot(dapcJDDade,lab=pop(JDDade),legend=FALSE,
           cex.names=0.3,cex.lab=0.5,cex.axis=0.5,col=coloor)
 #scatter plot
-scatter(dapcJDDade,xax=1,yax=2,cstar=1,cell=0,clab=0,main="K=3",
-        solid=0.3,col=coloor,
+pdf(file="output/dapc.pdf",10,10)
+  scatter(dapcJDDade,xax=1,yax=2,cstar=1,cell=0,clab=0,main="K=3",
+        solid=0.3,col=coloor[1:3],
         pch=19,cex=3,
         scree.da=FALSE,scree.pca=FALSE,posi.pca="bottomright")
 points(dapcJDDade$ind.coord[JDDade$pop==levels(JDDade$pop)[1],1],
        dapcJDDade$ind.coord[JDDade$pop==levels(JDDade$pop)[1],2],
-       pch=20,col="black")
+       pch=21,col="black",bg="yellow")
 points(dapcJDDade$ind.coord[JDDade$pop==levels(JDDade$pop)[2],1],
        dapcJDDade$ind.coord[JDDade$pop==levels(JDDade$pop)[2],2],
-       pch=4,col="black")
+       pch=22,col="black",bg="darkviolet")
 points(dapcJDDade$ind.coord[JDDade$pop==levels(JDDade$pop)[3],1],
        dapcJDDade$ind.coord[JDDade$pop==levels(JDDade$pop)[3],2],
-       pch=17,col="black")
+       pch=24,col="black",bg="white")
+dev.off()
 
 pairwise.WCfst(JDDade)
 
