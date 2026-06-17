@@ -6,6 +6,8 @@
 
 #loading the packages necessary for the analysis
 library(ade4)
+library(adegenet)
+library(ape)
 library(data.table)
 library(dplyr)
 library(drc)
@@ -14,7 +16,7 @@ library(gdata)
 library(genepop)
 library(grid)
 library(hierfstat)
-library(LDheatmap)
+library(LDheatmap) #installation not in CRAN
 library(mapplots)
 library(plotrix)
 library(poppr)
